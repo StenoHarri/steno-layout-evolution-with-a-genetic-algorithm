@@ -67,10 +67,12 @@ def remove_vowels_but_keep_main(pron):
     pron = pron.replace("ER0", "AH0 R").replace("ER1", "AH1 R").replace("ER2", "AH2 R")
 
     # WSI vowels treat UH and UW the same. OW and OW have already been merged in CMU, don't know why, but I would have merged them for WSI compatability anyway
-    pron = pron.replace("UH", "UW")
+    # pron = pron.replace("UH", "UW")
+    # On second thoughts, it's treated differently, like PWURB -> bush, PWAOBG -> book. It just doen't get a dedicated chord
 
     # WSI vowels treat Y UW the same as UW
-    pron = pron.replace("Y UW", "UW")
+    pron = pron.replace("Y UW", "UW").replace("Y UH", "UH")
+
 
     phones = pron.split()
 
