@@ -73,15 +73,51 @@ def remove_vowels_but_keep_main(pron):
 
     def is_vowel(phone):
         return any(phone.startswith(v) for v in vowels)
+    
+    def insert_vowel_separator(phones, i):
+        """
+        In English, vowels cannot neighbour, in steno this is useful for dropping a vowel
+        cooperate -> coe wo pe rate -> cwop rate
+        However, the CMU thinks the pronunciation is coe o pe rate
+        """
+        if not i > 0:
+            return False
+        
+        starting_ph = phones[i - 1]
+        following_ph = phones[i]
+
+        if not (is_vowel(starting_ph) and is_vowel(following_ph)):
+            return False
+        
+        if starting_ph[0:2] in {"IY", "EY", "AE"}:
+            # Insert a 'Y' between these vowels
+            phones.insert(i, "Y")
+            return True
+        elif starting_ph[0:2] in {"AA", "AO", "OW", "UW", "AH", "UH"}:
+            # Insert a 'W' between these vowels
+            phones.insert(i, "W")
+            return True
+        return False
+
+
 
     kept = []
-    for i, ph in enumerate(phones):
+    i = 0
+    while i < len(phones):
+        ph = phones[i]
         if not is_vowel(ph):
             kept.append(ph)
+            i += 1
         else:
+            # Insert separator if adjacent vowels are found
+            if i > 0 and is_vowel(phones[i - 1]) and insert_vowel_separator(phones, i):
+                # Continue to next phone after the separator insertion
+                continue
             # Keep if initial, final, or has primary stress
             if i == 0 or i == len(phones) - 1 or "1" in ph:
                 kept.append(ph[0:2])
+            i += 1
+
     return " ".join(kept)
 
 
@@ -92,6 +128,8 @@ def build_pronunciation_frequency(words):
     skipped = 0
 
     for word in tqdm(words, desc="Processing words", unit="word"):
+        if word =="cooperate":
+            print("hhere")
         pron_freqs = define_pronunciation_frequencies(word)
         if not pron_freqs:
             skipped += 1
