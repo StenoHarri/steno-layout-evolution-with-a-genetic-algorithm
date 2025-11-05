@@ -17,7 +17,7 @@ def load_word_list():
         return words
 
 
-PRIMARY_WEIGHT = 0.9  # adjustable primary pronunciation weighting
+PRIMARY_WEIGHT = 0.999  # adjustable primary pronunciation weighting
 # words like "content" could have a schwa as the first vowel or not
 #currently set to 1 because words like "fifth" that can be pronounced "fifth" or alternatively "fith", but I wish to ignore that
 
@@ -65,6 +65,9 @@ def remove_vowels_but_keep_main(pron):
     # Expand ERx → AHx R, so for a rhotic accent the R is preseved when the vowel is dropped.
     # R coloured vowels can't simply be dropped as that includes dropping the consonant R, so I'm adding the consonant explicityly
     pron = pron.replace("ER0", "AH0 R").replace("ER1", "AH1 R").replace("ER2", "AH2 R")
+
+    # WSI vowels treat UH and UW the same. OW and OW have already been merged in CMU, don't know why, but I would have merged them for WSI compatability anyway
+    pron = pron.replace("UH", "UW")
 
     # WSI vowels treat Y UW the same as UW
     pron = pron.replace("Y UW", "UW")
