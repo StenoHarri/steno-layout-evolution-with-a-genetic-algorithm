@@ -5,7 +5,7 @@ from wordfreq import zipf_frequency
 from tqdm import tqdm
 
 
-WORD_LIST_FILE = "words.txt"          # optional: list of words (one 
+WORD_LIST_FILE = "words.txt"          # optional: list of words
 PRON_FREQ_FILE = "pronunciation_frequency.json"
 
 
@@ -46,12 +46,49 @@ def define_pronunciation_frequencies(word):
         secondary_weight = (1.0 - PRIMARY_WEIGHT) / (n - 1)
         weights = [PRIMARY_WEIGHT] + [secondary_weight] * (n - 1)
 
+    # Remove superflous vowels
+    normalised_prons = {remove_vowels_but_keep_main(p): f for p, f in zip(prons, weights)}
+
     # Map pronunciations to weighted linear frequencies
-    return {pron: freq_linear * w for pron, w in zip(prons, weights)}
+    return {pron: freq_linear * w for pron, w in normalised_prons.items()}
+
+
+def remove_vowels_but_keep_main(pron):
+    """
+    Remove vowels unless they are initial, final, or stressed
+    """
+
+    # Expand ERx → AHx R, so for a rhotic accent the R is preseved when the vowel is dropped.
+    # R coloured vowels can't simply be dropped as that includes dropping the consonant R, so I'm adding the consonant explicityly
+    pron = pron.replace("ER0", "AH0 R").replace("ER1", "AH1 R").replace("ER2", "AH2 R")
+
+    # WSI vowels treat Y UW the same as UW
+    pron = pron.replace("Y UW", "UW")
+
+    phones = pron.split()
+
+    vowels = {"AA", "AE", "AH", "AO", "AW", "AY",
+              "EH", "ER", "EY", "IH", "IY",
+              "OW", "OY", "UH", "UW"}
+
+    def is_vowel(phone):
+        return any(phone.startswith(v) for v in vowels)
+
+    kept = []
+    for i, ph in enumerate(phones):
+        if not is_vowel(ph):
+            kept.append(ph)
+        else:
+            # Keep if initial, final, or has primary stress
+            if i == 0 or i == len(phones) - 1 or "1" in ph:
+                kept.append(ph[0:2])
+    return " ".join(kept)
+
 
 
 def build_pronunciation_frequency(words):
     pron_freq_map = {}
+    pron_word_map = {}
     skipped = 0
 
     for word in tqdm(words, desc="Processing words", unit="word"):
@@ -62,20 +99,25 @@ def build_pronunciation_frequency(words):
 
         for pron, freq_linear in pron_freqs.items():
             pron_freq_map[pron] = pron_freq_map.get(pron, 0.0) + freq_linear
+            pron_word_map.setdefault(pron, []).append(word)
 
     # Convert all linear frequencies back to Zipf scale (log10)
+    combined = {}
     for pron, freq_linear in list(pron_freq_map.items()):
         if freq_linear > 0:
-            pron_freq_map[pron] = round(6 + math.log10(freq_linear), 3)
+            freq_zipf = round(6 + math.log10(freq_linear), 3)
+            combined[pron] = {
+                "frequency": freq_zipf,
+                "words": sorted(set(pron_word_map.get(pron, [])))
+            }
         else:
-            del pron_freq_map[pron]
+            continue
 
     print(f"Skipped {skipped} words that did not have frequency data, writing to JSON")
-    return pron_freq_map
+    return combined
 
 
 
-# Main
 if __name__ == "__main__":
     words = load_word_list()
     pron_freq_map = build_pronunciation_frequency(words)
