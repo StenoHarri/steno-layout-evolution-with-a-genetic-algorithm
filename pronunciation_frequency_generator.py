@@ -17,7 +17,7 @@ def load_word_list():
         return words
 
 
-PRIMARY_WEIGHT = 1  # adjustable primary pronunciation weighting
+PRIMARY_WEIGHT = 0.9  # adjustable primary pronunciation weighting
 # words like "content" could have a schwa as the first vowel or not
 #currently set to 1 because words like "fifth" that can be pronounced "fifth" or alternatively "fith", but I wish to ignore that
 
@@ -46,11 +46,15 @@ def define_pronunciation_frequencies(word):
         secondary_weight = (1.0 - PRIMARY_WEIGHT) / (n - 1)
         weights = [PRIMARY_WEIGHT] + [secondary_weight] * (n - 1)
 
-    # Remove superflous vowels
+    # Remove superfluous vowels (using your custom function)
     normalised_prons = {remove_vowels_but_keep_main(p): f for p, f in zip(prons, weights)}
 
-    # Map pronunciations to weighted linear frequencies
-    return {pron: freq_linear * w for pron, w in normalised_prons.items()}
+    # Filter out pronunciations that have an issue, but keep the valid ones
+    valid_prons = {pron: freq_linear * w for pron, w in normalised_prons.items() if pron}
+
+    # If there's at least one valid pronunciation, return the frequencies
+    return valid_prons if valid_prons else {}
+
 
 
 def remove_vowels_but_keep_main(pron):
@@ -128,8 +132,6 @@ def build_pronunciation_frequency(words):
     skipped = 0
 
     for word in tqdm(words, desc="Processing words", unit="word"):
-        if word =="cooperate":
-            print("hhere")
         pron_freqs = define_pronunciation_frequencies(word)
         if not pron_freqs:
             skipped += 1
@@ -153,6 +155,7 @@ def build_pronunciation_frequency(words):
 
     print(f"Skipped {skipped} words that did not have frequency data, writing to JSON")
     return combined
+
 
 
 
