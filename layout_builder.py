@@ -1,6 +1,7 @@
 """
 Given a base layout, construct all the implied chords, such as 1000: s + 0100: t = 1100: st
 """
+from allowed_chords import before_vowel, after_vowel
 
 def mask_is_subset(possible_subset, full_mask):
     """If a key is present in the subset that isn't in the full mask, return false"""
@@ -37,7 +38,10 @@ def find_combinations(target_mask, base_items, start_index=0, accumulated_mask=N
             results.append([name])
         else:
             for combo in find_combinations(remainder, base_items, i, new_accum):
-                results.append([name] + combo)
+
+                # Filter to make sure only combos that are actually in the training data come up
+                if ' '.join([name] + combo) in before_vowel or ' '.join([name] + combo) in after_vowel:
+                    results.append([name] + combo)
 
     return results
 
