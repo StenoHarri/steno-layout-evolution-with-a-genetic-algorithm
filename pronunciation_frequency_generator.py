@@ -38,6 +38,9 @@ def define_pronunciation_frequencies(word):
     # Convert Zipf (log10) → linear space for additive combination
     freq_linear = 10 ** (freq_zipf - 6)
 
+    # Sort pronunciations by length (descending: longest first)
+    prons = sorted(prons, key=lambda p: len(p.split()), reverse=True)
+
     # Weight pronunciations
     n = len(prons)
     if n == 1:
