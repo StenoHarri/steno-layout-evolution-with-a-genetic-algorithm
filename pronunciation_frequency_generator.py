@@ -160,39 +160,33 @@ def remove_vowels_but_keep_main(pron):
 
 
 
+import re
+
 def build_pronunciation_frequency(words):
-    pron_freq_map = {}
     pron_word_map = {}
     skipped = 0
+    pattern = re.compile(r'^[A-Za-z-]+$')  # only letters and optional hyphens
 
     for word in tqdm(words, desc="Processing words", unit="word"):
+        if not pattern.match(word):  # skip words with punctuation or numbers
+            skipped += 1
+            continue
+
         pron_freqs = define_pronunciation_frequencies(word)
         if not pron_freqs:
             skipped += 1
             continue
 
         for pron, freq_linear in pron_freqs.items():
-            pron_freq_map[pron] = pron_freq_map.get(pron, 0.0) + freq_linear
-            pron_word_map.setdefault(pron, []).append(word)
-
-    # Convert all linear frequencies back to Zipf scale (log10)
-    combined = {}
-    for pron, freq_linear in list(pron_freq_map.items()):
-        if not freq_linear > 0:
-            continue
-
-        freq_zipf = round(6 + math.log10(freq_linear), 3)
-        if freq_zipf <1:
-            continue
-
-        combined[pron] = {
-            "frequency": freq_zipf,
-            "words": sorted(set(pron_word_map.get(pron, [])))
-        }
-
+            freq_zipf = round(6 + math.log10(freq_linear), 3)
+            if freq_zipf < 1:
+                continue
+            pron_word_map.setdefault(pron, {})[word] = freq_zipf
 
     print(f"Skipped {skipped} words that did not have frequency data, writing to JSON")
-    return combined
+    return pron_word_map
+
+
 
 
 
