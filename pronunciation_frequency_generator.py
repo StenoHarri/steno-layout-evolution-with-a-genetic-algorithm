@@ -152,14 +152,18 @@ def build_pronunciation_frequency(words):
     # Convert all linear frequencies back to Zipf scale (log10)
     combined = {}
     for pron, freq_linear in list(pron_freq_map.items()):
-        if freq_linear > 0:
-            freq_zipf = round(6 + math.log10(freq_linear), 3)
-            combined[pron] = {
-                "frequency": freq_zipf,
-                "words": sorted(set(pron_word_map.get(pron, [])))
-            }
-        else:
+        if not freq_linear > 0:
             continue
+
+        freq_zipf = round(6 + math.log10(freq_linear), 3)
+        if freq_zipf <1:
+            continue
+
+        combined[pron] = {
+            "frequency": freq_zipf,
+            "words": sorted(set(pron_word_map.get(pron, [])))
+        }
+
 
     print(f"Skipped {skipped} words that did not have frequency data, writing to JSON")
     return combined
