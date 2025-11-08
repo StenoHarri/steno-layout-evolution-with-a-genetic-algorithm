@@ -1,6 +1,7 @@
 import json
 import pronouncing
 import math
+import re
 from wordfreq import zipf_frequency
 from tqdm import tqdm
 
@@ -11,9 +12,12 @@ PRON_FREQ_FILE = "pronunciation_frequency.json"
 
 # Load or generate word list
 def load_word_list():
+    pattern = re.compile(r'^[A-Za-z-]+$')  # only letters and optional hyphens
     with open(WORD_LIST_FILE, "r", encoding="utf-8") as f:
         words = [line.strip() for line in f if line.strip()]
-        print(f"Loaded {len(words)} words from {WORD_LIST_FILE}")
+        # Filter out words with punctuation or numbers
+        words = [w for w in words if pattern.match(w)]
+        print(f"Loaded {len(words)} words from {WORD_LIST_FILE} (punctuation removed)")
         return words
 
 
@@ -75,7 +79,7 @@ def define_pronunciation_frequencies(word):
         secondary_weight = (1.0 - PRIMARY_WEIGHT) / (n - 1)
         weights = [PRIMARY_WEIGHT] + [secondary_weight] * (n - 1)
 
-    # Remove superfluous vowels (using your custom function)
+    # Remove superfluous vowels
     normalised_prons = {remove_vowels_but_keep_main(p): f for p, f in zip(prons, weights)}
 
     # Filter out pronunciations that have an issue, but keep the valid ones
@@ -160,18 +164,11 @@ def remove_vowels_but_keep_main(pron):
 
 
 
-import re
-
 def build_pronunciation_frequency(words):
     pron_word_map = {}
     skipped = 0
-    pattern = re.compile(r'^[A-Za-z-]+$')  # only letters and optional hyphens
 
     for word in tqdm(words, desc="Processing words", unit="word"):
-        if not pattern.match(word):  # skip words with punctuation or numbers
-            skipped += 1
-            continue
-
         pron_freqs = define_pronunciation_frequencies(word)
         if not pron_freqs:
             skipped += 1
@@ -181,11 +178,19 @@ def build_pronunciation_frequency(words):
             freq_zipf = round(6 + math.log10(freq_linear), 3)
             if freq_zipf < 1:
                 continue
+            # Store frequency per word under this pronunciation
             pron_word_map.setdefault(pron, {})[word] = freq_zipf
 
-    print(f"Skipped {skipped} words that did not have frequency data, writing to JSON")
-    return pron_word_map
+    # Build final JSON with only per-word frequencies
+    combined = {}
+    for pron, word_freqs in pron_word_map.items():
+        combined[pron] = {
+            "words": sorted(word_freqs.keys()),
+            "frequencies": word_freqs
+        }
 
+    print(f"Skipped {skipped} words that did not have frequency data, writing to JSON")
+    return combined
 
 
 
