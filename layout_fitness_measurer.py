@@ -1,51 +1,41 @@
-from default_bank import LEFT_BANK, RIGHT_BANK, LEFT_BANK_LEN, RIGHT_BANK_LEN
-
-from layout_builder import generate_masks, mask_to_chords
-
 import json
 import re
-
+import math
+from default_bank import LEFT_BANK, RIGHT_BANK, LEFT_BANK_LEN, RIGHT_BANK_LEN
+from layout_builder import generate_masks, mask_to_chords
 
 PRON_FREQ_FILE = "pronunciation_frequency.json"
 
-
-# Instead of evolving the vowel bank, I'm caratting that as a solved problem, 4 keys to categorise 16 vowels with space for homophone resolution too, reed/read/red
+# Instead of evolving the vowel bank, I'm treating that as a solved problem, 4 keys to categorise 16 vowels with space for homophone resolution too, reed/read/red
 VOWELS = {"AA", "AE", "AH", "AO", "AW", "AY",
           "EH", "ER", "EY", "IH", "IY", "OW", "OY", "UH", "UW"}
 
-# Build dictionary of mask → chord list
+# Build left bank masks
 LEFT_BANK_MASKS = {
     mask: mask_to_chords(mask, LEFT_BANK_LEN, LEFT_BANK)
     for mask in generate_masks(LEFT_BANK_LEN)
-    if (chords := mask_to_chords(mask, LEFT_BANK_LEN, LEFT_BANK))  # skip if maps to []
+    # skip if maps to []
+    if (chords := mask_to_chords(mask, LEFT_BANK_LEN, LEFT_BANK))
 }
 
-
-for mask, chords in LEFT_BANK_MASKS.items():
-    print(f"{mask}: {chords}")
-
-
+# Build right bank masks with some disallowed endings
 DISALLOWED_ENDINGS = r'(1..1|11.)$'
-
-# Build dictionary of mask → chord list
 RIGHT_BANK_MASKS = {
     mask: mask_to_chords(mask, RIGHT_BANK_LEN, RIGHT_BANK)
     for mask in generate_masks(RIGHT_BANK_LEN)
     # however, some key combinations require contorting the hand, so I'll disallow those
     if not re.search(DISALLOWED_ENDINGS, mask) is not None
-    and (chords := mask_to_chords(mask, RIGHT_BANK_LEN, RIGHT_BANK))  # skip if maps to []
+    # skip if maps to []
+    and (chords := mask_to_chords(mask, RIGHT_BANK_LEN, RIGHT_BANK)) 
 }
-
-for mask, chords in RIGHT_BANK_MASKS.items():
-    print(f"{mask}: {chords}")
 
 
 def find_vowel_split_matches(pronunciations, vowels, left_masks, right_masks):
     matches = {}
 
     # find the blank masks
-    blank_left = "0" * next(iter(left_masks)).__len__()
-    blank_right = "0" * next(iter(right_masks)).__len__()
+    blank_left = "0" * len(next(iter(left_masks)))
+    blank_right = "0" * len(next(iter(right_masks)))
 
     for pron, data in pronunciations.items():
         phonemes = pron.split()
@@ -56,9 +46,9 @@ def find_vowel_split_matches(pronunciations, vowels, left_masks, right_masks):
                 continue  # Only split at vowels
 
             left_part = " ".join(phonemes[:i])
-            right_part = " ".join(phonemes[i+1:])
+            right_part = " ".join(phonemes[i + 1:])
 
-            # Find all matching left masks
+            # left masks
             if left_part == "":
                 possible_left = [blank_left]  # must be blank if starts with vowel
             else:
@@ -67,7 +57,7 @@ def find_vowel_split_matches(pronunciations, vowels, left_masks, right_masks):
                     if left_part in chords
                 ]
 
-            # Find all matching right masks
+            # right masks
             if right_part == "":
                 possible_right = [blank_right]
             else:
@@ -84,29 +74,80 @@ def find_vowel_split_matches(pronunciations, vowels, left_masks, right_masks):
 
     # Now check for ambiguity (same combo matches multiple pronunciations)
     ambiguous = {combo: ps for combo, ps in matches.items() if len(ps) > 1}
-
     return matches, ambiguous
 
 
+def zipf_to_prob(zipf):
+    """Convert Zipf frequency to relative probability."""
+    return 10 ** (zipf - 6)
 
 
-with open("pronunciation_frequency.json", "r", encoding="utf-8") as f:
-    PRONUNCIATIONS = json.load(f)
+def score_layout(matches, ambiguous, pron_freqs):
+    coverage_score = 0.0
+    conflict_score = 0.0
+
+    # Coverage: sum of all probabilities
+    for combo, prons in matches.items():
+        for pron in prons:
+            if pron not in pron_freqs:
+                continue
+            word_freqs = pron_freqs[pron]
+            total_pron_prob = sum(zipf_to_prob(z) for z in word_freqs.values())
+            coverage_score += total_pron_prob
+
+    # Conflict: sum probabilities of "losing" words
+    for combo, prons in ambiguous.items():
+        word_prob_list = []
+        for pron in prons:
+            if pron in pron_freqs:
+                word_prob_list.extend((w, zipf_to_prob(z)) for w, z in pron_freqs[pron].items())
+
+        if not word_prob_list:
+            continue
+
+        max_prob = max(p for _, p in word_prob_list)
+        for _, p in word_prob_list:
+            if p < max_prob:
+                conflict_score += p
+
+    def prob_to_zipf(p):
+        return 6 + math.log10(p) if p > 0 else 0
+
+    return {
+        "coverage_prob": coverage_score,
+        "conflict_prob": conflict_score,
+        "coverage_zipf": prob_to_zipf(coverage_score),
+        "conflict_zipf": prob_to_zipf(conflict_score),
+        "conflict_ratio": conflict_score / coverage_score if coverage_score > 0 else 0
+    }
 
 
-matches, ambiguous = find_vowel_split_matches(
-    PRONUNCIATIONS,
-    VOWELS,
-    LEFT_BANK_MASKS,
-    RIGHT_BANK_MASKS
-)
+# --- Main execution ---
+if __name__ == "__main__":
+    with open(PRON_FREQ_FILE, "r", encoding="utf-8") as f:
+        PRONUNCIATIONS = json.load(f)
 
-print("All valid mask combos:")
-for combo, prons in matches.items():
-    print(f"{combo}: {prons}")
+    matches, ambiguous = find_vowel_split_matches(
+        PRONUNCIATIONS,
+        VOWELS,
+        LEFT_BANK_MASKS,
+        RIGHT_BANK_MASKS
+    )
 
-print("\nAmbiguous combos:")
-for combo, prons in ambiguous.items():
-    print(f"{combo}: {prons}")
+    #print("\nAll valid mask combos:")
+    #for combo, prons in matches.items():
+    #    print(f"{combo}: {prons}")
 
+    print("\nAmbiguous combos:")
+    for combo, prons in ambiguous.items():
+        print(f"{combo}: {prons}")
 
+    # Compute coverage and conflict
+    scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
+
+    print("\n--- Layout Scoring ---")
+    #print(f"Coverage (prob): {scores['coverage_prob']:.6e}")
+    #print(f"Conflict (prob): {scores['conflict_prob']:.6e}")
+    print(f"Coverage (Zipf): {scores['coverage_zipf']:.3f}")
+    print(f"Conflict (Zipf): {scores['conflict_zipf']:.3f}")
+    print(f"Conflict ratio:  {scores['conflict_ratio']:.2%}")
