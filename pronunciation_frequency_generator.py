@@ -30,6 +30,32 @@ def define_pronunciation_frequencies(word):
     prons = pronouncing.phones_for_word(word)
     if not prons:
         return {}
+    
+
+    # words like "laughed" end in a -ed, but actually end in a T sound
+    # I'm pretending as if they end in a D sound as that helps with conflict resolution
+    if word.lower().endswith("ed"):
+        new_prons = []
+        for p in prons:
+            phones = p.split()
+            # If it ends in a single T, change it to D
+            if len(phones) > 0 and phones[-1] == "T":
+                phones[-1] = "D"
+            new_prons.append(" ".join(phones))
+        prons = new_prons
+
+
+    # plurals create a lot of conflicts, like sax/sacks, claps/collapse
+    # So I'm pretending all plurals have the Z sound
+    elif word.lower().endswith("s"): #as opposed to se or ce
+        new_prons = []
+        for p in prons:
+            phones = p.split()
+            # If it ends in a single S, change it to Z
+            if len(phones) > 0 and phones[-1] == "S":
+                phones[-1] = "Z"
+            new_prons.append(" ".join(phones))
+        prons = new_prons
 
     freq_zipf = zipf_frequency(word.lower(), "en")
     if freq_zipf <= 0.0:
