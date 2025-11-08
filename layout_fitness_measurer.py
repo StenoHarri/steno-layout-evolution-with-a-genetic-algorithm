@@ -17,10 +17,15 @@ for mask, chords in LEFT_BANK_MASKS.items():
 
 print("done")
 
+import re
+DISALLOWED_ENDINGS = r'(1..1|11.)$'
+
 # Build dictionary of mask → chord list
 RIGHT_BANK_MASKS = {
     mask: mask_to_chords(mask, RIGHT_BANK_LEN, RIGHT_BANK)
     for mask in generate_masks(RIGHT_BANK_LEN)
+    # however, some key combinations require contorting the hand, so I'll disallow those
+    if not re.search(DISALLOWED_ENDINGS, mask) is not None
 }
 
 for mask, chords in RIGHT_BANK_MASKS.items():
