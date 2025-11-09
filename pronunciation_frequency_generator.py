@@ -4,11 +4,13 @@ import math
 import re
 from wordfreq import zipf_frequency
 from tqdm import tqdm
+from collections import Counter
 
-
-WORD_LIST_FILE = "words.txt"          # optional: list of words
+WORD_LIST_FILE = "words.txt"
 PRON_FREQ_FILE = "pronunciation_frequency.json"
 
+INITIAL_CLUSTERS_FILE = "initial_clusters.json"
+FINAL_CLUSTERS_FILE = "final_clusters.json"
 
 # Load or generate word list
 def load_word_list():
@@ -174,16 +176,50 @@ def remove_vowels_but_keep_main(pron):
     kept = []
     for i, ph in enumerate(phones):
         if not is_vowel(ph) or i == 0 or i == len(phones) - 1 or "1" in ph:
-            kept.append(ph[:2])  # keep consonants and main vowels only
-
-
+            kept.append(ph[:2])
     return " ".join(kept)
+
+
+# I'm doing this so when a mutation grabs a new cluster it's a cluster that will actually contribute to the fitness
+def extract_clusters(pron):
+    """Extract initial (left of vowel) and final (right of vowel) clusters"""
+    phones = pron.split()
+    vowels = {"AA", "AE", "AH", "AO", "AW", "AY",
+              "EH", "ER", "EY", "IH", "IY",
+              "OW", "OY", "UH", "UW"}
+
+    def is_vowel(p): return p[:2] in vowels
+
+    initials = []
+    finals = []
+
+    vowel_indices = [i for i, p in enumerate(phones) if is_vowel(p)]
+    if not vowel_indices:
+        return [], []
+
+    for vi in vowel_indices:
+        # Everything before the vowel (exclude the vowel itself)
+        if vi > 0:
+            left_cluster = " ".join(phones[:vi])
+            if left_cluster:
+                initials.append(left_cluster)
+
+        # Everything after the vowel (exclude the vowel itself)
+        if vi < len(phones) - 1:
+            right_cluster = " ".join(phones[vi + 1:])
+            if right_cluster:
+                finals.append(right_cluster)
+
+    return initials, finals
 
 
 
 def build_pronunciation_frequency(words):
     pron_word_map = {}
     skipped = 0
+
+    initial_counter = Counter()
+    final_counter = Counter()
 
     for word in tqdm(words, desc="Processing words", unit="word"):
         pron_freqs = define_pronunciation_frequencies(word)
@@ -195,24 +231,35 @@ def build_pronunciation_frequency(words):
             freq_zipf = round(6 + math.log10(freq_linear), 3)
             if freq_zipf < 1:
                 continue
-            # Only store word frequencies under each pronunciation
+
             pron_word_map.setdefault(pron, {})[word] = freq_zipf
 
+            initials, finals = extract_clusters(pron)
+            for ic in initials:
+                initial_counter[ic] += freq_linear
+            for fc in finals:
+                final_counter[fc] += freq_linear
+
     print(f"Skipped {skipped} words that did not have frequency data, writing to JSON")
-    return pron_word_map
 
+    # Sort clusters most to least common
+    sorted_initials = dict(sorted(initial_counter.items(), key=lambda x: x[1], reverse=True))
+    sorted_finals = dict(sorted(final_counter.items(), key=lambda x: x[1], reverse=True))
 
-
-
+    return pron_word_map, sorted_initials, sorted_finals
 
 
 if __name__ == "__main__":
     words = load_word_list()
-    pron_freq_map = build_pronunciation_frequency(words)
+    pron_freq_map, initial_clusters, final_clusters = build_pronunciation_frequency(words)
 
     with open(PRON_FREQ_FILE, "w", encoding="utf-8") as f:
         json.dump(pron_freq_map, f, indent=2)
+    with open(INITIAL_CLUSTERS_FILE, "w", encoding="utf-8") as f:
+        json.dump(initial_clusters, f, indent=2)
+    with open(FINAL_CLUSTERS_FILE, "w", encoding="utf-8") as f:
+        json.dump(final_clusters, f, indent=2)
 
     print(f"Written to {PRON_FREQ_FILE}")
-
-
+    print(f"Written to {INITIAL_CLUSTERS_FILE}")
+    print(f"Written to {FINAL_CLUSTERS_FILE}")
