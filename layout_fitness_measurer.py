@@ -122,7 +122,16 @@ def score_layout(matches, ambiguous, pron_freqs):
     }
 
 
-# --- Main execution ---
+def count_explicit_chords(left_bank, right_bank):
+    """Count total explicitly defined chords (each string counts separately)."""
+    left_count = sum(len(chords) for chords in left_bank.values())
+    right_count = sum(len(chords) for chords in right_bank.values())
+    return {
+        "left_explicit_chords": left_count,
+        "right_explicit_chords": right_count,
+        "total_explicit_chords": f"{left_count} + {right_count} = {left_count + right_count}",
+    }
+
 if __name__ == "__main__":
     with open(PRON_FREQ_FILE, "r", encoding="utf-8") as f:
         PRONUNCIATIONS = json.load(f)
@@ -138,16 +147,19 @@ if __name__ == "__main__":
     #for combo, prons in matches.items():
     #    print(f"{combo}: {prons}")
 
-    print("\nAmbiguous combos:")
-    for combo, prons in ambiguous.items():
-        print(f"{combo}: {prons}")
+    #print("\nAmbiguous combos:")
+    #for combo, prons in ambiguous.items():
+    #    print(f"{combo}: {prons}")
 
     # Compute coverage and conflict
     scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
+    chord_counts = count_explicit_chords(LEFT_BANK, RIGHT_BANK)
+
 
     print("\n--- Layout Scoring ---")
     #print(f"Coverage (prob): {scores['coverage_prob']:.6e}")
     #print(f"Conflict (prob): {scores['conflict_prob']:.6e}")
-    print(f"Coverage (Zipf): {scores['coverage_zipf']:.3f}")
-    print(f"Conflict (Zipf): {scores['conflict_zipf']:.3f}")
-    print(f"Conflict ratio:  {scores['conflict_ratio']:.2%}")
+    print(f"Coverage (Zipf): {scores['coverage_zipf']:.4f}")
+    print(f"Conflict (Zipf): {scores['conflict_zipf']:.4f}")
+    print(f"Conflict ratio:  {scores['conflict_ratio']:.4%}")
+    print(f"Base chords:     {chord_counts['total_explicit_chords']}")

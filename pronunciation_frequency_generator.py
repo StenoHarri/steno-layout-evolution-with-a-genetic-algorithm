@@ -105,6 +105,8 @@ def remove_vowels_but_keep_main(pron):
     # Unstressed long E into Y
     pron = pron.replace("IY0", "Y").replace("IY2", "Y")
 
+    # In my accent, unstressed IH is merged with EH
+    pron = pron.replace("IH0", "EH0").replace("IH2", "EH2")
 
     phones = pron.split()
 
