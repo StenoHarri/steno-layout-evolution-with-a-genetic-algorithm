@@ -105,8 +105,8 @@ def remove_vowels_but_keep_main(pron):
     # Unstressed long E into Y
     pron = pron.replace("IY0", "Y").replace("IY2", "Y")
 
-    # In my accent, unstressed IH is merged with EH
-    pron = pron.replace("IH0", "EH0").replace("IH2", "EH2")
+    ## In my accent, unstressed IH is merged with EH
+    #pron = pron.replace("IH0", "EH0").replace("IH2", "EH2")
 
     phones = pron.split()
 
@@ -155,6 +155,13 @@ def remove_vowels_but_keep_main(pron):
             phones[i] = second_base + "1"
 
         return True
+
+    ## Replace IH with EH if it’s at the start or end (pin/pen merger)
+    #if phones:
+    #    if phones[0].startswith("IH"):
+    #        phones[0] = phones[0].replace("IH", "EH", 1)
+    #    if phones[-1].startswith("IH"):
+    #        phones[-1] = phones[-1].replace("IH", "EH", 1)
 
     #  replace 2 vowels with glide+vowel
     i = 1
