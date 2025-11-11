@@ -1,5 +1,6 @@
 import json
 import re
+import time
 import math
 from default_bank import LEFT_BANK, RIGHT_BANK, LEFT_BANK_LEN, RIGHT_BANK_LEN
 from layout_builder import generate_masks, mask_to_chords
@@ -136,6 +137,8 @@ if __name__ == "__main__":
     with open(PRON_FREQ_FILE, "r", encoding="utf-8") as f:
         PRONUNCIATIONS = json.load(f)
 
+    start_time = time.time()
+
     matches, ambiguous = find_vowel_split_matches(
         PRONUNCIATIONS,
         VOWELS,
@@ -169,3 +172,6 @@ if __name__ == "__main__":
     print(f"Base chords:     {chord_counts['total_explicit_chords']}")
     print(f"Overall fitness: {overall_fitness:.4f}")
 
+    elapsed = time.time() - start_time 
+    print(f"\nExecution time: {elapsed:.2f} seconds")
+    #lab computer: 0.75s
