@@ -70,3 +70,10 @@ def generate_masks(length):
     """Generate all binary masks of a given length as strings."""
     return [format(i, f"0{length}b") for i in range(2 ** length)]
 
+
+from collections import defaultdict
+def generate_bank(chord_map):
+    bank = defaultdict(list)
+    for chord, mask in chord_map.items():
+        bank[mask].append(chord)
+    return dict(bank)

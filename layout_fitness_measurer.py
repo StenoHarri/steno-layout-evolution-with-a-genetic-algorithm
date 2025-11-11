@@ -2,14 +2,26 @@ import json
 import re
 import time
 import math
-from default_bank import LEFT_BANK, RIGHT_BANK, LEFT_BANK_LEN, RIGHT_BANK_LEN
+from default_bank import LEFT_CHORDS, RIGHT_CHORDS, LEFT_BANK_LEN, RIGHT_BANK_LEN
 from layout_builder import generate_masks, mask_to_chords
+from collections import defaultdict
 
 PRON_FREQ_FILE = "pronunciation_frequency.json"
 
 # Instead of evolving the vowel bank, I'm treating that as a solved problem, 4 keys to categorise 16 vowels with space for homophone resolution too, reed/read/red
 VOWELS = {"AA", "AE", "AH", "AO", "AW", "AY",
           "EH", "ER", "EY", "IH", "IY", "OW", "OY", "UH", "UW"}
+
+# The genes are chords, I would like to generate the corresponding layout
+def generate_bank(chord_map):
+    bank = defaultdict(list)
+    for chord, mask in chord_map.items():
+        bank[mask].append(chord)
+    return dict(bank)
+
+# Build banks automatically
+LEFT_BANK = generate_bank(LEFT_CHORDS)
+RIGHT_BANK = generate_bank(RIGHT_CHORDS)
 
 # Build left bank masks
 LEFT_BANK_MASKS = {
@@ -122,17 +134,6 @@ def score_layout(matches, ambiguous, pron_freqs):
         "conflict_ratio": conflict_score / coverage_score if coverage_score > 0 else 0
     }
 
-
-def count_explicit_chords(left_bank, right_bank):
-    """Count total explicitly defined chords (each string counts separately)."""
-    left_count = sum(len(chords) for chords in left_bank.values())
-    right_count = sum(len(chords) for chords in right_bank.values())
-    return {
-        "left_explicit_chords": left_count,
-        "right_explicit_chords": right_count,
-        "total_explicit_chords": f"{left_count} + {right_count} = {left_count + right_count}",
-    }
-
 if __name__ == "__main__":
     with open(PRON_FREQ_FILE, "r", encoding="utf-8") as f:
         PRONUNCIATIONS = json.load(f)
@@ -156,7 +157,6 @@ if __name__ == "__main__":
 
     # Compute coverage and conflict
     scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
-    chord_counts = count_explicit_chords(LEFT_BANK, RIGHT_BANK)
 
     # Simple, tunable fitness function
     overall_fitness = scores["coverage_prob"] * (1 - scores["conflict_ratio"])
@@ -169,7 +169,7 @@ if __name__ == "__main__":
     #print(f"Coverage (Zipf): {scores['coverage_zipf']:.4f}")
     #print(f"Conflict (Zipf): {scores['conflict_zipf']:.4f}")
     print(f"Conflict ratio:  {scores['conflict_ratio']:.4%}")
-    print(f"Base chords:     {chord_counts['total_explicit_chords']}")
+    print(f"Base chords:     {len(LEFT_CHORDS)} and {len(RIGHT_CHORDS)}")
     print(f"Overall fitness: {overall_fitness:.4f}")
 
     elapsed = time.time() - start_time 
