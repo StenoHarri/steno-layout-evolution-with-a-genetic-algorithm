@@ -3,7 +3,7 @@ import re
 import time
 import math
 from default_bank import LEFT_CHORDS, RIGHT_CHORDS, LEFT_BANK_LEN, RIGHT_BANK_LEN
-from layout_builder import generate_masks, mask_to_chords
+from find_implied_chords import generate_masks, mask_to_chords
 from collections import defaultdict
 
 PRON_FREQ_FILE = "pronunciation_frequency.json"
