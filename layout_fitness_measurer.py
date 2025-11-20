@@ -215,7 +215,7 @@ if __name__ == "__main__":
     scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
 
     # Simple, tunable fitness function
-    overall_fitness = (scores["coverage_prob"]**2) * (1/scores["conflict_ratio"]**1.5)
+    overall_fitness = (scores["coverage_prob"]**10) * (1/scores["conflict_ratio"]**1)
     # or alternative:
     # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
 

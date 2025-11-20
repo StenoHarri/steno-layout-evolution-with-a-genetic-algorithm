@@ -98,6 +98,9 @@ def remove_vowels_but_keep_main(pron):
     (before vowel removal), transferring primary stress if needed.
     """
 
+    #Merge th and th, this is usually reflected in spelling too
+    pron = pron.replace("DH", "TH")
+
     # R coloured vowels into vowel+R
     pron = pron.replace("ER0", "AH0 R").replace("ER1", "AH1 R").replace("ER2", "AH2 R")
 

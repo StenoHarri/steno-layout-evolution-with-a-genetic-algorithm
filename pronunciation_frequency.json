@@ -4421,10 +4421,10 @@
   "EH R W NG": {
     "airwing": 1.28
   },
-  "EH R W R DH Y N Z": {
+  "EH R W R TH Y N Z": {
     "airworthiness": 2.31
   },
-  "EH R W R DH Y": {
+  "EH R W R TH Y": {
     "airworthy": 1.91
   },
   "AY Z": {
@@ -5285,10 +5285,10 @@
   "AE L G AA NG K W N": {
     "algonquin": 2.66
   },
-  "AE L G R DH M": {
+  "AE L G R TH M": {
     "algorithm": 4.02
   },
-  "AE L G R DH M Z": {
+  "AE L G R TH M Z": {
     "algorithms": 3.81
   },
   "AE L D F": {
@@ -6284,7 +6284,7 @@
   "AE L TH R P": {
     "althorp": 1.93
   },
-  "AO L DH OW": {
+  "AO L TH OW": {
     "although": 5.3
   },
   "AO L T HH S": {
@@ -6329,7 +6329,7 @@
   "AE L T OW": {
     "alto": 3.47
   },
-  "AO L T G EH DH R": {
+  "AO L T G EH TH R": {
     "altogether": 4.07
   },
   "AA L T D": {
@@ -8495,7 +8495,7 @@
   "AE N AO R TH T": {
     "anorthite": 1.14
   },
-  "AH N AH DH R": {
+  "AH N AH TH R": {
     "another": 5.74
   },
   "AE N S AH": {
@@ -8684,7 +8684,7 @@
   "AE N TH M Z": {
     "anthems": 2.95
   },
-  "AE N DH Z": {
+  "AE N TH Z": {
     "anthes": 1.11
   },
   "AE N T HH L": {
@@ -11108,10 +11108,10 @@
   "AH R EH S T Z": {
     "arrests": 3.74
   },
-  "AH R IH DH M Y AH": {
+  "AH R IH TH M Y AH": {
     "arrhythmia": 2.71
   },
-  "AH R IH DH M Y Z": {
+  "AH R IH TH M Y Z": {
     "arrhythmias": 2.45
   },
   "AA R Y AA G AH": {
@@ -12482,7 +12482,7 @@
   "AE TH N Z": {
     "athens": 3.92
   },
-  "EY DH Z": {
+  "EY TH Z": {
     "athas": 1.11
   },
   "EY TH R N": {
@@ -17249,25 +17249,25 @@
   "B AE TH": {
     "bath": 4.44
   },
-  "B EY DH": {
+  "B EY TH": {
     "bathe": 3.22
   },
-  "B EY DH D": {
+  "B EY TH D": {
     "bathed": 3.13
   },
-  "B EY DH R": {
+  "B EY TH R": {
     "bather": 2.0
   },
-  "B EY DH R Z": {
+  "B EY TH R Z": {
     "bathers": 2.41
   },
-  "B EY DH Z": {
+  "B EY TH Z": {
     "bathes": 2.4
   },
   "B AE TH G T": {
     "bathgate": 2.29
   },
-  "B EY DH NG": {
+  "B EY TH NG": {
     "bathing": 3.68
   },
   "B AE TH L TH": {
@@ -19004,10 +19004,10 @@
   "B EH L V L": {
     "bellville": 1.9
   },
-  "B EH L W DH R": {
+  "B EH L W TH R": {
     "bellwether": 2.32
   },
-  "B EH L W DH R Z": {
+  "B EH L W TH R Z": {
     "bellwethers": 1.05
   },
   "B EH L W D": {
@@ -19997,9 +19997,6 @@
   "B AH R TH L D": {
     "berthold": 2.34
   },
-  "B AH R TH Z": {
-    "births": 3.64
-  },
   "B EH R T Y": {
     "berti": 2.04
   },
@@ -20240,7 +20237,7 @@
   "B EH TH N Y": {
     "bethany": 3.32
   },
-  "B EH DH Y AH": {
+  "B EH TH Y AH": {
     "bethea": 2.01
   },
   "B EH TH L": {
@@ -21590,6 +21587,9 @@
   "B AH R TH R T Z": {
     "birthrates": 2.01
   },
+  "B AH R TH Z": {
+    "births": 3.64
+  },
   "B AH R T L Y": {
     "birtley": 1.46
   },
@@ -22247,7 +22247,7 @@
   "B L AE CH L Y": {
     "blatchley": 1.44
   },
-  "B L AE DH R": {
+  "B L AE TH R": {
     "blather": 2.25
   },
   "B L AE T N K": {
@@ -22550,7 +22550,7 @@
   "B L IH CH": {
     "blitch": 1.21
   },
-  "B L AY DH": {
+  "B L AY TH": {
     "blythe": 2.83
   },
   "B L AY TH L Y": {
@@ -24575,9 +24575,6 @@
   "B UW TH B Y": {
     "boothby": 2.02
   },
-  "B UW DH": {
-    "boothe": 2.21
-  },
   "B UW TH M N": {
     "boothman": 1.32
   },
@@ -25007,25 +25004,22 @@
   "B AA TH M": {
     "botham": 2.2
   },
-  "B OW DH": {
-    "bothe": 1.88
-  },
   "B AA TH L": {
     "bothell": 2.11
   },
-  "B AA DH R": {
+  "B AA TH R": {
     "bother": 4.39
   },
-  "B AA DH R D": {
+  "B AA TH R D": {
     "bothered": 3.96
   },
-  "B AA DH R NG": {
+  "B AA TH R NG": {
     "bothering": 3.63
   },
-  "B AA DH R Z": {
+  "B AA TH R Z": {
     "bothers": 3.55
   },
-  "B AA DH R S M": {
+  "B AA TH R S M": {
     "bothersome": 2.68
   },
   "B AA TH W L": {
@@ -26519,19 +26513,19 @@
   "B R EH TH": {
     "breath": 4.52
   },
-  "B R IY DH": {
+  "B R IY TH": {
     "breathe": 4.26
   },
-  "B R IY DH D": {
+  "B R IY TH D": {
     "breathed": 3.22
   },
-  "B R IY DH R": {
+  "B R IY TH R": {
     "breather": 3.02
   },
-  "B R IY DH Z": {
+  "B R IY TH Z": {
     "breathes": 3.3
   },
-  "B R IY DH NG": {
+  "B R IY TH NG": {
     "breathing": 4.28
   },
   "B R EH TH L Z": {
@@ -26759,7 +26753,7 @@
   "B R EH S N": {
     "bresson": 2.25
   },
-  "B R EH DH R N": {
+  "B R EH TH R N": {
     "brethren": 3.51
   },
   "B R EH T N": {
@@ -27809,22 +27803,22 @@
   "B R AA TH L Z": {
     "brothels": 3.02
   },
-  "B R AH DH R": {
+  "B R AH TH R": {
     "brother": 5.11
   },
-  "B R AH DH R HH D": {
+  "B R AH TH R HH D": {
     "brotherhood": 3.85
   },
-  "B R AH DH R L Y": {
+  "B R AH TH R L Y": {
     "brotherly": 2.92
   },
-  "B R AH DH R Z": {
+  "B R AH TH R Z": {
     "brothers": 4.69
   },
-  "B R AH DH R S N": {
+  "B R AH TH R S N": {
     "brotherson": 1.05
   },
-  "B R AH DH R T N": {
+  "B R AH TH R T N": {
     "brotherton": 2.02
   },
   "B R AO TH Z": {
@@ -30953,7 +30947,7 @@
   "K AH L T EH K S": {
     "caltex": 2.18
   },
-  "K AE L DH AH": {
+  "K AE L TH AH": {
     "caltha": 1.13
   },
   "K AE L T N": {
@@ -32618,7 +32612,7 @@
   "K R IY T AH": {
     "carita": 1.7
   },
-  "K AE R DH R Z": {
+  "K AE R TH R Z": {
     "carothers": 1.9
   },
   "K AA R JH K": {
@@ -33053,7 +33047,7 @@
   "K AE R TH": {
     "carruth": 1.99
   },
-  "K R AH DH R Z": {
+  "K R AH TH R Z": {
     "carruthers": 2.61
   },
   "K AE R Y": {
@@ -33962,7 +33956,7 @@
   "K TH IY D R L Z": {
     "cathedrals": 2.92
   },
-  "K AE DH R": {
+  "K AE TH R": {
     "cather": 2.25
   },
   "K TH R IY N AH": {
@@ -33971,10 +33965,10 @@
   "K AE TH R N Z": {
     "catherines": 1.81
   },
-  "K AE DH R Z": {
+  "K AE TH R Z": {
     "cathers": 1.04
   },
-  "K AE DH R W D": {
+  "K AE TH R W D": {
     "catherwood": 1.74
   },
   "K AE TH T R": {
@@ -33982,9 +33976,6 @@
   },
   "K AE TH T R Z": {
     "catheters": 2.58
-  },
-  "K AE DH Y": {
-    "cathey": 1.73
   },
   "K AE TH Y": {
     "kathy": 3.67
@@ -39644,28 +39635,28 @@
   "K L AO TH": {
     "cloth": 4.03
   },
-  "K L OW DH": {
+  "K L OW TH": {
     "clothe": 2.75
   },
-  "K L OW DH D": {
+  "K L OW TH D": {
     "clothed": 3.26
   },
-  "K L OW DH Z": {
+  "K L OW TH Z": {
     "clothes": 4.72
   },
   "K L OW Z HH R S": {
     "clotheshorse": 1.22
   },
-  "K L OW DH Y R": {
+  "K L OW TH Y R": {
     "clothier": 2.28
   },
-  "K L OW DH Y R Z": {
+  "K L OW TH Y R Z": {
     "clothiers": 1.93
   },
   "K L AA TH L D": {
     "clothilde": 1.59
   },
-  "K L OW DH NG": {
+  "K L OW TH NG": {
     "clothing": 4.47
   },
   "K L AO TH Z": {
@@ -47954,10 +47945,10 @@
   "K R EH D T Z": {
     "credits": 4.27
   },
-  "K R EH D T W R DH Y N Z": {
+  "K R EH D T W R TH Y N Z": {
     "creditworthiness": 2.31
   },
-  "K R EH D T W R DH Y": {
+  "K R EH D T W R TH Y": {
     "creditworthy": 1.77
   },
   "K R EH D L": {
@@ -48914,7 +48905,7 @@
   "K R AW S N": {
     "crowson": 1.5
   },
-  "K R AW DH R": {
+  "K R AW TH R": {
     "crowther": 2.55
   },
   "K R AA K S T N": {
@@ -59573,13 +59564,13 @@
   "D IH TH": {
     "dith": 1.46
   },
-  "D IH DH R": {
+  "D IH TH R": {
     "dither": 2.11
   },
-  "D IH DH R NG": {
+  "D IH TH R NG": {
     "dithering": 2.31
   },
-  "D IH DH R Z": {
+  "D IH TH R Z": {
     "dithers": 1.46
   },
   "D IH TH R M": {
@@ -60953,7 +60944,7 @@
   "D AO R CH": {
     "dortch": 1.6
   },
-  "D AO R DH Y AH": {
+  "D AO R TH Y AH": {
     "dorthea": 1.15
   },
   "D AO R TH Y": {
@@ -62357,7 +62348,7 @@
   "D R S IH L AH": {
     "drusilla": 2.19
   },
-  "D R AH DH R Z": {
+  "D R AH TH R Z": {
     "druthers": 1.67
   },
   "D R AY": {
@@ -64604,7 +64595,7 @@
   "IY D TH": {
     "edith": 3.57
   },
-  "EH D DH AH": {
+  "EH D TH AH": {
     "editha": 1.32
   },
   "EH D T NG": {
@@ -64755,9 +64746,6 @@
     "edwina": 2.71
   },
   "EH D TH": {
-    "edyth": 1.35
-  },
-  "EH D DH": {
     "edythe": 1.81
   },
   "EH D Z R D": {
@@ -65291,10 +65279,10 @@
   "AY T L": {
     "eitel": 1.54
   },
-  "IY DH R": {
+  "IY TH R": {
     "either": 5.33
   },
-  "AY DH R": {
+  "AY TH R": {
     "either": 2.33
   },
   "AY T Z N": {
@@ -70028,16 +70016,13 @@
   "EH TH Y N": {
     "ethene": 1.42
   },
-  "IY TH R": {
-    "ether": 3.4
-  },
   "IH TH IH R Y L": {
     "ethereal": 3.2
   },
   "EH TH R JH": {
     "etheridge": 2.44
   },
-  "EH DH R NG T N": {
+  "EH TH R NG T N": {
     "etherington": 2.21
   },
   "IY TH R N T": {
@@ -73019,7 +73004,7 @@
   "F EH R B NG K Z": {
     "fairbanks": 3.08
   },
-  "F EH R B R DH R": {
+  "F EH R B R TH R": {
     "fairbrother": 1.68
   },
   "F EH R CH L D": {
@@ -73094,7 +73079,7 @@
   "F EH R W Z": {
     "fairways": 2.53
   },
-  "F EH R W DH R": {
+  "F EH R W TH R": {
     "fairweather": 2.4
   },
   "F EH R Y L N D": {
@@ -73835,16 +73820,16 @@
   "F AA R T": {
     "fart": 3.59
   },
-  "F AA R DH R": {
+  "F AA R TH R": {
     "farther": 3.85
   },
-  "F AA R DH S T": {
+  "F AA R TH S T": {
     "farthest": 3.06
   },
-  "F AA R DH NG": {
+  "F AA R TH NG": {
     "farthing": 2.62
   },
-  "F AA R DH NG G L": {
+  "F AA R TH NG G L": {
     "farthingale": 1.49
   },
   "F AA R T NG": {
@@ -73991,40 +73976,40 @@
   "F AE TH": {
     "fath": 2.23
   },
-  "F AA DH R": {
+  "F AA TH R": {
     "father": 5.26
   },
-  "F AA DH R D": {
+  "F AA TH R D": {
     "fathered": 2.9
   },
-  "F AA DH R HH D": {
+  "F AA TH R HH D": {
     "fatherhood": 2.89
   },
-  "F AA DH R NG": {
+  "F AA TH R NG": {
     "fathering": 2.33
   },
-  "F AA DH R L N D": {
+  "F AA TH R L N D": {
     "fatherland": 2.98
   },
-  "F AA DH R L Z": {
+  "F AA TH R L Z": {
     "fatherless": 2.61
   },
-  "F AA DH R L Y": {
+  "F AA TH R L Y": {
     "fatherly": 2.6
   },
-  "F AA DH R Z": {
+  "F AA TH R Z": {
     "fathers": 4.08
   },
   "F AE TH Y": {
     "fathi": 2.01
   },
-  "F AE DH M": {
+  "F AE TH M": {
     "fathom": 3.25
   },
-  "F AE DH M B L": {
+  "F AE TH M B L": {
     "fathomable": 1.2
   },
-  "F AE DH M Z": {
+  "F AE TH M Z": {
     "fathoms": 2.49
   },
   "F T IY G": {
@@ -74333,28 +74318,28 @@
   "F IY T": {
     "feet": 4.99
   },
-  "F EH DH R": {
+  "F EH TH R": {
     "feather": 3.69
   },
-  "F EH DH R B D": {
+  "F EH TH R B D": {
     "featherbed": 1.73
   },
-  "F EH DH R B D NG": {
+  "F EH TH R B D NG": {
     "featherbedding": 1.02
   },
-  "F EH DH R D": {
+  "F EH TH R D": {
     "feathered": 3.05
   },
-  "F EH DH R L Z": {
+  "F EH TH R L Z": {
     "featherless": 1.6
   },
-  "F EH DH R Z": {
+  "F EH TH R Z": {
     "feathers": 3.79
   },
-  "F EH DH R S T N": {
+  "F EH TH R S T N": {
     "featherstone": 2.61
   },
-  "F EH DH R W T": {
+  "F EH TH R W T": {
     "featherweight": 2.65
   },
   "F IY T Z": {
@@ -75289,9 +75274,6 @@
   },
   "F EH CH NG": {
     "fetching": 2.96
-  },
-  "F EH TH R S T N": {
-    "fetherston": 1.35
   },
   "F EH T D": {
     "fetid": 2.29
@@ -78788,10 +78770,10 @@
   "F AO R IY": {
     "foree": 1.25
   },
-  "F AO R F DH R": {
+  "F AO R F TH R": {
     "forefather": 2.01
   },
-  "F AO R F DH R Z": {
+  "F AO R F TH R Z": {
     "forefathers": 2.92
   },
   "F AO R F NG G R": {
@@ -79244,12 +79226,6 @@
   "F AO R S TH": {
     "forsyth": 3.16
   },
-  "F AO R S DH": {
-    "forsythe": 2.66
-  },
-  "F R S IH TH Y AH": {
-    "forsythia": 1.95
-  },
   "F AO R T": {
     "fort": 4.45
   },
@@ -79442,10 +79418,10 @@
   "F AA TH": {
     "foth": 1.18
   },
-  "F AH DH R G L": {
+  "F AH TH R G L": {
     "fothergill": 2.08
   },
-  "F AH DH R NG HH M": {
+  "F AH TH R NG HH M": {
     "fotheringham": 1.85
   },
   "F OW T Y": {
@@ -79628,7 +79604,7 @@
   "F AA K S W R TH": {
     "foxworth": 1.72
   },
-  "F AA K S W R DH Y": {
+  "F AA K S W R TH Y": {
     "foxworthy": 1.85
   },
   "F AA K S Y": {
@@ -81653,22 +81629,22 @@
   "F R T AA D OW": {
     "furtado": 2.29
   },
-  "F AH R DH R": {
+  "F AH R TH R": {
     "further": 5.31
   },
   "F AH R TH R N S": {
     "furtherance": 2.56
   },
-  "F AH R DH R D": {
+  "F AH R TH R D": {
     "furthered": 2.62
   },
-  "F AH R DH R NG": {
+  "F AH R TH R NG": {
     "furthering": 3.03
   },
-  "F AH R DH R M R": {
+  "F AH R TH R M R": {
     "furthermore": 4.23
   },
-  "F AH R DH R Z": {
+  "F AH R TH R Z": {
     "furthers": 2.5
   },
   "F AH R TH S T": {
@@ -81746,7 +81722,7 @@
   "F AH CH": {
     "futch": 1.44
   },
-  "F AH DH R": {
+  "F AH TH R": {
     "futher": 2.08
   },
   "F UW T L": {
@@ -82424,7 +82400,7 @@
   "G AE L S T R": {
     "galster": 1.01
   },
-  "G AE L Z W R DH Y": {
+  "G AE L Z W R TH Y": {
     "galsworthy": 1.93
   },
   "G AO L T": {
@@ -83360,25 +83336,25 @@
   "G AE TH": {
     "gath": 2.12
   },
-  "G AE DH R": {
+  "G AE TH R": {
     "gather": 4.24
   },
-  "G AE DH R D": {
+  "G AE TH R D": {
     "gathered": 4.27
   },
-  "G AE DH R R": {
+  "G AE TH R R": {
     "gatherer": 2.77
   },
-  "G AE DH R R Z": {
+  "G AE TH R R Z": {
     "gatherers": 2.81
   },
-  "G AE DH R NG": {
+  "G AE TH R NG": {
     "gathering": 4.25
   },
-  "G AE DH R NG Z": {
+  "G AE TH R NG Z": {
     "gatherings": 3.51
   },
-  "G AE DH R Z": {
+  "G AE TH R Z": {
     "gathers": 3.28
   },
   "G AE TH R T": {
@@ -85598,7 +85574,7 @@
   "G IH N T R": {
     "ginter": 2.0
   },
-  "G IH N DH R": {
+  "G IH N TH R": {
     "ginther": 1.45
   },
   "JH IH N T IH NG": {
@@ -86849,10 +86825,10 @@
   "G AA D S Z": {
     "goddesses": 3.08
   },
-  "G AA D F DH R": {
+  "G AA D F TH R": {
     "godfather": 3.44
   },
-  "G AA D F DH R Z": {
+  "G AA D F TH R Z": {
     "godfathers": 2.17
   },
   "G AA D F R Y": {
@@ -86885,10 +86861,10 @@
   "G AA D M N": {
     "godman": 2.01
   },
-  "G AA D M DH R": {
+  "G AA D M TH R": {
     "godmother": 2.92
   },
-  "G AA D M DH R Z": {
+  "G AA D M TH R Z": {
     "godmothers": 1.89
   },
   "G D OW": {
@@ -87182,7 +87158,7 @@
   "G OW L D S T R K": {
     "goldstrike": 1.04
   },
-  "G OW L D Z W R DH Y": {
+  "G OW L D Z W R TH Y": {
     "goldsworthy": 2.22
   },
   "G OW L D TH W T": {
@@ -88433,22 +88409,22 @@
   "G R N D UW R": {
     "grandeur": 3.22
   },
-  "G R AE N D F DH R": {
+  "G R AE N D F TH R": {
     "grandfather": 4.24
   },
-  "G R AE N F DH R": {
+  "G R AE N F TH R": {
     "grandfather": 1.24
   },
-  "G R AE N D F DH R D": {
+  "G R AE N D F TH R D": {
     "grandfathered": 2.49
   },
-  "G R AE N D F DH R NG": {
+  "G R AE N D F TH R NG": {
     "grandfathering": 1.89
   },
-  "G R AE N D F DH R L Y": {
+  "G R AE N D F TH R L Y": {
     "grandfatherly": 1.55
   },
-  "G R AE N D F DH R Z": {
+  "G R AE N D F TH R Z": {
     "grandfathers": 2.82
   },
   "G R AE N D F Y L D": {
@@ -88496,13 +88472,13 @@
   "G R AE N D M AE S T R": {
     "grandmaster": 2.91
   },
-  "G R AE N D M DH R": {
+  "G R AE N D M TH R": {
     "grandmother": 4.14
   },
-  "G R AE N D M DH R L Y": {
+  "G R AE N D M TH R L Y": {
     "grandmotherly": 1.54
   },
-  "G R AE N D M DH R Z": {
+  "G R AE N D M TH R Z": {
     "grandmothers": 2.99
   },
   "G R AE N D N EH F UW": {
@@ -89354,7 +89330,7 @@
   "G R EH T L": {
     "gretel": 2.71
   },
-  "G R EH DH R": {
+  "G R EH TH R": {
     "grether": 1.07
   },
   "G R EH T N AH": {
@@ -89972,8 +89948,8 @@
   "G R AA TH": {
     "groth": 2.32
   },
-  "G R OW DH": {
-    "grothe": 1.72
+  "G R OW TH": {
+    "growth": 5.03
   },
   "G R AA T N": {
     "groton": 2.55
@@ -90136,9 +90112,6 @@
   },
   "G R OW N P Z": {
     "grownups": 2.57
-  },
-  "G R OW TH": {
-    "growth": 5.03
   },
   "G R OW TH Z": {
     "growths": 2.75
@@ -95024,19 +94997,19 @@
   "HH EH TH K T": {
     "heathcote": 2.6
   },
-  "HH IY DH N": {
+  "HH IY TH N": {
     "heathen": 3.1
   },
-  "HH EH DH R": {
+  "HH EH TH R": {
     "heather": 3.87
   },
-  "HH EH DH R NG T N": {
+  "HH EH TH R NG T N": {
     "hetherington": 2.38
   },
-  "HH EH DH R L Y": {
+  "HH EH TH R L Y": {
     "heatherly": 1.39
   },
-  "HH EH DH R Z": {
+  "HH EH TH R Z": {
     "heathers": 2.2
   },
   "HH IY TH M N": {
@@ -97883,10 +97856,10 @@
   "HH IH CH M N": {
     "hitchman": 1.28
   },
-  "HH IH DH R": {
+  "HH IH TH R": {
     "hither": 2.79
   },
-  "HH IH DH R T UW": {
+  "HH IH TH R T UW": {
     "hitherto": 3.15
   },
   "HH IH T L R": {
@@ -100535,7 +100508,7 @@
   "HH UH S T N": {
     "hueston": 1.31
   },
-  "HH UH DH R": {
+  "HH UH TH R": {
     "huether": 1.08
   },
   "HH AH F B R": {
@@ -112733,7 +112706,7 @@
   "K EH N W R TH": {
     "kenworth": 2.03
   },
-  "K EH N W R DH Y": {
+  "K EH N W R TH Y": {
     "kenworthy": 2.23
   },
   "K EH N Y AH": {
@@ -115226,7 +115199,7 @@
   "K AA TH R Y": {
     "kothari": 2.0
   },
-  "K OW DH": {
+  "K OW TH": {
     "kothe": 1.19
   },
   "K AA T K Y": {
@@ -116972,7 +116945,7 @@
   "L AE M R OW": {
     "lamoureux": 1.91
   },
-  "L AE M DH": {
+  "L AE M TH": {
     "lamothe": 1.99
   },
   "L M AA T": {
@@ -117446,7 +117419,7 @@
   "L AE NG G W SH NG": {
     "languishing": 2.62
   },
-  "L AE NG W R DH Y": {
+  "L AE NG W R TH Y": {
     "langworthy": 1.7
   },
   "L AE N M": {
@@ -118130,16 +118103,16 @@
   "L AE TH N": {
     "lathan": 2.02
   },
-  "L EY DH": {
+  "L EY TH": {
     "lathe": 2.91
   },
-  "L AE DH R": {
+  "L AE TH R": {
     "lather": 2.72
   },
-  "L AE DH R Z": {
+  "L AE TH R Z": {
     "lathers": 1.84
   },
-  "L EY DH Z": {
+  "L EY TH Z": {
     "lathes": 2.31
   },
   "L AE TH R P": {
@@ -118709,7 +118682,7 @@
   "L AO S T Z": {
     "lawsuits": 3.63
   },
-  "L AO DH R": {
+  "L AO TH R": {
     "lawther": 1.49
   },
   "L AO Y R": {
@@ -119189,25 +119162,25 @@
   "L EH TH M": {
     "leathem": 1.27
   },
-  "L EH DH R": {
+  "L EH TH R": {
     "leather": 4.35
   },
-  "L EH DH R B K": {
+  "L EH TH R B K": {
     "leatherback": 2.06
   },
-  "L EH DH R B K Z": {
+  "L EH TH R B K Z": {
     "leatherbacks": 1.33
   },
-  "L EH DH R M N": {
+  "L EH TH R M N": {
     "leatherman": 2.15
   },
-  "L EH DH R Z": {
+  "L EH TH R Z": {
     "leathers": 2.67
   },
-  "L EH DH R W D": {
+  "L EH TH R W D": {
     "leatherwood": 1.75
   },
-  "L EH DH R Y": {
+  "L EH TH R Y": {
     "leathery": 2.62
   },
   "L IY T N": {
@@ -122303,7 +122276,7 @@
   "L IY T R Z": {
     "liters": 3.19
   },
-  "L AY DH": {
+  "L AY TH": {
     "lithe": 2.48
   },
   "L IH TH R L N D": {
@@ -122673,19 +122646,13 @@
     "loans": 4.51
   },
   "L OW TH": {
-    "loath": 2.67
-  },
-  "L OW DH": {
     "loathe": 3.11
   },
-  "L OW DH D": {
+  "L OW TH D": {
     "loathed": 2.72
   },
   "L OW TH NG": {
     "loathing": 3.16
-  },
-  "L OW DH S M": {
-    "loathsome": 2.71
   },
   "L OW V Z": {
     "loaves": 2.92
@@ -123056,13 +123023,13 @@
   "L OW G R": {
     "logar": 2.14
   },
-  "L AA G R DH M": {
+  "L AA G R TH M": {
     "logarithm": 2.52
   },
-  "L G R IH DH M K": {
+  "L G R IH TH M K": {
     "logarithmic": 2.68
   },
-  "L AA G R DH M Z": {
+  "L AA G R TH M Z": {
     "logarithms": 2.22
   },
   "L AO G B K": {
@@ -124118,7 +124085,7 @@
   "L OW N D Y Z": {
     "lowndes": 2.75
   },
-  "L OW DH R": {
+  "L OW TH R": {
     "lowther": 2.46
   },
   "L AA K S": {
@@ -125009,7 +124976,7 @@
   "L UW TH R N Z": {
     "lutherans": 2.61
   },
-  "L UW DH Y": {
+  "L UW TH Y": {
     "luthi": 1.21
   },
   "L AH TH Y": {
@@ -128294,7 +128261,7 @@
   "M AA R G R Y T": {
     "margarete": 1.9
   },
-  "M R G R EH DH Y": {
+  "M R G R EH TH Y": {
     "margarethe": 1.62
   },
   "M AA R JH R N": {
@@ -128989,9 +128956,6 @@
   },
   "M AA R TH AH": {
     "martha": 3.98
-  },
-  "M AA R DH": {
-    "marthe": 2.17
   },
   "M AA R T Y": {
     "marty": 3.64
@@ -129743,10 +129707,10 @@
   "M AE TH": {
     "math": 4.45
   },
-  "M DH AA Y": {
+  "M TH AA Y": {
     "mathai": 1.56
   },
-  "M EY DH": {
+  "M EY TH": {
     "mathe": 1.56
   },
   "M TH M AE T K": {
@@ -129767,13 +129731,13 @@
   "M AE TH N Y": {
     "matheny": 2.36
   },
-  "M AE DH R": {
+  "M AE TH R": {
     "mather": 3.0
   },
   "M AE TH R N": {
     "matherne": 1.06
   },
-  "M AE DH R Z": {
+  "M AE TH R Z": {
     "mathers": 2.68
   },
   "M AE TH R S N": {
@@ -129785,23 +129749,17 @@
   "M AE TH S N": {
     "matheson": 2.98
   },
-  "M AE DH Z": {
-    "matheus": 1.94
-  },
   "M AE TH UW": {
     "matthew": 4.37
   },
-  "M AE DH Y": {
-    "mathey": 1.26
+  "M AE TH Y": {
+    "mathy": 1.57
   },
   "M TH AY Z": {
     "mathias": 3.08
   },
   "M TH AY S N": {
     "mathiasen": 1.07
-  },
-  "M AE TH Y": {
-    "mathy": 1.57
   },
   "M AE TH Y Z": {
     "matthies": 1.35
@@ -129820,9 +129778,6 @@
   },
   "M AE TH Z N": {
     "mathisen": 1.6
-  },
-  "M AE TH R": {
-    "mathur": 2.42
   },
   "M EY TH Y Z": {
     "mathys": 1.19
@@ -129989,10 +129944,10 @@
   "M AE T HH AW": {
     "matthau": 1.74
   },
-  "M AE T DH Z": {
+  "M AE T TH Z": {
     "mattheis": 1.04
   },
-  "M AE T DH Y": {
+  "M AE T TH Y": {
     "matthey": 1.92
   },
   "M AE SH Z": {
@@ -130382,7 +130337,7 @@
   "M EY V L": {
     "mayville": 2.1
   },
-  "M EY W DH R": {
+  "M EY W TH R": {
     "mayweather": 3.25
   },
   "M AA Z AH": {
@@ -133271,7 +133226,7 @@
   "M R T AO R Y Z": {
     "meritorious": 2.98
   },
-  "M EH R W DH R": {
+  "M EH R W TH R": {
     "meriwether": 2.2
   },
   "M AH R K L": {
@@ -133355,7 +133310,7 @@
   "M EH R T Z": {
     "mertes": 1.21
   },
-  "M R W EH DH R": {
+  "M R W EH TH R": {
     "merriweather": 2.11
   },
   "M EH R Y F Y L D": {
@@ -138899,43 +138854,43 @@
   "M AO TH B L Z": {
     "mothballs": 2.0
   },
-  "M AH DH R": {
+  "M AH TH R": {
     "mother": 5.24
   },
-  "M AH DH R K R": {
+  "M AH TH R K R": {
     "mothercare": 1.88
   },
-  "M AH DH R F K R": {
+  "M AH TH R F K R": {
     "motherfucker": 3.61
   },
-  "M AH DH R F K R Z": {
+  "M AH TH R F K R Z": {
     "motherfuckers": 3.25
   },
-  "M AH DH R F K NG": {
+  "M AH TH R F K NG": {
     "motherfucking": 3.24
   },
-  "M AH DH R HH D": {
+  "M AH TH R HH D": {
     "motherhood": 3.37
   },
-  "M AH DH R NG": {
+  "M AH TH R NG": {
     "mothering": 2.62
   },
-  "M AH DH R L N D": {
+  "M AH TH R L N D": {
     "motherland": 3.05
   },
-  "M AH DH R L Z": {
+  "M AH TH R L Z": {
     "motherless": 2.37
   },
-  "M AH DH R L Y": {
+  "M AH TH R L Y": {
     "motherly": 2.72
   },
-  "M AH DH R Z": {
+  "M AH TH R Z": {
     "mothers": 4.32
   },
-  "M AH DH R SH P": {
+  "M AH TH R SH P": {
     "mothership": 2.69
   },
-  "M AH DH R SH P Z": {
+  "M AH TH R SH P Z": {
     "motherships": 1.45
   },
   "M AO TH Z": {
@@ -139199,13 +139154,13 @@
   "M AW TH": {
     "mouth": 4.83
   },
-  "M AW DH D": {
+  "M AW TH D": {
     "mouthed": 3.09
   },
   "M AW TH F L": {
     "mouthful": 3.01
   },
-  "M AW DH NG": {
+  "M AW TH NG": {
     "mouthing": 2.79
   },
   "M AW TH P R T Z": {
@@ -139217,7 +139172,7 @@
   "M AW TH P Y S Z": {
     "mouthpieces": 2.34
   },
-  "M AW DH Z": {
+  "M AW TH Z": {
     "mouths": 3.72
   },
   "M AW TH W SH": {
@@ -142262,10 +142217,10 @@
   "N IY N": {
     "nene": 2.89
   },
-  "N IY DH R": {
+  "N IY TH R": {
     "neither": 4.77
   },
-  "N AY DH R": {
+  "N AY TH R": {
     "neither": 1.77
   },
   "N IY T S": {
@@ -142565,28 +142520,28 @@
   "N EH TH": {
     "neth": 1.72
   },
-  "N EH DH R": {
+  "N EH TH R": {
     "nether": 2.9
   },
   "N EH TH R K T": {
     "nethercutt": 1.21
   },
-  "N EH DH R L N D": {
+  "N EH TH R L N D": {
     "netherland": 2.5
   },
-  "N EH DH R L N D K": {
+  "N EH TH R L N D K": {
     "netherlandic": 1.03
   },
-  "N EH DH R L N D Z": {
+  "N EH TH R L N D Z": {
     "netherlands": 4.28
   },
-  "N EH DH R Z": {
+  "N EH TH R Z": {
     "nethers": 1.52
   },
-  "N EH DH R T N": {
+  "N EH TH R T N": {
     "netherton": 1.82
   },
-  "N EH DH R W R L D": {
+  "N EH TH R W R L D": {
     "netherworld": 2.34
   },
   "N EH T K T": {
@@ -142880,7 +142835,7 @@
   "N EH V R Z": {
     "nevers": 2.24
   },
-  "N V R DH L EH Z": {
+  "N V R TH L EH Z": {
     "nevertheless": 4.25
   },
   "N V UW": {
@@ -143132,7 +143087,7 @@
   "N UW Z W M N": {
     "newswoman": 1.43
   },
-  "N UW Z W R DH Y": {
+  "N UW Z W R TH Y": {
     "newsworthy": 2.79
   },
   "N UW Z Y": {
@@ -144278,7 +144233,7 @@
   "N AH N S AH CH": {
     "nonesuch": 1.94
   },
-  "N N DH L EH Z": {
+  "N N TH L EH Z": {
     "nonetheless": 4.04
   },
   "N AA N V EH N T": {
@@ -144776,7 +144731,7 @@
   "N AO R S T R": {
     "norstar": 1.25
   },
-  "N AO R S W R DH Y": {
+  "N AO R S W R TH Y": {
     "norsworthy": 1.2
   },
   "N AO R T": {
@@ -144824,25 +144779,25 @@
   "N R TH IY S T W R D": {
     "northeastward": 2.2
   },
-  "N AO R DH R": {
+  "N AO R TH R": {
     "norther": 2.08
   },
-  "N AO R DH R L Y": {
+  "N AO R TH R L Y": {
     "northerly": 2.95
   },
-  "N AO R DH R N": {
+  "N AO R TH R N": {
     "northern": 4.85
   },
-  "N AO R DH R N R": {
+  "N AO R TH R N R": {
     "northerner": 2.34
   },
-  "N AO R DH R N R Z": {
+  "N AO R TH R N R Z": {
     "northerners": 2.79
   },
-  "N AO R DH R N M S T": {
+  "N AO R TH R N M S T": {
     "northernmost": 2.72
   },
-  "N AO R DH Y": {
+  "N AO R TH Y": {
     "northey": 1.74
   },
   "N AO R TH F Y L D": {
@@ -144950,7 +144905,7 @@
   "N OW Z Z": {
     "noses": 3.45
   },
-  "N OW Z W R DH Y": {
+  "N OW Z W R TH Y": {
     "noseworthy": 1.25
   },
   "N OW Z Y N Z": {
@@ -145034,13 +144989,13 @@
   "N OW T T K R": {
     "notetaker": 1.03
   },
-  "N OW T W R DH Y": {
+  "N OW T W R TH Y": {
     "noteworthy": 3.49
   },
   "N AA TH": {
     "noth": 2.41
   },
-  "N AH DH R": {
+  "N AH TH R": {
     "nother": 2.65
   },
   "N AA TH N": {
@@ -145861,9 +145816,6 @@
   },
   "OW TH": {
     "oath": 3.96
-  },
-  "OW DH Z": {
-    "oaths": 2.91
   },
   "OW T L Y": {
     "oatley": 1.92
@@ -147242,7 +147194,7 @@
   "OW L D F AE SH N D": {
     "oldfashioned": 1.48
   },
-  "OW L D F DH R": {
+  "OW L D F TH R": {
     "oldfather": 1.07
   },
   "OW L D F Y L D": {
@@ -149327,25 +149279,25 @@
   "OW T Y": {
     "otey": 1.39
   },
-  "AH DH AA": {
+  "AH TH AA": {
     "otha": 1.68
   },
   "AH TH EH L OW": {
     "othello": 2.99
   },
-  "AH DH R": {
+  "AH TH R": {
     "other": 6.16
   },
-  "AH DH R N Z": {
+  "AH TH R N Z": {
     "otherness": 2.4
   },
-  "AH DH R Z": {
+  "AH TH R Z": {
     "others": 5.42
   },
-  "AH DH R W Z": {
+  "AH TH R W Z": {
     "otherwise": 4.88
   },
-  "AH DH R W AH R L D L Y": {
+  "AH TH R W AH R L D L Y": {
     "otherworldly": 2.84
   },
   "AA TH M N": {
@@ -153922,9 +153874,6 @@
   },
   "P EY TH Z": {
     "pathos": 2.83
-  },
-  "P AE DH Z": {
-    "paths": 4.02
   },
   "P AE TH Z": {
     "paths": 1.02
@@ -162128,7 +162077,7 @@
   "P R EY Z D": {
     "praised": 4.02
   },
-  "P R EY Z W R DH Y": {
+  "P R EY Z W R TH Y": {
     "praiseworthy": 2.46
   },
   "P R EY Z NG": {
@@ -162188,7 +162137,7 @@
   "P R AE T F L Z": {
     "pratfalls": 1.6
   },
-  "P R AE DH R": {
+  "P R AE TH R": {
     "prather": 2.2
   },
   "P R AA T OW": {
@@ -165224,7 +165173,7 @@
   "P R OW T S T Z": {
     "protests": 4.2
   },
-  "P R AA DH R OW": {
+  "P R AA TH R OW": {
     "prothero": 1.98
   },
   "P R TH AO R K S": {
@@ -169250,13 +169199,10 @@
   "R AE TH B R N": {
     "rathburn": 1.49
   },
-  "R EY DH": {
-    "rathe": 1.76
-  },
-  "R AE DH R": {
+  "R AE TH R": {
     "rather": 5.32
   },
-  "R AH DH R": {
+  "R AH TH R": {
     "rather": 2.32
   },
   "R AE TH G B R": {
@@ -176030,7 +175976,7 @@
   "R OY T R Z": {
     "reuters": 3.87
   },
-  "R OY DH R": {
+  "R OY TH R": {
     "reuther": 2.08
   },
   "R EH V": {
@@ -176690,16 +176636,16 @@
   "R AY M NG": {
     "rhyming": 2.96
   },
-  "R IH DH M": {
+  "R IH TH M": {
     "rhythm": 4.05
   },
-  "R IH DH M K": {
+  "R IH TH M K": {
     "rhythmic": 3.39
   },
-  "R IH DH M K L Y": {
+  "R IH TH M K L Y": {
     "rhythmically": 2.67
   },
-  "R IH DH M Z": {
+  "R IH TH M Z": {
     "rhythms": 3.44
   },
   "R Y AA D": {
@@ -177924,7 +177870,7 @@
     "wrote": 5.04
   },
   "R OW TH": {
-    "roath": 1.78
+    "rothe": 1.84
   },
   "R OW B K": {
     "roebuck": 2.65
@@ -179372,9 +179318,6 @@
   "R AO TH CH L D": {
     "rothchild": 1.78
   },
-  "R OW DH": {
-    "rothe": 1.84
-  },
   "R AO TH N B R G": {
     "rothenberg": 2.39
   },
@@ -180779,7 +180722,7 @@
   "R AY R Y": {
     "ryrie": 1.5
   },
-  "R IH DH R": {
+  "R IH TH R": {
     "ryther": 1.27
   },
   "R IH T N": {
@@ -182861,7 +182804,7 @@
   "S EY T Z": {
     "sates": 2.1
   },
-  "S AE DH R": {
+  "S AE TH R": {
     "sather": 2.05
   },
   "S AE T N": {
@@ -183737,7 +183680,7 @@
   "S K EY T Z": {
     "skates": 3.29
   },
-  "S K EY DH NG": {
+  "S K EY TH NG": {
     "scathing": 2.97
   },
   "S K T L AO JH K L": {
@@ -184898,11 +184841,8 @@
   "SH AH L T Z": {
     "schultze": 2.1
   },
-  "SH AH L DH Z": {
-    "schultheis": 1.4
-  },
   "SH AH L TH Z": {
-    "schultheiss": 1.2
+    "schultheis": 1.4
   },
   "SH UH L T S": {
     "schultz": 3.48
@@ -186260,7 +186200,7 @@
   "S IY W L F": {
     "seawolf": 1.64
   },
-  "S IY W R DH Y": {
+  "S IY W R TH Y": {
     "seaworthy": 2.36
   },
   "S IY R T": {
@@ -186734,10 +186674,10 @@
   "S IY S W NG": {
     "seesawing": 1.17
   },
-  "S IY DH": {
+  "S IY TH": {
     "seethe": 2.18
   },
-  "S IY DH NG": {
+  "S IY TH NG": {
     "seething": 2.87
   },
   "S IY W L D": {
@@ -186910,9 +186850,6 @@
   },
   "S AY T R": {
     "seiter": 1.3
-  },
-  "S IY TH": {
-    "seith": 1.25
   },
   "S AY T S": {
     "seitz": 2.48
@@ -188894,13 +188831,10 @@
   "SH IY TH": {
     "sheath": 3.16
   },
-  "SH IY DH": {
-    "sheathe": 1.82
-  },
-  "SH IY DH D": {
+  "SH IY TH D": {
     "sheathed": 2.52
   },
-  "SH IY DH NG": {
+  "SH IY TH NG": {
     "sheathing": 2.34
   },
   "SH IY T Z": {
@@ -191678,7 +191612,7 @@
   "S IH T K M Z": {
     "sitcoms": 2.86
   },
-  "S AY DH": {
+  "S AY TH": {
     "sithe": 1.06
   },
   "S Y T V IY N Y": {
@@ -192512,16 +192446,16 @@
   "S L EY T Z": {
     "slates": 2.61
   },
-  "S L AE DH R": {
+  "S L AE TH R": {
     "slather": 2.23
   },
-  "S L AE DH R D": {
+  "S L AE TH R D": {
     "slathered": 2.24
   },
-  "S L AE DH R NG": {
+  "S L AE TH R NG": {
     "slathering": 1.86
   },
-  "S L AE DH R Z": {
+  "S L AE TH R Z": {
     "slathers": 1.1
   },
   "S L EY T NG": {
@@ -192917,10 +192851,10 @@
   "S L IH T": {
     "slit": 3.47
   },
-  "S L IH DH R": {
+  "S L IH TH R": {
     "slither": 2.53
   },
-  "S L IH DH R NG": {
+  "S L IH TH R NG": {
     "slithering": 2.39
   },
   "S L IH T Z": {
@@ -193376,7 +193310,7 @@
   "S M AE SH NG": {
     "smashing": 3.66
   },
-  "S M AE DH R Z": {
+  "S M AE TH R Z": {
     "smathers": 1.81
   },
   "S M AE T R": {
@@ -193517,16 +193451,16 @@
   "S M IH TH IY": {
     "smithee": 1.58
   },
-  "S M IH DH R": {
+  "S M IH TH R": {
     "smither": 1.64
   },
-  "S M DH R IY N Z": {
+  "S M TH R IY N Z": {
     "smithereens": 2.44
   },
-  "S M IH DH R M N": {
+  "S M IH TH R M N": {
     "smitherman": 1.72
   },
-  "S M IH DH R Z": {
+  "S M IH TH R Z": {
     "smithers": 2.65
   },
   "S M IH TH Y": {
@@ -193640,31 +193574,31 @@
   "S M UW T": {
     "smoot": 2.39
   },
-  "S M UW DH": {
+  "S M UW TH": {
     "smooth": 4.4
   },
-  "S M UW DH D": {
+  "S M UW TH D": {
     "smoothed": 2.86
   },
-  "S M UW DH N": {
+  "S M UW TH N": {
     "smoothen": 1.51
   },
-  "S M UW DH R": {
+  "S M UW TH R": {
     "smoother": 3.35
   },
-  "S M UW DH S T": {
+  "S M UW TH S T": {
     "smoothest": 2.65
   },
-  "S M UW DH NG": {
+  "S M UW TH NG": {
     "smoothing": 3.04
   },
-  "S M UW DH L Y": {
+  "S M UW TH L Y": {
     "smoothly": 3.68
   },
-  "S M UW DH N Z": {
+  "S M UW TH N Z": {
     "smoothness": 2.85
   },
-  "S M UW DH Z": {
+  "S M UW TH Z": {
     "smooths": 2.21
   },
   "S M AO R G S B R D": {
@@ -193673,16 +193607,16 @@
   "S M UH SH": {
     "smosh": 1.93
   },
-  "S M AH DH R": {
+  "S M AH TH R": {
     "smother": 2.85
   },
-  "S M AH DH R D": {
+  "S M AH TH R D": {
     "smothered": 3.02
   },
-  "S M AH DH R NG": {
+  "S M AH TH R NG": {
     "smothering": 2.71
   },
-  "S M AH DH R Z": {
+  "S M AH TH R Z": {
     "smothers": 2.34
   },
   "EH S M EH Z": {
@@ -193741,9 +193675,6 @@
   },
   "S M AY TH": {
     "smyth": 3.04
-  },
-  "S M AY DH": {
-    "smythe": 2.78
   },
   "S N AE K": {
     "snack": 3.9
@@ -194501,7 +194432,7 @@
   "S OW S Y P TH": {
     "sociopath": 3.07
   },
-  "S OW S Y P DH Z": {
+  "S OW S Y P TH Z": {
     "sociopaths": 2.6
   },
   "S AA K": {
@@ -195302,19 +195233,19 @@
   "S UH T": {
     "soot": 3.02
   },
-  "S UW DH": {
+  "S UW TH": {
     "soothe": 3.18
   },
-  "S UW DH D": {
+  "S UW TH D": {
     "soothed": 2.45
   },
-  "S UW DH Z": {
+  "S UW TH Z": {
     "soothes": 2.56
   },
-  "S UW DH NG": {
+  "S UW TH NG": {
     "soothing": 3.45
   },
-  "S UW DH NG L Y": {
+  "S UW TH NG L Y": {
     "soothingly": 1.84
   },
   "S TH S Y AH R": {
@@ -195695,25 +195626,25 @@
   "S TH IY S T R N": {
     "southeastern": 3.66
   },
-  "S AH DH R": {
+  "S AH TH R": {
     "souther": 2.11
   },
-  "S AH DH R L N D": {
+  "S AH TH R L N D": {
     "sutherland": 3.47
   },
-  "S AH DH R L Y": {
+  "S AH TH R L Y": {
     "southerly": 2.89
   },
-  "S AH DH R N": {
+  "S AH TH R N": {
     "southern": 4.84
   },
-  "S AH DH R N R": {
+  "S AH TH R N R": {
     "southerner": 2.57
   },
-  "S AH DH R N R Z": {
+  "S AH TH R N R Z": {
     "southerners": 3.0
   },
-  "S AH DH R N M S T": {
+  "S AH TH R N M S T": {
     "southernmost": 2.77
   },
   "S AW TH F Y L D": {
@@ -198716,7 +198647,7 @@
   "S T AA R K Z": {
     "starks": 2.79
   },
-  "S T AA R K W DH R": {
+  "S T AA R K W TH R": {
     "starkweather": 1.96
   },
   "S T AA R L T": {
@@ -199631,7 +199562,7 @@
   "S T EH P D T R Z": {
     "stepdaughters": 1.69
   },
-  "S T EH P F DH R": {
+  "S T EH P F TH R": {
     "stepfather": 3.24
   },
   "S T F AA N": {
@@ -199664,7 +199595,7 @@
   "S T EH P L D R Z": {
     "stepladders": 1.16
   },
-  "S T EH P M DH R": {
+  "S T EH P M TH R": {
     "stepmother": 3.16
   },
   "S T EH P N Y": {
@@ -201707,7 +201638,7 @@
   "S T R UW P": {
     "stroop": 1.96
   },
-  "S T R AA DH R": {
+  "S T R AA TH R": {
     "strother": 2.04
   },
   "S T R AW D": {
@@ -201788,7 +201719,7 @@
   "S T R AH T": {
     "strut": 3.16
   },
-  "S T R AH DH R Z": {
+  "S T R AH TH R Z": {
     "struthers": 2.27
   },
   "S T R AH T Z": {
@@ -203331,12 +203262,9 @@
     "sumter": 2.77
   },
   "S AH N B TH": {
-    "sunbath": 1.58
-  },
-  "S AH N B DH": {
     "sunbathe": 2.24
   },
-  "S AH N B DH NG": {
+  "S AH N B TH NG": {
     "sunbathing": 2.78
   },
   "S AH N B Y M": {
@@ -204404,10 +204332,7 @@
   "S T EH R AH": {
     "sutera": 1.65
   },
-  "S AH TH R L N": {
-    "sutherlin": 1.5
-  },
-  "S AH DH R Z": {
+  "S AH TH R Z": {
     "suthers": 1.51
   },
   "S AH T L F": {
@@ -204662,9 +204587,6 @@
   "S W AO R TH T": {
     "swarthout": 1.52
   },
-  "S W AO R DH Y": {
-    "swarthy": 2.17
-  },
   "S W AO R T Z": {
     "swarts": 1.34
   },
@@ -204701,10 +204623,7 @@
   "S W AA TH": {
     "swath": 2.83
   },
-  "S W AA DH": {
-    "swathe": 2.29
-  },
-  "S W AA DH D": {
+  "S W AA TH D": {
     "swathed": 2.19
   },
   "S W AA T OW": {
@@ -206180,7 +206099,7 @@
   "T AE L S M N": {
     "talisman": 3.06
   },
-  "T AE L DH AH": {
+  "T AE L TH AH": {
     "talitha": 1.68
   },
   "T AO K": {
@@ -207674,10 +207593,7 @@
   "T IY TH": {
     "teeth": 4.58
   },
-  "T IY DH": {
-    "teethe": 1.01
-  },
-  "T IY DH NG": {
+  "T IY TH NG": {
     "teething": 2.84
   },
   "T Y T T EY L R": {
@@ -208787,13 +208703,13 @@
   "T EH T N Z": {
     "tetanus": 2.86
   },
-  "T EH DH R": {
+  "T EH TH R": {
     "tether": 2.96
   },
-  "T EH DH R D": {
+  "T EH TH R D": {
     "tethered": 2.94
   },
-  "T EH DH R Z": {
+  "T EH TH R Z": {
     "tethers": 2.18
   },
   "T EH T Y": {
@@ -209018,10 +208934,10 @@
   "T EH M Z": {
     "thames": 3.73
   },
-  "DH AE N": {
+  "TH AE N": {
     "than": 6.13
   },
-  "DH N": {
+  "TH N": {
     "than": 3.13
   },
   "TH N T AO L JH Y": {
@@ -209029,9 +208945,6 @@
   },
   "TH AE NG": {
     "thang": 2.82
-  },
-  "TH AE N": {
-    "thanh": 2.49
   },
   "TH AE NG K": {
     "thank": 5.48
@@ -209063,7 +208976,7 @@
   "TH AA N Z": {
     "thanos": 2.9
   },
-  "DH AW": {
+  "TH AW": {
     "thou": 4.16
   },
   "TH AA R": {
@@ -209075,10 +208988,10 @@
   "TH AE S Z": {
     "thassos": 1.12
   },
-  "DH AE T": {
+  "TH AE T": {
     "that": 7.01
   },
-  "DH T": {
+  "TH T": {
     "that": 4.01
   },
   "TH AE CH D": {
@@ -209117,10 +209030,10 @@
   "TH Y AH R Z": {
     "theorize": 2.54
   },
-  "DH AH": {
+  "TH AH": {
     "the": 4.429
   },
-  "DH Y": {
+  "TH Y": {
     "the": 4.429
   },
   "TH Y AH": {
@@ -209165,7 +209078,7 @@
   "TH EH D F R D": {
     "thedford": 1.18
   },
-  "DH IY": {
+  "TH IY": {
     "thee": 4.04
   },
   "TH IY L": {
@@ -209184,31 +209097,28 @@
     "theiler": 1.47
   },
   "TH AY N": {
-    "thein": 2.35
+    "thine": 3.31
   },
-  "DH EH R": {
+  "TH EH R": {
     "their": 6.33
   },
-  "DH EH R Z": {
+  "TH EH R Z": {
     "theirs": 3.96
   },
-  "DH R S EH L F": {
+  "TH R S EH L F": {
     "theirself": 1.4
   },
-  "DH R S EH L V Z": {
+  "TH R S EH L V Z": {
     "theirselves": 1.89
   },
-  "DH AY Z": {
-    "theis": 2.32
+  "TH AY Z": {
+    "thighs": 3.67
   },
   "TH AY S N": {
     "theisen": 1.83
   },
   "TH Y IH Z M": {
     "theism": 2.59
-  },
-  "TH AY Z": {
-    "thighs": 3.67
   },
   "TH EH K L AH": {
     "thekla": 1.57
@@ -209222,10 +209132,10 @@
   "TH L OW N Y Z": {
     "thelonius": 1.39
   },
-  "DH EH M": {
+  "TH EH M": {
     "them": 6.19
   },
-  "DH M": {
+  "TH M": {
     "them": 3.19
   },
   "TH Y M AE T K": {
@@ -209246,16 +209156,16 @@
   "TH IY M NG": {
     "theming": 2.17
   },
-  "DH M S EH L V Z": {
+  "TH M S EH L V Z": {
     "themselves": 2.16
   },
-  "DH EH N": {
+  "TH EH N": {
     "then": 6.07
   },
-  "DH EH N S": {
+  "TH EH N S": {
     "thence": 3.07
   },
-  "DH N S F AO R TH": {
+  "TH N S F AO R TH": {
     "thenceforth": 2.07
   },
   "TH Y OW": {
@@ -209360,31 +209270,31 @@
   "TH EH R P Y": {
     "therapy": 4.52
   },
-  "DH R B AW T Z": {
+  "TH R B AW T Z": {
     "thereabouts": 2.65
   },
-  "DH R AE F T R": {
+  "TH R AE F T R": {
     "thereafter": 3.97
   },
-  "DH EH R B AY": {
+  "TH EH R B AY": {
     "thereby": 4.03
   },
-  "DH EH R F R": {
+  "TH EH R F R": {
     "therefore": 4.87
   },
-  "DH R IH N": {
+  "TH R IH N": {
     "therein": 3.42
   },
-  "DH R AH V": {
+  "TH R AH V": {
     "thereof": 3.74
   },
-  "DH R AO N": {
+  "TH R AO N": {
     "thereon": 2.77
   },
   "TH EH R Y S": {
     "therese": 2.93
   },
-  "DH R P AA N": {
+  "TH R P AA N": {
     "thereupon": 2.54
   },
   "TH R Y OW": {
@@ -209447,7 +209357,7 @@
   "TH S AO R Z": {
     "thesaurus": 2.88
   },
-  "DH IY Z": {
+  "TH IY Z": {
     "these": 6.04
   },
   "TH IY S Y Z": {
@@ -209474,7 +209384,7 @@
   "TH AH R R": {
     "theurer": 1.05
   },
-  "DH UW Z": {
+  "TH UW Z": {
     "theus": 1.66
   },
   "TH UW": {
@@ -209483,11 +209393,8 @@
   "TH UW L Z": {
     "thewlis": 1.73
   },
-  "DH EY": {
+  "TH EY": {
     "they": 6.5
-  },
-  "TH IY": {
-    "thi": 3.16
   },
   "TH AY M N": {
     "thiamin": 1.83
@@ -209552,9 +209459,6 @@
   "TH R IY": {
     "three": 5.78
   },
-  "TH IY Z": {
-    "thies": 1.98
-  },
   "TH IY S N": {
     "thiessen": 2.2
   },
@@ -209568,7 +209472,7 @@
     "thieving": 2.73
   },
   "TH AY": {
-    "thigh": 3.73
+    "thy": 4.11
   },
   "TH IH G P N": {
     "thigpen": 1.88
@@ -209581,9 +209485,6 @@
   },
   "TH IH N": {
     "thin": 4.47
-  },
-  "DH AY N": {
-    "thine": 3.31
   },
   "TH IH NG": {
     "thing": 5.72
@@ -209684,10 +209585,10 @@
   "TH AH R Z AH": {
     "thirza": 1.11
   },
-  "DH IH Z": {
+  "TH IH Z": {
     "this": 6.82
   },
-  "DH Z": {
+  "TH Z": {
     "this": 3.82
   },
   "TH IH S N": {
@@ -209699,7 +209600,7 @@
   "TH IH S L Z": {
     "thistles": 2.43
   },
-  "DH OW": {
+  "TH OW": {
     "though": 5.5
   },
   "TH OW B": {
@@ -209721,9 +209622,6 @@
     "thoma": 2.23
   },
   "TH OW M N": {
-    "thoman": 1.26
-  },
-  "DH OW M N": {
     "thomann": 1.51
   },
   "T AA M S Z": {
@@ -209888,7 +209786,7 @@
   "TH AO R V AA L D": {
     "thorvald": 1.8
   },
-  "DH OW Z": {
+  "TH OW Z": {
     "those": 5.9
   },
   "TH AO T": {
@@ -209909,7 +209807,7 @@
   "TH AO T Z": {
     "thoughts": 4.75
   },
-  "DH AW Z": {
+  "TH AW Z": {
     "thous": 1.84
   },
   "TH AW Z N D": {
@@ -210266,7 +210164,7 @@
   "TH AW T": {
     "thuot": 1.03
   },
-  "DH AH R": {
+  "TH AH R": {
     "thur": 2.25
   },
   "TH AH R B R": {
@@ -210308,13 +210206,13 @@
   "TH AH R S T N": {
     "thurston": 3.11
   },
-  "DH AH Z": {
+  "TH AH Z": {
     "thus": 4.91
   },
-  "DH AH S F R": {
+  "TH AH S F R": {
     "thusfar": 1.17
   },
-  "DH AH S L Y": {
+  "TH AH S L Y": {
     "thusly": 2.36
   },
   "T UW": {
@@ -210332,9 +210230,6 @@
   "TH W AO R T Z": {
     "thwarts": 2.22
   },
-  "DH AY": {
-    "thy": 4.11
-  },
   "TH AY M": {
     "thyme": 3.07
   },
@@ -210347,7 +210242,7 @@
   "TH AY R D": {
     "thyroid": 3.53
   },
-  "DH S EH L F": {
+  "TH S EH L F": {
     "thyself": 2.85
   },
   "T AY S N": {
@@ -211133,10 +211028,10 @@
   "T IH T K M": {
     "titcomb": 1.66
   },
-  "T AY DH": {
+  "T AY TH": {
     "tithe": 2.88
   },
-  "T AY DH NG": {
+  "T AY TH NG": {
     "tithing": 2.45
   },
   "T IH SH N": {
@@ -211376,13 +211271,13 @@
   "T OW G AH": {
     "toga": 2.73
   },
-  "T G EH DH R": {
+  "T G EH TH R": {
     "together": 5.46
   },
-  "T G EH DH R N Z": {
+  "T G EH TH R N Z": {
     "togetherness": 2.8
   },
-  "T G EH DH R Z": {
+  "T G EH TH R Z": {
     "togethers": 2.47
   },
   "T AA G L": {
@@ -211867,9 +211762,6 @@
   },
   "T UW TH B R SH Z": {
     "toothbrushes": 2.63
-  },
-  "T UW TH D": {
-    "toothed": 3.04
   },
   "T UW TH L Z": {
     "toothless": 2.96
@@ -214976,10 +214868,10 @@
   "T R AH S T Z": {
     "trusts": 3.8
   },
-  "T R AH S T W R DH Y N Z": {
+  "T R AH S T W R TH Y N Z": {
     "trustworthiness": 2.67
   },
-  "T R AH S T W R DH Y": {
+  "T R AH S T W R TH Y": {
     "trustworthy": 3.51
   },
   "T R AH S T Y": {
@@ -217892,7 +217784,7 @@
   "AH N F AE SH N B L": {
     "unfashionable": 2.44
   },
-  "AH N F AE DH M B L": {
+  "AH N F AE TH M B L": {
     "unfathomable": 2.91
   },
   "AH N F EY V": {
@@ -218960,7 +218852,7 @@
   "AH N S EY V R Y": {
     "unsavory": 2.72
   },
-  "AH N S K EY DH D": {
+  "AH N S K EY TH D": {
     "unscathed": 2.99
   },
   "AH N S K EH JH L D": {
@@ -219290,7 +219182,7 @@
   "AH N T R UW": {
     "untrue": 3.41
   },
-  "AH N T R AH S T W R DH Y": {
+  "AH N T R AH S T W R TH Y": {
     "untrustworthy": 2.83
   },
   "AH N T R UW TH": {
@@ -219298,9 +219190,6 @@
   },
   "AH N T R UW TH F L": {
     "untruthful": 2.28
-  },
-  "AH N T R UW TH Z": {
-    "untruths": 2.26
   },
   "AH N T AH R N D": {
     "unturned": 2.73
@@ -219404,7 +219293,7 @@
   "AH N W AH R Y D": {
     "unworried": 1.34
   },
-  "AH N W AH R DH Y": {
+  "AH N W AH R TH Y": {
     "unworthy": 3.2
   },
   "AH N W AW N D": {
@@ -220078,9 +219967,6 @@
   },
   "UW T R Z": {
     "uterus": 3.4
-  },
-  "AH DH": {
-    "uthe": 1.29
   },
   "UW TH R": {
     "uther": 2.46
@@ -225971,49 +225857,49 @@
   "W IY S T": {
     "weast": 1.55
   },
-  "W EH DH R": {
+  "W EH TH R": {
     "weather": 4.87
   },
-  "W EH DH R L": {
-    "weatherall": 1.77
+  "W EH TH R L": {
+    "wetherell": 2.03
   },
-  "W EH DH R B Y": {
-    "weatherby": 2.21
+  "W EH TH R B Y": {
+    "wetherby": 2.28
   },
-  "W EH DH R D": {
+  "W EH TH R D": {
     "weathered": 3.15
   },
-  "W EH DH R F R D": {
+  "W EH TH R F R D": {
     "weatherford": 2.46
   },
-  "W EH DH R HH D": {
+  "W EH TH R HH D": {
     "weatherhead": 1.78
   },
-  "W EH DH R NG": {
+  "W EH TH R NG": {
     "weathering": 2.97
   },
-  "W EH DH R L Y": {
+  "W EH TH R L Y": {
     "weatherly": 2.14
   },
-  "W EH DH R M N": {
+  "W EH TH R M N": {
     "weatherman": 2.7
   },
-  "W EH DH R P R F": {
+  "W EH TH R P R F": {
     "weatherproof": 2.24
   },
-  "W EH DH R Z": {
+  "W EH TH R Z": {
     "weathers": 2.84
   },
-  "W EH DH R S B Y": {
+  "W EH TH R S B Y": {
     "weathersby": 1.37
   },
-  "W EH DH R S P N": {
+  "W EH TH R S P N": {
     "weatherspoon": 1.66
   },
-  "W EH DH R S T N": {
+  "W EH TH R S T N": {
     "weatherstone": 1.21
   },
-  "W EH DH R W K S": {
+  "W EH TH R W K S": {
     "weatherwax": 1.66
   },
   "W IY V": {
@@ -226820,7 +226706,7 @@
   "W AH R T HH M R": {
     "wertheimer": 2.09
   },
-  "W AH R DH R": {
+  "W AH R TH R": {
     "werther": 2.2
   },
   "W AH R T Z": {
@@ -227066,13 +226952,7 @@
   "W EH T": {
     "wet": 4.54
   },
-  "W EH TH R B Y": {
-    "wetherby": 2.28
-  },
-  "W EH TH R L": {
-    "wetherell": 2.03
-  },
-  "W EH DH R NG T N": {
+  "W EH TH R NG T N": {
     "wetherington": 1.03
   },
   "W EH TH NG T N": {
@@ -227348,7 +227228,7 @@
   "W R EH V R": {
     "wherever": 1.27
   },
-  "HH W EH R W DH L": {
+  "HH W EH R W TH L": {
     "wherewithal": 2.58
   },
   "HH W EH R Y": {
@@ -227357,7 +227237,7 @@
   "HH W EH T": {
     "whet": 2.62
   },
-  "HH W EH DH R": {
+  "HH W EH TH R": {
     "whether": 5.32
   },
   "HH W EH T S T N": {
@@ -227705,7 +227585,7 @@
   "HH W IH TH M": {
     "whitham": 1.59
   },
-  "HH W IH DH R": {
+  "HH W IH TH R": {
     "whither": 2.52
   },
   "HH W AY T NG": {
@@ -229259,58 +229139,31 @@
   "V IH T CH K": {
     "witczak": 1.01
   },
-  "W IH DH": {
-    "with": 6.85
-  },
   "W IH TH": {
     "with": 3.373
   },
   "W TH": {
     "with": 3.373
   },
-  "W DH": {
-    "with": 3.373
-  },
   "W IH TH M": {
     "witham": 2.26
-  },
-  "W DH D R AO": {
-    "withdraw": 4.05
   },
   "W TH D R AO": {
     "withdraw": 1.05
   },
-  "W DH D R W AH L": {
-    "withdrawal": 4.05
-  },
   "W TH D R W AH L": {
     "withdrawal": 1.05
   },
-  "W TH D R W AH L Z": {
-    "withdrawals": 3.42
-  },
-  "W TH D R W IH NG": {
-    "withdrawing": 3.42
-  },
-  "W TH D R AO N": {
-    "withdrawn": 3.9
-  },
-  "W DH D R AO Z": {
-    "withdraws": 3.02
-  },
-  "W TH D R UW": {
-    "withdrew": 3.72
-  },
-  "W IH DH R": {
+  "W IH TH R": {
     "wither": 3.02
   },
-  "W IH DH R D": {
+  "W IH TH R D": {
     "withered": 2.92
   },
   "W IH TH R L": {
     "witherell": 1.12
   },
-  "W IH DH R NG": {
+  "W IH TH R NG": {
     "withering": 2.82
   },
   "W IH TH R NG T N": {
@@ -229319,10 +229172,10 @@
   "W IH TH R OW": {
     "withrow": 2.07
   },
-  "W IH DH R Z": {
+  "W IH TH R Z": {
     "withers": 2.98
   },
-  "W IH DH R S P N": {
+  "W IH TH R S P N": {
     "witherspoon": 2.9
   },
   "W IH TH Y": {
@@ -229340,9 +229193,6 @@
   "W IH TH HH L D Z": {
     "withholds": 2.2
   },
-  "W DH IH N": {
-    "within": 5.44
-  },
   "W TH IH N": {
     "within": 2.44
   },
@@ -229353,9 +229203,6 @@
     "withnail": 1.84
   },
   "W TH AW T": {
-    "without": 5.69
-  },
-  "W DH AW T": {
     "without": 2.69
   },
   "W TH S T AE N D": {
@@ -230309,22 +230156,22 @@
   "W AH R TH N": {
     "worthen": 1.93
   },
-  "W AH R DH Y R": {
+  "W AH R TH Y R": {
     "worthier": 1.9
   },
-  "W AH R DH Y Z": {
+  "W AH R TH Y Z": {
     "worthies": 2.1
   },
-  "W AH R DH Y S T": {
+  "W AH R TH Y S T": {
     "worthiest": 1.48
   },
-  "W AH R DH Y N Z": {
+  "W AH R TH Y N Z": {
     "worthiness": 2.64
   },
   "W AH R TH NG": {
     "worthing": 2.76
   },
-  "W AH R DH NG T N": {
+  "W AH R TH NG T N": {
     "worthington": 3.16
   },
   "W AH R TH L Z": {
@@ -230339,7 +230186,7 @@
   "W AH R TH W AY L": {
     "worthwhile": 3.74
   },
-  "W AH R DH Y": {
+  "W AH R TH Y": {
     "worthy": 4.29
   },
   "W AH R T L Y": {
@@ -230354,7 +230201,7 @@
   "W OW T N": {
     "wotan": 2.19
   },
-  "W DH R S P UW N": {
+  "W TH R S P UW N": {
     "wotherspoon": 1.83
   },
   "W AA T N": {
@@ -230422,9 +230269,6 @@
   },
   "R IY K D": {
     "wreaked": 2.42
-  },
-  "R IY TH Z": {
-    "wreaths": 2.88
   },
   "R EH K D": {
     "wrecked": 3.62
@@ -230510,7 +230354,7 @@
   "R IH TH": {
     "writhe": 2.24
   },
-  "R AY DH NG": {
+  "R AY TH NG": {
     "writhing": 2.78
   },
   "R AY T NG Z": {
@@ -230588,7 +230432,7 @@
   "W AH R Z L": {
     "wurzel": 1.43
   },
-  "W AH DH R NG": {
+  "W AH TH R NG": {
     "wuthering": 2.53
   },
   "W AH T K Y": {
@@ -230645,13 +230489,10 @@
   "V SH IH N S K Y": {
     "wyszynski": 1.1
   },
-  "W AY DH": {
-    "wythe": 2.27
-  },
   "Z AE N K S": {
     "xanax": 3.18
   },
-  "Z AE N DH": {
+  "Z AE N TH": {
     "xanthe": 1.62
   },
   "Z EY V R": {
@@ -231706,9 +231547,6 @@
   },
   "UW TH F L": {
     "youthful": 3.58
-  },
-  "UW DH Z": {
-    "youths": 3.61
   },
   "UW T B": {
     "youtube": 4.66
@@ -232838,10 +232676,10 @@
   "Z IY T AH": {
     "zita": 2.11
   },
-  "Z IH DH R": {
+  "Z IH TH R": {
     "zither": 2.01
   },
-  "Z IH DH R Z": {
+  "Z IH TH R Z": {
     "zithers": 1.04
   },
   "Z IY T OW": {
