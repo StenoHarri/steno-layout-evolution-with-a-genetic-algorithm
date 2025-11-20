@@ -253,6 +253,14 @@ if __name__ == "__main__":
     words = load_word_list()
     pron_freq_map, initial_clusters, final_clusters = build_pronunciation_frequency(words)
 
+    # Keep only the most common word for each pronunciation
+    # This means I can make conflicts more punishing without punishing inherent conflicts like homophones/homonyms/stenonyms
+    filtered_pron_freq_map = {}
+    for pron, words_dict in pron_freq_map.items():
+        most_common_word = max(words_dict.items(), key=lambda x: x[1])
+        filtered_pron_freq_map[pron] = {most_common_word[0]: most_common_word[1]}
+    pron_freq_map = filtered_pron_freq_map
+
     with open(PRON_FREQ_FILE, "w", encoding="utf-8") as f:
         json.dump(pron_freq_map, f, indent=2)
     with open(INITIAL_CLUSTERS_FILE, "w", encoding="utf-8") as f:

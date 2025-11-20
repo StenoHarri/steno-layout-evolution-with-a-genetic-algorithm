@@ -6,6 +6,8 @@ from default_bank import LEFT_CHORDS, RIGHT_CHORDS, LEFT_BANK_LEN, RIGHT_BANK_LE
 from find_implied_chords import generate_masks, mask_to_chords
 from collections import defaultdict
 
+how_punishing_conflicts_are = 100
+
 PRON_FREQ_FILE = "pronunciation_frequency.json"
 with open(PRON_FREQ_FILE, "r", encoding="utf-8") as f:
     PRONUNCIATIONS = json.load(f)
@@ -172,7 +174,7 @@ def score_individual(individual):
 
     scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
 
-    overall_fitness = scores["coverage_prob"] * (1 - scores["conflict_ratio"])
+    overall_fitness = scores["coverage_prob"] * (1 - scores["conflict_ratio"]*how_punishing_conflicts_are)
     # or alternative:
     # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
 
@@ -186,7 +188,7 @@ def score_individual(individual):
     print(f"Overall fitness: {overall_fitness:.4f}")
 
 
-    return scores["coverage_prob"] * (1 - scores["conflict_ratio"])
+    return overall_fitness
 
 if __name__ == "__main__":
     with open(PRON_FREQ_FILE, "r", encoding="utf-8") as f:
@@ -201,9 +203,9 @@ if __name__ == "__main__":
         RIGHT_BANK_MASKS
     )
 
-    print("\nAll valid mask combos:")
-    for combo, prons in matches.items():
-        print(f"{combo}: {prons}")
+    #print("\nAll valid mask combos:")
+    #for combo, prons in matches.items():
+    #    print(f"{combo}: {prons}")
 
     #print("\nAmbiguous combos:")
     #for combo, prons in ambiguous.items():
@@ -213,7 +215,7 @@ if __name__ == "__main__":
     scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
 
     # Simple, tunable fitness function
-    overall_fitness = scores["coverage_prob"] * (1 - scores["conflict_ratio"])
+    overall_fitness = scores["coverage_prob"] * (1 - scores["conflict_ratio"]*how_punishing_conflicts_are)
     # or alternative:
     # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
 

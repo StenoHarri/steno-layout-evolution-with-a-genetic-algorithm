@@ -20,7 +20,7 @@ def generate_chords(default_left_chords=[], default_right_chords=[], left_bank_l
         #I think I'll be changing this to just where in the list of 50 chords the gene is, maybe exclude the last few chords randomly so they have less influence on the fitness?
         left_chords.append({chord_to_add: random_mask})
 
-    print(left_chords)
+    #print(left_chords)
 
     while len(right_chords) < 50:
 
@@ -29,7 +29,7 @@ def generate_chords(default_left_chords=[], default_right_chords=[], left_bank_l
 
         right_chords.append({chord_to_add: random_mask})
 
-    print(right_chords)
+    #print(right_chords)
 
     return left_chords, right_chords
 

@@ -7,7 +7,7 @@ from evolve_population import evolve_population
 initial_population = create_initial_population(LEFT_BANK_LEN, RIGHT_BANK_LEN, LEFT_CHORDS, [], max_chords = 50, population_size = 3)
 
 
-print(initial_population)
+#print(initial_population)
 
 
 evolved_population = evolve_population(initial_population, 5)
