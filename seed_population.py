@@ -3,6 +3,9 @@ import copy
 
 from cluster_selection import select_initial_cluster, select_final_cluster
 
+from multiprocessing import Pool, cpu_count
+
+
 def generate_chords(default_left_chords=[], default_right_chords=[], left_bank_length = 7, right_bank_length = 10, max_chords = 50):
     #Using a list, not a dictionary, so that elements can swap position, the same cluster may be on multiple genes, the same mask too
 
@@ -42,3 +45,14 @@ def create_initial_population(left_bank_length, right_bank_length, left_chords=[
 
     return population
 
+
+#multiprocessing logic
+
+def create_individual(args):
+    return generate_chords(*args)
+
+def create_initial_population_parallel(left_bank_length, right_bank_length, left_chords=[], right_chords=[], max_chords=50, population_size=3):
+    args = [(left_chords, right_chords, left_bank_length, right_bank_length, max_chords)] * population_size
+    with Pool(processes=cpu_count()) as pool:
+        population = pool.map(create_individual, args)
+    return population
