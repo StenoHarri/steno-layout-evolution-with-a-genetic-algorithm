@@ -175,3 +175,4 @@ if __name__ == "__main__":
     elapsed = time.time() - start_time 
     print(f"\nExecution time: {elapsed:.2f} seconds")
     #lab computer: 0.75s
+    #home pc: 1.14s
