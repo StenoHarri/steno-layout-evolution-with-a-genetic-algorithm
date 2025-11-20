@@ -174,7 +174,7 @@ def score_individual(individual):
 
     scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
 
-    overall_fitness = scores["coverage_prob"] * (1 - scores["conflict_ratio"]*how_punishing_conflicts_are)
+    overall_fitness = (scores["coverage_prob"]**2) * (1/scores["conflict_ratio"])
     # or alternative:
     # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
 
@@ -185,7 +185,7 @@ def score_individual(individual):
     #print(f"Conflict (Zipf): {scores['conflict_zipf']:.4f}")
     print(f"Conflict ratio:  {scores['conflict_ratio']:.4%}")
     print(f"Base chords:     {len(LEFT_CHORDS)} and {len(RIGHT_CHORDS)}")
-    print(f"Overall fitness: {overall_fitness:.4f}")
+    print(f"Overall fitness: {overall_fitness:,.4f}")
 
 
     return overall_fitness
@@ -215,7 +215,7 @@ if __name__ == "__main__":
     scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
 
     # Simple, tunable fitness function
-    overall_fitness = scores["coverage_prob"] * (1 - scores["conflict_ratio"]*how_punishing_conflicts_are)
+    overall_fitness = (scores["coverage_prob"]**2) * (1/scores["conflict_ratio"]**1.5)
     # or alternative:
     # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
 
@@ -226,7 +226,7 @@ if __name__ == "__main__":
     #print(f"Conflict (Zipf): {scores['conflict_zipf']:.4f}")
     print(f"Conflict ratio:  {scores['conflict_ratio']:.4%}")
     print(f"Base chords:     {len(LEFT_CHORDS)} and {len(RIGHT_CHORDS)}")
-    print(f"Overall fitness: {overall_fitness:.4f}")
+    print(f"Overall fitness: {overall_fitness:,.4f}")
 
     elapsed = time.time() - start_time 
     print(f"\nExecution time: {elapsed:.2f} seconds")
