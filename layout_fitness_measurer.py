@@ -7,6 +7,8 @@ from find_implied_chords import generate_masks, mask_to_chords
 from collections import defaultdict
 
 PRON_FREQ_FILE = "pronunciation_frequency.json"
+with open(PRON_FREQ_FILE, "r", encoding="utf-8") as f:
+    PRONUNCIATIONS = json.load(f)
 
 # Instead of evolving the vowel bank, I'm treating that as a solved problem, 4 keys to categorise 16 vowels with space for homophone resolution too, reed/read/red
 VOWELS = {"AA", "AE", "AH", "AO", "AW", "AY",
@@ -134,6 +136,58 @@ def score_layout(matches, ambiguous, pron_freqs):
         "conflict_ratio": conflict_score / coverage_score if coverage_score > 0 else 0
     }
 
+def bank_genes_into_bank_chords(chord_list):
+    chords = {}
+    for d in chord_list:
+        for cluster, mask in d.items():
+            chords.setdefault(mask, []).append(cluster)
+    return chords
+
+def score_individual(individual):
+    left_bank_genes, right_bank_genes = individual
+
+    left_bank=bank_genes_into_bank_chords(left_bank_genes)
+    right_bank=bank_genes_into_bank_chords(right_bank_genes)
+
+    left_masks = {
+        mask: mask_to_chords(mask, LEFT_BANK_LEN, left_bank)
+        for mask in generate_masks(LEFT_BANK_LEN)
+        if (mask_to_chords(mask, LEFT_BANK_LEN, left_bank))
+    }
+
+    right_masks = {
+        mask: mask_to_chords(mask, RIGHT_BANK_LEN, right_bank)
+        for mask in generate_masks(RIGHT_BANK_LEN)
+        if (mask_to_chords(mask, RIGHT_BANK_LEN, right_bank))
+        and not re.search(DISALLOWED_ENDINGS, mask)
+    }
+
+    matches, ambiguous = find_vowel_split_matches(
+        PRONUNCIATIONS,
+        VOWELS,
+        left_masks,
+        right_masks
+    )
+
+
+    scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
+
+    overall_fitness = scores["coverage_prob"] * (1 - scores["conflict_ratio"])
+    # or alternative:
+    # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
+
+    print("\n--- Layout Scoring ---")
+    print(f"Coverage (prob): {scores['coverage_prob']:.2f}")
+    #print(f"Conflict (prob): {scores['conflict_prob']:.2f}")
+    #print(f"Coverage (Zipf): {scores['coverage_zipf']:.4f}")
+    #print(f"Conflict (Zipf): {scores['conflict_zipf']:.4f}")
+    print(f"Conflict ratio:  {scores['conflict_ratio']:.4%}")
+    print(f"Base chords:     {len(LEFT_CHORDS)} and {len(RIGHT_CHORDS)}")
+    print(f"Overall fitness: {overall_fitness:.4f}")
+
+
+    return scores["coverage_prob"] * (1 - scores["conflict_ratio"])
+
 if __name__ == "__main__":
     with open(PRON_FREQ_FILE, "r", encoding="utf-8") as f:
         PRONUNCIATIONS = json.load(f)
@@ -147,9 +201,9 @@ if __name__ == "__main__":
         RIGHT_BANK_MASKS
     )
 
-    #print("\nAll valid mask combos:")
-    #for combo, prons in matches.items():
-    #    print(f"{combo}: {prons}")
+    print("\nAll valid mask combos:")
+    for combo, prons in matches.items():
+        print(f"{combo}: {prons}")
 
     #print("\nAmbiguous combos:")
     #for combo, prons in ambiguous.items():

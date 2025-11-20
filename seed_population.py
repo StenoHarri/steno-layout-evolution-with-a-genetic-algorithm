@@ -3,7 +3,7 @@ import copy
 
 from cluster_selection import select_initial_cluster, select_final_cluster
 
-def generate_chords(default_left_chords=[], default_right_chords=[], left_bank_length = 7, right_bank_length = 8, max_chords = 50):
+def generate_chords(default_left_chords=[], default_right_chords=[], left_bank_length = 7, right_bank_length = 10, max_chords = 50):
     #Using a list, not a dictionary, so that elements can swap position, the same cluster may be on multiple genes, the same mask too
 
     left_chords = copy.deepcopy(default_left_chords)
@@ -38,7 +38,7 @@ def create_initial_population(left_bank_length, right_bank_length, left_chords=[
     population = []
 
     for individual in range(population_size):
-        population+= generate_chords()
+        population.append(generate_chords())
 
     return population
 
