@@ -13,4 +13,4 @@ def evolve_population(population, number_of_iterations):
 
             population_fitnesses.append(score_individual(individual))
 
-            #print(population_fitnesses)
+            print(population_fitnesses)

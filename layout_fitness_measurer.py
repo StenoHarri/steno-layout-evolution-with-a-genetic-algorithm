@@ -6,8 +6,6 @@ from default_bank import LEFT_CHORDS, RIGHT_CHORDS, LEFT_BANK_LEN, RIGHT_BANK_LE
 from find_implied_chords import generate_masks, mask_to_chords
 from collections import defaultdict
 
-how_punishing_conflicts_are = 100
-
 PRON_FREQ_FILE = "pronunciation_frequency.json"
 with open(PRON_FREQ_FILE, "r", encoding="utf-8") as f:
     PRONUNCIATIONS = json.load(f)
@@ -104,10 +102,17 @@ def score_layout(matches, ambiguous, pron_freqs):
     conflict_score = 0.0
 
     # Coverage: sum of all probabilities
+    #Remember not to double-count words, even if 101 -> m and 011 -> m, I shouldn't care
+    seen_prons = set()
     for combo, prons in matches.items():
         for pron in prons:
+            if pron in seen_prons:
+                continue
+            seen_prons.add(pron)
+
             if pron not in pron_freqs:
                 continue
+
             word_freqs = pron_freqs[pron]
             total_pron_prob = sum(zipf_to_prob(z) for z in word_freqs.values())
             coverage_score += total_pron_prob
@@ -174,7 +179,7 @@ def score_individual(individual):
 
     scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
 
-    overall_fitness = (scores["coverage_prob"]**2) * (1/scores["conflict_ratio"])
+    overall_fitness = math.log10((scores["coverage_prob"]**10) * (1/scores["conflict_ratio"]**1))
     # or alternative:
     # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
 
@@ -215,7 +220,7 @@ if __name__ == "__main__":
     scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
 
     # Simple, tunable fitness function
-    overall_fitness = (scores["coverage_prob"]**10) * (1/scores["conflict_ratio"]**1)
+    overall_fitness = math.log10((scores["coverage_prob"]**10) * (1/scores["conflict_ratio"]**1))
     # or alternative:
     # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
 
