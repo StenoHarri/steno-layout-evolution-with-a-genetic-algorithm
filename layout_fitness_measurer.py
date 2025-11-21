@@ -183,14 +183,11 @@ def score_individual(individual):
     # or alternative:
     # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
 
-    print("\n--- Layout Scoring ---")
-    print(f"Coverage (prob): {scores['coverage_prob']:.2f}")
-    #print(f"Conflict (prob): {scores['conflict_prob']:.2f}")
-    #print(f"Coverage (Zipf): {scores['coverage_zipf']:.4f}")
-    #print(f"Conflict (Zipf): {scores['conflict_zipf']:.4f}")
-    print(f"Conflict ratio:  {scores['conflict_ratio']:.4%}")
-    print(f"Base chords:     {len(LEFT_CHORDS)} and {len(RIGHT_CHORDS)}")
-    print(f"Overall fitness: {overall_fitness:,.4f}")
+    #print("\n--- Layout Scoring ---")
+    #print(f"Coverage (prob): {scores['coverage_prob']:.2f}")
+    #print(f"Conflict ratio:  {scores['conflict_ratio']:.4%}")
+    #print(f"Base chords:     {len(LEFT_CHORDS)} and {len(RIGHT_CHORDS)}")
+    #print(f"Overall fitness: {overall_fitness:,.4f}")
 
 
     return overall_fitness

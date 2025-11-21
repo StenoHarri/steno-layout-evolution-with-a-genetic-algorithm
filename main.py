@@ -23,5 +23,4 @@ print("made initial population")
 #print(initial_population)
 
 
-evolved_population = evolve_population(initial_population, 1)
-
+evolved_population = evolve_population(initial_population, 1, len(initial_population))
