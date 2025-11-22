@@ -7,18 +7,28 @@ from multiprocessing import Pool,cpu_count
 
 
 def select_survivors(population, fitnesses, survival_rate=0.5):
-    number_of_survivors = int(len(population) * survival_rate)
+    """
+    Reworked to use "Efraimidis-Spirakis weighted sampling without replacement"
+    This means that duplicates aren't selected
+    """
+    assert len(population) == len(fitnesses)
+    number_of_survivors = int(survival_rate*len(population))
+    assert number_of_survivors <= len(population)
 
-    # Normalize fitness to selection weights (higher fitness → more likely)
-    min_f = min(fitnesses)
-    # Shift all values upward so weights are > 0
-    shifted_fitnesses = [f - min_f + 1e-6 for f in fitnesses]
+    # Generate a random key for each individual based on its weight
+    # Larger fitnesses → more likely to get larger keys
+    keyed = []
+    for  individual, w in zip(population, fitnesses):
+        if w <= 0:
+            # weight must be positive, tiny epsilon avoids issues
+            w = 1e-12
+        u = random.random()
+        key = u ** (1.0 / w)
+        keyed.append((key, individual))
 
-    survivors = random.choices(
-        population,
-        weights=shifted_fitnesses,
-        k=number_of_survivors
-    )
+    # Take the top-k keys
+    keyed.sort(reverse=True, key=lambda x: x[0])
+    survivors = [individual for key, individual in keyed[:number_of_survivors]]
 
     return survivors
 

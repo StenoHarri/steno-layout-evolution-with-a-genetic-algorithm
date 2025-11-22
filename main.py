@@ -17,7 +17,7 @@ if __name__ == '__main__':
         #left_chords=LEFT_CHORDS,
         #right_chords=RIGHT_CHORDS,
         max_chords=50,
-        population_size=1000
+        population_size=20
     )
 
     print("made initial population")
@@ -29,5 +29,5 @@ if __name__ == '__main__':
     #print(initial_population)
 
 
-    evolved_population = evolve_population(initial_population, 10, len(initial_population))
-    print(evolved_population)
+    evolved_population, best_individual = evolve_population(initial_population, 10, len(initial_population))
+    print(best_individual)
