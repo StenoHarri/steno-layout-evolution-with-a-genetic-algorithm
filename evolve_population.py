@@ -23,6 +23,43 @@ def select_survivors(population, fitnesses, survival_rate=0.5):
     return survivors
 
 
+def breed(parent1, parent2, num_crossover_points=4):
+    # I know there are two halves, but I'll squish them together so it's just one chromosome with 4 crossover points
+    p1 = parent1[0] + parent1[1]
+    p2 = parent2[0] + parent2[1]
+
+    length = len(p1)
+    assert length == len(p2), "Parents must have the same chromosome length"
+
+
+    #Pick crossover locations
+    points = sorted(random.sample(range(1, length), num_crossover_points))
+
+    child = []
+    take_from_p1 = True #default, start with genes from first parent
+    last_point = 0
+
+    # alternate segments between parents
+    for point in points:
+        if take_from_p1:
+            child.extend(p1[last_point:point])
+        else:
+            child.extend(p2[last_point:point])
+
+        take_from_p1 = not take_from_p1 #alternate
+        last_point = point
+
+    # final segment
+    if take_from_p1:
+        child.extend(p1[last_point:])
+    else:
+        child.extend(p2[last_point:])
+
+    # Re-split into 2 sections of 30 genes each
+    child_section1 = child[:int(len(child)/2)]
+    child_section2 = child[int(len(child)/2):]
+
+    return (child_section1, child_section2)
 
 
 def evolve_population(population, number_of_iterations, population_size):
@@ -43,16 +80,25 @@ def evolve_population(population, number_of_iterations, population_size):
 
         survivors = select_survivors(population, population_fitnesses, survival_rate=0.5)
 
-        print(survivors)
+        #print(survivors)
 
         new_population = survivors.copy()
         while len(new_population) < population_size:
+
             parent1, parent2 = random.sample(survivors, 2)
             child = breed(parent1, parent2)
-
-            if random.random() < mutation_rate:
-                child = mutate(child)
+            #print(f"child: {child}")
 
             new_population.append(child)
 
         population = new_population
+
+    with Pool(processes=cpu_count()) as pool:
+        population_fitnesses = pool.map(score_individual, population)
+
+
+    best_fitness = max(population_fitnesses)
+    best_individual = population[population_fitnesses.index(best_fitness)]
+
+    print(f"Final generation {generation}: best={best_fitness}, avg={sum(population_fitnesses)/len(population_fitnesses)}")
+    return population, best_individual

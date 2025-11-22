@@ -2,6 +2,8 @@
 from default_bank import LEFT_CHORDS, LEFT_BANK_LEN, RIGHT_CHORDS, RIGHT_BANK_LEN
 from seed_population import create_initial_population, create_initial_population_parallel
 from evolve_population import evolve_population
+from layout_fitness_measurer import score_individual
+from multiprocessing import Pool,cpu_count
 
 
 #initial_population = create_initial_population(LEFT_BANK_LEN, RIGHT_BANK_LEN, LEFT_CHORDS, RIGHT_CHORDS, max_chords = 50, population_size = 100)
@@ -15,12 +17,17 @@ if __name__ == '__main__':
         #left_chords=LEFT_CHORDS,
         #right_chords=RIGHT_CHORDS,
         max_chords=50,
-        population_size=10
+        population_size=1000
     )
 
     print("made initial population")
 
+    with Pool(processes=cpu_count()) as pool:
+            population_fitnesses = pool.map(score_individual, initial_population)
+
+
     #print(initial_population)
 
 
-    evolved_population = evolve_population(initial_population, 1, len(initial_population))
+    evolved_population = evolve_population(initial_population, 10, len(initial_population))
+    print(evolved_population)
