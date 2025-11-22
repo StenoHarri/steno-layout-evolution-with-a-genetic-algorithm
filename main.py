@@ -17,17 +17,11 @@ if __name__ == '__main__':
         #left_chords=LEFT_CHORDS,
         #right_chords=RIGHT_CHORDS,
         max_chords=50,
-        population_size=20
+        population_size=1000
     )
 
-    print("made initial population")
-
-    with Pool(processes=cpu_count()) as pool:
-            population_fitnesses = pool.map(score_individual, initial_population)
+    print("made initial population, now onto the evolution loop")
 
 
-    #print(initial_population)
-
-
-    evolved_population, best_individual = evolve_population(initial_population, 10, len(initial_population))
+    evolved_population, best_individual = evolve_population(initial_population, 15, len(initial_population))
     print(best_individual)

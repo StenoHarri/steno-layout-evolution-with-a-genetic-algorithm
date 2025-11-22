@@ -1,37 +1,42 @@
 import random
 
 from cluster_selection import select_initial_cluster, select_final_cluster
-from layout_fitness_measurer import score_individual
+from layout_fitness_measurer import score_individual, score_individual_detailed
 from multiprocessing import Pool,cpu_count
 
 
 
 def select_survivors(population, fitnesses, survival_rate=0.5):
-    """
-    Reworked to use "Efraimidis-Spirakis weighted sampling without replacement"
-    This means that duplicates aren't selected
-    """
-    assert len(population) == len(fitnesses)
-    number_of_survivors = int(survival_rate*len(population))
-    assert number_of_survivors <= len(population)
+    #ranking them first, then selecting
 
-    # Generate a random key for each individual based on its weight
-    # Larger fitnesses → more likely to get larger keys
-    keyed = []
-    for  individual, w in zip(population, fitnesses):
-        if w <= 0:
-            # weight must be positive, tiny epsilon avoids issues
-            w = 1e-12
-        u = random.random()
-        key = u ** (1.0 / w)
-        keyed.append((key, individual))
+    number_of_survivors = int(len(population) * survival_rate)
 
-    # Take the top-k keys
+    # Rank population: highest fitness = rank 1
+    sorted_population = [p for p, f in sorted(zip(population, fitnesses), key=lambda x: x[1], reverse=True)]
+
+    # Rank weights: top rank gets highest weight
+    weights = [len(sorted_population) - i for i in range(len(sorted_population))]
+
+    # Weighted sampling without replacement
+    keyed = [(random.random() ** (1.0 / w), p) for w, p in zip(weights, sorted_population)]
     keyed.sort(reverse=True, key=lambda x: x[0])
-    survivors = [individual for key, individual in keyed[:number_of_survivors]]
 
-    return survivors
+    return [p for key, p in keyed[:number_of_survivors]]
 
+def select_parents(survivors, survivor_fitnesses):
+    #Select two parents from survivors using rank-based weighted sampling.
+    
+    # Rank survivors by fitness
+    sorted_survivors = [p for p, f in sorted(zip(survivors, survivor_fitnesses), key=lambda x: x[1], reverse=True)]
+
+    # Assign rank-based weights: top survivor gets highest weight
+    weights = [len(sorted_survivors) - i for i in range(len(sorted_survivors))]
+
+    # Weighted sampling without replacement for 2 parents
+    keyed = [(random.random() ** (1.0 / w), p) for w, p in zip(weights, sorted_survivors)]
+    keyed.sort(reverse=True, key=lambda x: x[0])
+
+    return keyed[0][1], keyed[1][1]
 
 def breed(parent1, parent2, num_crossover_points=4):
     # I know there are two halves, but I'll squish them together so it's just one chromosome with 4 crossover points
@@ -90,12 +95,17 @@ def evolve_population(population, number_of_iterations, population_size):
 
         survivors = select_survivors(population, population_fitnesses, survival_rate=0.5)
 
+        #sorry, even if they survive, they might not breed unless they're healthy enough
+        survivor_fitnesses = [
+            population_fitnesses[population.index(individual)]
+            for individual in survivors
+        ]
         #print(survivors)
 
         new_population = survivors.copy()
         while len(new_population) < population_size:
 
-            parent1, parent2 = random.sample(survivors, 2)
+            parent1, parent2 = select_parents(survivors, survivor_fitnesses)
             child = breed(parent1, parent2)
             #print(f"child: {child}")
 
@@ -111,4 +121,5 @@ def evolve_population(population, number_of_iterations, population_size):
     best_individual = population[population_fitnesses.index(best_fitness)]
 
     print(f"Final generation {generation}: best={best_fitness}, avg={sum(population_fitnesses)/len(population_fitnesses)}")
+    score_individual_detailed(best_individual)
     return population, best_individual
