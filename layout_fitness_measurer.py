@@ -179,7 +179,9 @@ def score_individual(individual):
 
     scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
 
-    overall_fitness = math.log10((scores["coverage_prob"]**10) * (1/scores["conflict_ratio"]**1))
+    alpha = 1.0   # weight coverage normally
+    beta = 50.0   # penalize conflict, but not so much as to flip ranking
+    overall_fitness = math.log10(scores["coverage_prob"]**alpha * (1 - scores["conflict_ratio"])**beta)
     # or alternative:
     # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
 
@@ -221,7 +223,9 @@ def score_individual_detailed(individual):
 
     scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
 
-    overall_fitness = math.log10((scores["coverage_prob"]**10) * (1/scores["conflict_ratio"]**1))
+    alpha = 1.0   # weight coverage normally
+    beta = 50.0   # penalize conflict, but not so much as to flip ranking
+    overall_fitness = math.log10(scores["coverage_prob"]**alpha * (1 - scores["conflict_ratio"])**beta)
     # or alternative:
     # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
 
@@ -258,8 +262,9 @@ if __name__ == "__main__":
     # Compute coverage and conflict
     scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
 
-    # Simple, tunable fitness function
-    overall_fitness = math.log10((scores["coverage_prob"]**10) * (1/scores["conflict_ratio"]**1))
+    alpha = 1.0   # weight coverage normally
+    beta = 50.0   # penalize conflict, but not so much as to flip ranking
+    overall_fitness = math.log10(scores["coverage_prob"]**alpha * (1 - scores["conflict_ratio"])**beta)
     # or alternative:
     # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
 

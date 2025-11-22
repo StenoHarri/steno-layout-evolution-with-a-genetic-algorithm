@@ -120,6 +120,6 @@ def evolve_population(population, number_of_iterations, population_size):
     best_fitness = max(population_fitnesses)
     best_individual = population[population_fitnesses.index(best_fitness)]
 
-    print(f"Final generation {generation}: best={best_fitness}, avg={sum(population_fitnesses)/len(population_fitnesses)}")
+    print(f"Final generation: best={best_fitness}, avg={sum(population_fitnesses)/len(population_fitnesses)}")
     score_individual_detailed(best_individual)
     return population, best_individual
