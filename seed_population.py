@@ -56,3 +56,7 @@ def create_initial_population_parallel(left_bank_length, right_bank_length, left
     with Pool(processes=cpu_count()) as pool:
         population = pool.map(create_individual, args)
     return population
+
+# Windows likes to have a main loop because instead of forking threats, it spawns new ones
+if __name__ == '__main__':
+    pass

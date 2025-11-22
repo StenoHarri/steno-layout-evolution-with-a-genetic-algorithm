@@ -12,12 +12,12 @@ def select_survivors(population, fitnesses, survival_rate=0.5):
     # Normalize fitness to selection weights (higher fitness → more likely)
     min_f = min(fitnesses)
     # Shift all values upward so weights are > 0
-    shifted = [f - min_f + 1e-6 for f in fitnesses]
+    shifted_fitnesses = [f - min_f + 1e-6 for f in fitnesses]
 
     survivors = random.choices(
         population,
-        weights=shifted,
-        number_of_survivors=number_of_survivors
+        weights=shifted_fitnesses,
+        k=number_of_survivors
     )
 
     return survivors
