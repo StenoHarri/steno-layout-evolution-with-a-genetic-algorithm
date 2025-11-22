@@ -192,6 +192,48 @@ def score_individual(individual):
 
     return overall_fitness
 
+def score_individual_detailed(individual):
+    left_bank_genes, right_bank_genes = individual
+
+    left_bank=bank_genes_into_bank_chords(left_bank_genes)
+    right_bank=bank_genes_into_bank_chords(right_bank_genes)
+
+    left_masks = {
+        mask: mask_to_chords(mask, LEFT_BANK_LEN, left_bank)
+        for mask in generate_masks(LEFT_BANK_LEN)
+        if (mask_to_chords(mask, LEFT_BANK_LEN, left_bank))
+    }
+
+    right_masks = {
+        mask: mask_to_chords(mask, RIGHT_BANK_LEN, right_bank)
+        for mask in generate_masks(RIGHT_BANK_LEN)
+        if (mask_to_chords(mask, RIGHT_BANK_LEN, right_bank))
+        and not re.search(DISALLOWED_ENDINGS, mask)
+    }
+
+    matches, ambiguous = find_vowel_split_matches(
+        PRONUNCIATIONS,
+        VOWELS,
+        left_masks,
+        right_masks
+    )
+
+
+    scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
+
+    overall_fitness = math.log10((scores["coverage_prob"]**10) * (1/scores["conflict_ratio"]**1))
+    # or alternative:
+    # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
+
+    print("\n--- Layout Scoring ---")
+    print(f"Coverage (prob): {scores['coverage_prob']:.2f}")
+    print(f"Conflict ratio:  {scores['conflict_ratio']:.4%}")
+    #print(f"Base chords:     {len(LEFT_CHORDS)} and {len(RIGHT_CHORDS)}")
+    print(f"Overall fitness: {overall_fitness:,.4f}")
+
+
+    return overall_fitness
+
 if __name__ == "__main__":
     with open(PRON_FREQ_FILE, "r", encoding="utf-8") as f:
         PRONUNCIATIONS = json.load(f)
