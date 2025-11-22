@@ -3,6 +3,8 @@ import random
 from cluster_selection import select_initial_cluster, select_final_cluster
 from layout_fitness_measurer import score_individual, score_individual_detailed
 from multiprocessing import Pool,cpu_count
+from tqdm import tqdm
+
 
 
 
@@ -79,11 +81,12 @@ def breed(parent1, parent2, num_crossover_points=4):
 
 def evolve_population(population, number_of_iterations, population_size):
 
-    for generation in range(number_of_iterations):
+    for generation in tqdm(range(number_of_iterations), desc="Evolving generations", unit="gen"):
         with Pool(processes=cpu_count()) as pool:
             population_fitnesses = pool.map(score_individual, population)
         
-        print(f"Generation {generation}: best={max(population_fitnesses)}, avg={sum(population_fitnesses)/len(population_fitnesses)}")
+        #Write it to the progress bar
+        tqdm.write(f"Generation {generation}: best={max(population_fitnesses)}, avg={sum(population_fitnesses)/len(population_fitnesses)}")
 
         """
         kill 50% the population, biased towards keeping the healthiest alive (but some element of randomness)
