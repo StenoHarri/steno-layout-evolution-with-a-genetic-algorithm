@@ -79,6 +79,62 @@ def breed(parent1, parent2, num_crossover_points=4):
     return (child_section1, child_section2)
 
 
+def swap_gene(child):
+    #I'm not sure I want to do this one
+    return child
+    #first pick left or right bank
+    half = random.choice([0, 1])
+
+    #Get two random locations
+    i, j = random.sample(range(len(child[half])), 2)
+
+    #Location 1 is location 2, location 2 is location 1
+    child[half][i], child[half][j] = child[half][j], child[half][i]
+    return child
+
+
+def new_mask(child):
+    half = random.choice([0, 1])
+    gene_index = random.randrange(len(child[half]))
+
+    # get the existing gene
+    gene = child[half][gene_index]
+    cluster, mask = next(iter(gene.items())) #using iter because it's a dictionary entry
+
+    # generate new random mask of same length
+    new_mask_str = ''.join(random.choice(['0', '1']) for _ in range(len(mask)))
+
+    # assign the new mask
+    child[half][gene_index] = {cluster: new_mask_str}
+
+    return child
+
+def new_cluster(child):
+    return child
+    half = random.choice([0, 1])
+    gene_index = random.randrange(len(child[half]))
+
+    gene = child[half][gene_index]
+    cluster, mask = next(iter(gene.items()))
+
+    # pick new cluster based on half
+    if half == 0:
+        new_cluster_str = select_initial_cluster()
+    else:
+        new_cluster_str = select_final_cluster()
+
+    # assign new cluster with same mask
+    child[half][gene_index] = {new_cluster_str: mask}
+
+
+def mutate(child, genes_to_mutate):
+    for i in range(genes_to_mutate):
+        mutation_methods = [new_mask, new_cluster]
+        child = random.choice(mutation_methods)(child)
+
+    return child
+
+
 def evolve_population(population, number_of_iterations, population_size):
 
     for generation in tqdm(range(number_of_iterations), desc="Evolving generations", unit="gen"):
@@ -110,6 +166,7 @@ def evolve_population(population, number_of_iterations, population_size):
 
             parent1, parent2 = select_parents(survivors, survivor_fitnesses)
             child = breed(parent1, parent2)
+            child = mutate(child, 3)
             #print(f"child: {child}")
 
             new_population.append(child)

@@ -17,7 +17,7 @@ if __name__ == '__main__':
         #left_chords=LEFT_CHORDS,
         #right_chords=RIGHT_CHORDS,
         max_chords=50,
-        population_size=500
+        population_size=5
     )
 
     print("made initial population, now onto the evolution loop")

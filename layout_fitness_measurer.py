@@ -274,7 +274,7 @@ if __name__ == "__main__":
     #print(f"Coverage (Zipf): {scores['coverage_zipf']:.4f}")
     #print(f"Conflict (Zipf): {scores['conflict_zipf']:.4f}")
     print(f"Conflict ratio:  {scores['conflict_ratio']:.4%}")
-    print(f"Base chords:     {len(LEFT_CHORDS)} and {len(RIGHT_CHORDS)}")
+    #print(f"Base chords:     {len(LEFT_CHORDS)} and {len(RIGHT_CHORDS)}")
     print(f"Overall fitness: {overall_fitness:,.4f}")
 
     elapsed = time.time() - start_time 
