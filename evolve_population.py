@@ -110,7 +110,6 @@ def new_mask(child):
     return child
 
 def new_cluster(child):
-    return child
     half = random.choice([0, 1])
     gene_index = random.randrange(len(child[half]))
 
@@ -125,6 +124,8 @@ def new_cluster(child):
 
     # assign new cluster with same mask
     child[half][gene_index] = {new_cluster_str: mask}
+
+    return child
 
 
 def mutate(child, genes_to_mutate):
