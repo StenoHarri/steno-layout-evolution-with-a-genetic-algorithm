@@ -12,7 +12,7 @@ def generate_chords(default_left_chords=[], default_right_chords=[], left_bank_l
     left_chords = copy.deepcopy(default_left_chords)
     right_chords = copy.deepcopy(default_right_chords)
 
-    while len(left_chords) < 50:
+    while len(left_chords) < max_chords:
 
         chord_to_add = select_initial_cluster()
         random_mask=''.join(random.choice('01') for _ in range(left_bank_length))
@@ -25,7 +25,7 @@ def generate_chords(default_left_chords=[], default_right_chords=[], left_bank_l
 
     #print(left_chords)
 
-    while len(right_chords) < 50:
+    while len(right_chords) < max_chords:
 
         chord_to_add = select_final_cluster()
         random_mask=''.join(random.choice('01') for _ in range(right_bank_length))
@@ -41,7 +41,7 @@ def create_initial_population(left_bank_length, right_bank_length, left_chords=[
     population = []
 
     for individual in range(population_size):
-        population.append(generate_chords())
+        population.append(generate_chords(max_chords=max_chords))
 
     return population
 
