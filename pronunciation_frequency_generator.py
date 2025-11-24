@@ -264,6 +264,10 @@ if __name__ == "__main__":
         filtered_pron_freq_map[pron] = {most_common_word[0]: most_common_word[1]}
     pron_freq_map = filtered_pron_freq_map
 
+
+    MIN_CLUSTER_FREQ = 0.2
+    initial_clusters = {c: f for c, f in initial_clusters.items() if f >= MIN_CLUSTER_FREQ}
+    final_clusters   = {c: f for c, f in final_clusters.items()   if f >= MIN_CLUSTER_FREQ}
     with open(PRON_FREQ_FILE, "w", encoding="utf-8") as f:
         json.dump(pron_freq_map, f, indent=2)
     with open(INITIAL_CLUSTERS_FILE, "w", encoding="utf-8") as f:
