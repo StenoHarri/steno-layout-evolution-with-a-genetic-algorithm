@@ -142,20 +142,57 @@ def mutate(child, genes_to_mutate):
     return child
 
 
+def individual_to_set(individual):
+    # Gene is just a string {'K': '1111100'} -> 'K 1111100'
+    s = set()
+    for part in individual:
+        for d in part:
+            label, bits = list(d.items())[0]
+            s.add(f"{label} {bits}")
+    return s
+
+
+def jaccard_similarity(set_a, set_b):
+    if not set_a and not set_b:
+        return 1.0
+    return len(set_a & set_b) / len(set_a | set_b)
+
+
+def calculate_similarity(population):
+    #Returns average pairwise Jaccard similarity.
+    sets = [individual_to_set(ind) for ind in population]
+    n = len(sets)
+
+    if n < 2:
+        return 1.0  # trivial case
+
+    total = 0
+    count = 0
+
+    for i in range(n):
+        for j in range(i + 1, n):
+            total += jaccard_similarity(sets[i], sets[j])
+            count += 1
+
+    return total / count
+
+
 def evolve_population(population, number_of_iterations, population_size):
 
     for generation in tqdm(range(number_of_iterations), desc="Evolving generations", unit="gen"):
         with Pool(processes=cpu_count()) as pool:
             population_fitnesses = pool.map(score_individual, population)
-        
+
+        similarity = calculate_similarity(population)
+
         #Write it to the progress bar
-        tqdm.write(f"Generation {generation}: best={max(population_fitnesses)}, avg={sum(population_fitnesses)/len(population_fitnesses)}")
+        tqdm.write(f"Generation {generation}: best={max(population_fitnesses)}, avg={sum(population_fitnesses)/len(population_fitnesses)}, similarity={similarity}")
 
         """
         kill 50% the population, biased towards keeping the healthiest alive (but some element of randomness)
         population fitnesses look like this
         [26.53807752786875, 25.298952333110275, 26.76735620542725, 27.873805099744757, etc
-         
+
         breed the survivors together, with a chance of gene mutation
         """
 

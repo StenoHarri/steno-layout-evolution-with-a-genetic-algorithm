@@ -20,10 +20,11 @@ if __name__ == '__main__':
         population_size=4
     )
 
-    print("\nleft bank:\n", initial_population[0][0], "\nright bank\n", initial_population[0][1], "\n")
+    print(initial_population[0])
+
+    print("Example Individual:\nleft bank:\n", initial_population[0][0], "\nright bank\n", initial_population[0][1], "\n")
 
     print("made initial population, now onto the evolution loop")
 
-
     evolved_population, best_individual = evolve_population(initial_population, 2, len(initial_population))
-    print("\nleft bank:\n", best_individual[0], "\nright bank:\n", best_individual[1], "\n")
+    print("Fittest Individual\nleft bank:\n", best_individual[0], "\nright bank:\n", best_individual[1], "\n")
