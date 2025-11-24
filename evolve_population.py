@@ -99,14 +99,20 @@ def new_mask(child):
 
     # get the existing gene
     gene = child[half][gene_index]
-    cluster, mask = next(iter(gene.items())) #using iter because it's a dictionary entry
+    cluster, mask = next(iter(gene.items()))
 
-    # generate new random mask of same length
-    new_mask_str = ''.join(random.choice(['0', '1']) for _ in range(len(mask)))
+    mask_list = list(mask)  #make it a list of characters
 
-    # assign the new mask
+    # flip 1 or 2 bits
+    bits_to_flip = random.choice([1, 2])
+    positions = random.sample(range(len(mask_list)), bits_to_flip)
+    for pos in positions:
+        mask_list[pos] = '1' if mask_list[pos] == '0' else '0'
+
+    # convert back to string
+    new_mask_str = ''.join(mask_list)
+
     child[half][gene_index] = {cluster: new_mask_str}
-
     return child
 
 def new_cluster(child):
