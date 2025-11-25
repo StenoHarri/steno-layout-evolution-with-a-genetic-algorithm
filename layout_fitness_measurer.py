@@ -151,37 +151,45 @@ def bank_genes_into_bank_chords(chord_list):
     return chords
 
 def score_individual(individual):
-    left_bank_genes, right_bank_genes = individual
+    try:
+        left_bank_genes, right_bank_genes = individual
 
-    left_bank=bank_genes_into_bank_chords(left_bank_genes)
-    right_bank=bank_genes_into_bank_chords(right_bank_genes)
+        left_bank=bank_genes_into_bank_chords(left_bank_genes)
+        right_bank=bank_genes_into_bank_chords(right_bank_genes)
 
-    left_masks = {
-        mask: mask_to_chords(mask, LEFT_BANK_LEN, left_bank)
-        for mask in generate_masks(LEFT_BANK_LEN)
-        if (mask_to_chords(mask, LEFT_BANK_LEN, left_bank))
-    }
+        left_masks = {
+            mask: mask_to_chords(mask, LEFT_BANK_LEN, left_bank)
+            for mask in generate_masks(LEFT_BANK_LEN)
+            if (mask_to_chords(mask, LEFT_BANK_LEN, left_bank))
+        }
 
-    right_masks = {
-        mask: mask_to_chords(mask, RIGHT_BANK_LEN, right_bank)
-        for mask in generate_masks(RIGHT_BANK_LEN)
-        if (mask_to_chords(mask, RIGHT_BANK_LEN, right_bank))
-        and not re.search(DISALLOWED_ENDINGS, mask)
-    }
+        right_masks = {
+            mask: mask_to_chords(mask, RIGHT_BANK_LEN, right_bank)
+            for mask in generate_masks(RIGHT_BANK_LEN)
+            if (mask_to_chords(mask, RIGHT_BANK_LEN, right_bank))
+            and not re.search(DISALLOWED_ENDINGS, mask)
+        }
 
-    matches, ambiguous = find_vowel_split_matches(
-        PRONUNCIATIONS,
-        VOWELS,
-        left_masks,
-        right_masks
-    )
+        matches, ambiguous = find_vowel_split_matches(
+            PRONUNCIATIONS,
+            VOWELS,
+            left_masks,
+            right_masks
+        )
 
 
-    scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
+        scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
 
-    alpha = 10.0   # weight coverage normally
-    beta = 1.0   # penalize conflict, but not so much as to flip ranking
-    overall_fitness = math.log10(scores["coverage_prob"]**alpha * (1 - scores["conflict_ratio"])**beta)
+        alpha = 10.0   # weight coverage normally
+        beta = 1.0   # penalize conflict, but not so much as to flip ranking
+
+        overall_fitness = math.log10(scores["coverage_prob"]**alpha * (1 - scores["conflict_ratio"])**beta)
+        return overall_fitness
+
+    except Exception as e:
+        print("Error scoring individual:", e)
+        return 1 
+
     # or alternative:
     # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
 
@@ -192,7 +200,6 @@ def score_individual(individual):
     #print(f"Overall fitness: {overall_fitness:,.4f}")
 
 
-    return overall_fitness
 
 def score_individual_detailed(individual):
     left_bank_genes, right_bank_genes = individual
