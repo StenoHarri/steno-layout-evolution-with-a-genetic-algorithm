@@ -179,44 +179,47 @@ def calculate_similarity(population):
 
 def evolve_population(population, number_of_iterations, population_size):
     #num_cpus = int(os.environ.get("SLURM_CPUS_PER_TASK", 1)) #for running on the cluster
-    for generation in tqdm(range(number_of_iterations), desc="Evolving generations", unit="gen"):
-        with Pool(processes=cpu_count()) as pool: #for running locally
-        #with Pool(processes=num_cpus) as pool: #for running on the cluster
+
+    with Pool(processes=cpu_count(), maxtasksperchild = 200) as pool: #for running locally
+    #with Pool(processes=num_cpus, maxtasksperchild = 200) as pool: #for running on the cluster
+    #200 is picked kinda at random, the larger the better, but too large and it'll leave behind fragments and the memory will bloat
+        for generation in tqdm(range(number_of_iterations), desc="Evolving generations", unit="gen"):
+
             population_fitnesses = pool.map(score_individual, population)
 
-        similarity = calculate_similarity(population)
+            similarity = calculate_similarity(population)
 
-        #Write it to the progress bar
-        tqdm.write(f"Generation {generation}: best={max(population_fitnesses)}, avg={sum(population_fitnesses)/len(population_fitnesses)}, similarity={similarity}")
+            #Write it to the progress bar
+            tqdm.write(f"Generation {generation}: best={max(population_fitnesses)}, avg={sum(population_fitnesses)/len(population_fitnesses)}, similarity={similarity}")
 
-        """
-        kill 50% the population, biased towards keeping the healthiest alive (but some element of randomness)
-        population fitnesses look like this
-        [26.53807752786875, 25.298952333110275, 26.76735620542725, 27.873805099744757, etc
+            """
+            kill 50% the population, biased towards keeping the healthiest alive (but some element of randomness)
+            population fitnesses look like this
+            [26.53807752786875, 25.298952333110275, 26.76735620542725, 27.873805099744757, etc
 
-        breed the survivors together, with a chance of gene mutation
-        """
+            breed the survivors together, with a chance of gene mutation
+            """
 
-        survivors = select_survivors(population, population_fitnesses, survival_rate=0.5)
+            survivors = select_survivors(population, population_fitnesses, survival_rate=0.5)
 
-        #sorry, even if they survive, they might not breed unless they're healthy enough
-        survivor_fitnesses = [
-            population_fitnesses[population.index(individual)]
-            for individual in survivors
-        ]
-        #print(survivors)
+            #sorry, even if they survive, they might not breed unless they're healthy enough
+            survivor_fitnesses = [
+                population_fitnesses[population.index(individual)]
+                for individual in survivors
+            ]
+            #print(survivors)
 
-        new_population = survivors.copy()
-        while len(new_population) < population_size:
+            new_population = survivors.copy()
+            while len(new_population) < population_size:
 
-            parent1, parent2 = select_parents(survivors, survivor_fitnesses)
-            child = breed(parent1, parent2)
-            child = mutate(child, 3)
-            #print(f"child: {child}")
+                parent1, parent2 = select_parents(survivors, survivor_fitnesses)
+                child = breed(parent1, parent2)
+                child = mutate(child, 3)
+                #print(f"child: {child}")
 
-            new_population.append(child)
+                new_population.append(child)
 
-        population = new_population
+            population = new_population
 
     with Pool(processes=cpu_count()) as pool:
     #with Pool(processes=num_cpus) as pool: #for running on the cluster
