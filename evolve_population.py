@@ -1,5 +1,5 @@
 import random
-
+import os
 from cluster_selection import select_initial_cluster, select_final_cluster
 from layout_fitness_measurer import score_individual, score_individual_detailed
 from multiprocessing import Pool,cpu_count
@@ -178,9 +178,10 @@ def calculate_similarity(population):
 
 
 def evolve_population(population, number_of_iterations, population_size):
-
+    #num_cpus = int(os.environ.get("SLURM_CPUS_PER_TASK", 1)) #for running on the cluster
     for generation in tqdm(range(number_of_iterations), desc="Evolving generations", unit="gen"):
-        with Pool(processes=cpu_count()) as pool:
+        with Pool(processes=cpu_count()) as pool: #for running locally
+        #with Pool(processes=num_cpus) as pool: #for running on the cluster
             population_fitnesses = pool.map(score_individual, population)
 
         similarity = calculate_similarity(population)
@@ -218,6 +219,7 @@ def evolve_population(population, number_of_iterations, population_size):
         population = new_population
 
     with Pool(processes=cpu_count()) as pool:
+    #with Pool(processes=num_cpus) as pool: #for running on the cluster
         population_fitnesses = pool.map(score_individual, population)
 
 
