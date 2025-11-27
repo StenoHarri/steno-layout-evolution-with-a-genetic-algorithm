@@ -1,18 +1,14 @@
 import random
 
 from cluster_selection import select_initial_cluster, select_final_cluster
-from layout_fitness_measurer import score_individual, score_individual_detailed, fitness_cache
+from layout_fitness_measurer import score_individual, score_individual_detailed, FitnessCache
 from multiprocessing import Pool,cpu_count
 from tqdm import tqdm
+from layout_fitness_measurer import fitness_cache
 
 
 from multiprocessing import Manager
-from layout_fitness_measurer import FitnessCache, score_individual
 
-#Cacheing logic
-manager = Manager()
-shared_cache = manager.dict()
-fitness_cache = FitnessCache(shared_dict=shared_cache)
 
 
 def select_survivors(population, fitnesses, survival_rate=0.5):
@@ -224,12 +220,12 @@ def evolve_population(population, number_of_iterations, population_size):
 
         population = new_population
 
-        #Prune the cache so only survivors exist
+        #Prune (in place) the cache so only survivors exist
         valid_keys = {fitness_cache.key(ind) for ind in population}
-        fitness_cache.cache = {
-            k: v for k, v in fitness_cache.cache.items()
-            if k in valid_keys
-        }
+        for key in list(fitness_cache.cache.keys()):
+            if key not in valid_keys:
+                del fitness_cache.cache[key]
+
 
     with Pool(processes=cpu_count()) as pool:
         population_fitnesses = pool.map(score_individual, population)

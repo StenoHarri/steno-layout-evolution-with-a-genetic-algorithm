@@ -5,6 +5,37 @@ import math
 from default_bank import LEFT_CHORDS, RIGHT_CHORDS, LEFT_BANK_LEN, RIGHT_BANK_LEN
 from find_implied_chords import generate_masks, mask_to_chords
 from collections import defaultdict
+from multiprocessing import Manager
+
+
+class FitnessCache:
+    def __init__(self, shared_dict=None):
+        # If shared_dict is provided, use it; otherwise, fallback to normal dict
+        self.cache = shared_dict if shared_dict is not None else {}
+
+    def key(self, individual):
+        left, right = individual
+
+        def freeze(part):
+            return tuple(sorted(
+                (cluster, mask)
+                for gene in part
+                for cluster, mask in gene.items()
+            ))
+
+        return (freeze(left), freeze(right))
+
+    def get(self, individual):
+        return self.cache.get(self.key(individual))
+
+    def set(self, individual, value):
+        self.cache[self.key(individual)] = value
+
+#cacheing lodgic
+_manager = Manager()
+_shared_cache = _manager.dict()
+fitness_cache = FitnessCache(shared_dict=_shared_cache)
+
 
 PRON_FREQ_FILE = "pronunciation_frequency.json"
 with open(PRON_FREQ_FILE, "r", encoding="utf-8") as f:
@@ -43,34 +74,6 @@ RIGHT_BANK_MASKS = {
     # skip if maps to []
     and (chords := mask_to_chords(mask, RIGHT_BANK_LEN, RIGHT_BANK)) 
 }
-
-
-from multiprocessing import Manager
-
-class FitnessCache:
-    def __init__(self, shared_dict=None):
-        # If shared_dict is provided, use it; otherwise, fallback to normal dict
-        self.cache = shared_dict if shared_dict is not None else {}
-
-    def key(self, individual):
-        left, right = individual
-
-        def freeze(part):
-            return tuple(sorted(
-                (cluster, mask)
-                for gene in part
-                for cluster, mask in gene.items()
-            ))
-
-        return (freeze(left), freeze(right))
-
-    def get(self, individual):
-        return self.cache.get(self.key(individual))
-
-    def set(self, individual, value):
-        self.cache[self.key(individual)] = value
-
-
 
 
 def find_vowel_split_matches(pronunciations, vowels, left_masks, right_masks):
@@ -181,7 +184,6 @@ def bank_genes_into_bank_chords(chord_list):
 def score_individual(individual):
 
     # If this individual's already been scored, it should be in the cache
-    global fitness_cache  # ensures it uses the shared cache
 
     cached = fitness_cache.get(individual)
     if cached is not None:
@@ -204,7 +206,7 @@ def score_individual(individual):
             mask: mask_to_chords(mask, RIGHT_BANK_LEN, right_bank)
             for mask in generate_masks(RIGHT_BANK_LEN)
             if (mask_to_chords(mask, RIGHT_BANK_LEN, right_bank))
-            and not re.search(DISALLOWED_ENDINGS, mask)
+            and re.search(DISALLOWED_ENDINGS, mask) is None
         }
 
         matches, ambiguous = find_vowel_split_matches(
