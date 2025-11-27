@@ -187,56 +187,56 @@ def init_worker(shared_dict):
     import layout_fitness_measurer
     layout_fitness_measurer.fitness_cache = FitnessCache(shared_dict)
 
+
+
+
 def evolve_population(population, number_of_iterations, population_size, shared_cache):
     #Importing only now because fitness_cache is None before main.py assigns the real cache
     from layout_fitness_measurer import fitness_cache
     
 
-    for generation in tqdm(range(number_of_iterations), desc="Evolving generations", unit="gen"):
-        with Pool(
-            processes=cpu_count(),
-            initializer=init_worker,
-            initargs=(shared_cache,)
-        ) as pool:
+
+    with Pool(processes=cpu_count(), initializer=init_worker, initargs=(shared_cache,)) as pool:
+        for generation in tqdm(range(number_of_iterations), desc="Evolving generations", unit="gen"):
             population_fitnesses = pool.map(score_individual, population)
 
-        similarity = calculate_similarity(population)
+            similarity = calculate_similarity(population)
 
-        #Write it to the progress bar
-        tqdm.write(f"Generation {generation}: best={max(population_fitnesses)}, avg={sum(population_fitnesses)/len(population_fitnesses)}, similarity={similarity}")
+            #Write it to the progress bar
+            tqdm.write(f"Generation {generation}: best={max(population_fitnesses)}, avg={sum(population_fitnesses)/len(population_fitnesses)}, similarity={similarity}")
 
-        """
-        kill 50% the population, biased towards keeping the healthiest alive (but some element of randomness)
-        population fitnesses look like this
-        [26.53807752786875, 25.298952333110275, 26.76735620542725, 27.873805099744757, etc
+            """
+            kill 50% the population, biased towards keeping the healthiest alive (but some element of randomness)
+            population fitnesses look like this
+            [26.53807752786875, 25.298952333110275, 26.76735620542725, 27.873805099744757, etc
 
-        breed the survivors together, with a chance of gene mutation
-        """
+            breed the survivors together, with a chance of gene mutation
+            """
 
-        survivor_position_and_fitnesses = select_survivors(population, population_fitnesses, survival_rate=0.5)
+            survivor_position_and_fitnesses = select_survivors(population, population_fitnesses, survival_rate=0.5)
 
-        #sorry, even if they survive, they might not breed unless they're healthy enough
-        survivors = [p for p, f in survivor_position_and_fitnesses]
-        survivor_fitnesses = [f for p, f in survivor_position_and_fitnesses]
-        #print(survivors)
+            #sorry, even if they survive, they might not breed unless they're healthy enough
+            survivors = [p for p, f in survivor_position_and_fitnesses]
+            survivor_fitnesses = [f for p, f in survivor_position_and_fitnesses]
+            #print(survivors)
 
-        new_population = survivors.copy()
-        while len(new_population) < population_size:
+            new_population = survivors.copy()
+            while len(new_population) < population_size:
 
-            parent1, parent2 = select_parents(survivors, survivor_fitnesses)
-            child = copy.deepcopy(breed(parent1, parent2)) #If the child shares dictionaries with a parent, don't mutate that dictionary
-            child = mutate(child, 3)
-            #print(f"child: {child}")
+                parent1, parent2 = select_parents(survivors, survivor_fitnesses)
+                child = copy.deepcopy(breed(parent1, parent2)) #If the child shares dictionaries with a parent, don't mutate that dictionary
+                child = mutate(child, 3)
+                #print(f"child: {child}")
 
-            new_population.append(child)
+                new_population.append(child)
 
-        population = new_population
+            population = new_population
 
-        #Prune (in place) the cache so only survivors exist
-        valid_keys = {fitness_cache.key(ind) for ind in population}
-        for key in list(fitness_cache.cache.keys()):
-            if key not in valid_keys:
-                del fitness_cache.cache[key]
+            #Prune (in place) the cache so only survivors exist
+            valid_keys = {fitness_cache.key(ind) for ind in population}
+            for key in list(fitness_cache.cache.keys()):
+                if key not in valid_keys:
+                    del fitness_cache.cache[key]
 
 
     with Pool(processes=cpu_count()) as pool:
