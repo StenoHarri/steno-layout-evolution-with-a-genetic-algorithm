@@ -1,10 +1,9 @@
 import random
-
+import copy
 from cluster_selection import select_initial_cluster, select_final_cluster
 from layout_fitness_measurer import score_individual, score_individual_detailed, FitnessCache
 from multiprocessing import Pool,cpu_count
 from tqdm import tqdm
-from layout_fitness_measurer import fitness_cache
 
 
 from multiprocessing import Manager
@@ -179,11 +178,23 @@ def calculate_similarity(population):
 
     return total / count
 
+from layout_fitness_measurer import fitness_cache
+
+def init_worker(cache):
+    import layout_fitness_measurer
+    layout_fitness_measurer.fitness_cache = cache
 
 def evolve_population(population, number_of_iterations, population_size):
+    #Importing only now because fitness_cache is None before main.py assigns the real cache
+    from layout_fitness_measurer import fitness_cache
+    
 
     for generation in tqdm(range(number_of_iterations), desc="Evolving generations", unit="gen"):
-        with Pool(processes=cpu_count()) as pool:
+        with Pool(
+            processes=cpu_count(),
+            initializer=init_worker,
+            initargs=(fitness_cache,)
+        ) as pool:
             population_fitnesses = pool.map(score_individual, population)
 
         similarity = calculate_similarity(population)
@@ -212,7 +223,7 @@ def evolve_population(population, number_of_iterations, population_size):
         while len(new_population) < population_size:
 
             parent1, parent2 = select_parents(survivors, survivor_fitnesses)
-            child = breed(parent1, parent2)
+            child = copy.deepcopy(breed(parent1, parent2)) #If the child shares dictionaries with a parent, don't mutate that dictionary
             child = mutate(child, 3)
             #print(f"child: {child}")
 

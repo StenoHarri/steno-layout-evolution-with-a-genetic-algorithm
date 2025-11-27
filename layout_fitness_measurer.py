@@ -5,8 +5,6 @@ import math
 from default_bank import LEFT_CHORDS, RIGHT_CHORDS, LEFT_BANK_LEN, RIGHT_BANK_LEN
 from find_implied_chords import generate_masks, mask_to_chords
 from collections import defaultdict
-from multiprocessing import Manager
-
 
 class FitnessCache:
     def __init__(self, shared_dict=None):
@@ -32,9 +30,7 @@ class FitnessCache:
         self.cache[self.key(individual)] = value
 
 #cacheing lodgic
-_manager = Manager()
-_shared_cache = _manager.dict()
-fitness_cache = FitnessCache(shared_dict=_shared_cache)
+fitness_cache = None #I will initialise this in the main process once with FitnessCache(shared_dict=_shared_cache)
 
 
 PRON_FREQ_FILE = "pronunciation_frequency.json"
@@ -70,7 +66,7 @@ RIGHT_BANK_MASKS = {
     mask: mask_to_chords(mask, RIGHT_BANK_LEN, RIGHT_BANK)
     for mask in generate_masks(RIGHT_BANK_LEN)
     # however, some key combinations require contorting the hand, so I'll disallow those
-    if not re.search(DISALLOWED_ENDINGS, mask) is not None
+    if re.search(DISALLOWED_ENDINGS, mask) is None
     # skip if maps to []
     and (chords := mask_to_chords(mask, RIGHT_BANK_LEN, RIGHT_BANK)) 
 }
