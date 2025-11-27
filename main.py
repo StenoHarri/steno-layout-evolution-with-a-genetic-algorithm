@@ -37,5 +37,10 @@ if __name__ == '__main__':
     layout_fitness_measurer.fitness_cache = fitness_cache
 
 
-    evolved_population, best_individual = evolve_population(initial_population, 2000, len(initial_population))
+    evolved_population, best_individual = evolve_population(
+        initial_population,
+        2000,
+        len(initial_population),
+        shared_cache
+    )
     print("Fittest Individual\nleft bank:\n", best_individual[0], "\nright bank:\n", best_individual[1], "\n")
