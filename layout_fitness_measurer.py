@@ -45,6 +45,34 @@ RIGHT_BANK_MASKS = {
 }
 
 
+from multiprocessing import Manager
+
+class FitnessCache:
+    def __init__(self, shared_dict=None):
+        # If shared_dict is provided, use it; otherwise, fallback to normal dict
+        self.cache = shared_dict if shared_dict is not None else {}
+
+    def key(self, individual):
+        left, right = individual
+
+        def freeze(part):
+            return tuple(sorted(
+                (cluster, mask)
+                for gene in part
+                for cluster, mask in gene.items()
+            ))
+
+        return (freeze(left), freeze(right))
+
+    def get(self, individual):
+        return self.cache.get(self.key(individual))
+
+    def set(self, individual, value):
+        self.cache[self.key(individual)] = value
+
+
+
+
 def find_vowel_split_matches(pronunciations, vowels, left_masks, right_masks):
     matches = {}
 
@@ -151,6 +179,15 @@ def bank_genes_into_bank_chords(chord_list):
     return chords
 
 def score_individual(individual):
+
+    # If this individual's already been scored, it should be in the cache
+    global fitness_cache  # ensures it uses the shared cache
+
+    cached = fitness_cache.get(individual)
+    if cached is not None:
+        return cached
+
+
     try:
         left_bank_genes, right_bank_genes = individual
 
@@ -184,6 +221,10 @@ def score_individual(individual):
         beta = 1.0   # penalize conflict, but not so much as to flip ranking
 
         overall_fitness = math.log10(scores["coverage_prob"]**alpha * (1 - scores["conflict_ratio"])**beta)
+
+        # Cache it
+        fitness_cache.set(individual, overall_fitness)
+
         return overall_fitness
 
     except Exception as e:
