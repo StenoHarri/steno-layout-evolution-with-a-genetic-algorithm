@@ -215,14 +215,40 @@ def score_individual(individual):
 
         scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
 
-        alpha = 10.0   # weight coverage normally
-        beta = 1.0   # penalize conflict, but not so much as to flip ranking
+        coverage = scores["coverage_prob"]
+        conflict = scores["conflict_ratio"]
 
-        overall_fitness = math.log10(scores["coverage_prob"]**alpha * (1 - scores["conflict_ratio"])**beta)
+        #initial target, not penalising conflicts too much
+        alpha = 10.0
+        beta = 1.0
 
+        #target, once it gets to here, conflicts will be at 0.0015
+        coverage_threshold = 522 #  WSI is at 522.67
+        target_conflict = 0.0012 # WSI is at 001237
+
+        #I'm basically saying to move past 522 coverage, you gotta have lower conflict ratio than WSI
+
+        if coverage > (coverage_threshold+5) and conflict < target_conflict:
+            overall_fitness = math.log10(coverage**alpha * (1 - conflict)**beta)
+            # Cache it
+            fitness_cache.set(individual, overall_fitness)
+            return overall_fitness
+
+        #I want this effect to come in gradually, so I'm using a sigmoid function starting at 450 (takes about 20 generations to reach this coverage) and then ends at 522(coverage of the WSI layout)
+        a = 0.15
+        midpoint = 486 #not 486 because I'm scared of it converging too quickly, okay maybe
+        activation = 1 / (1 + math.exp(-a * (coverage - midpoint)))
+
+        excess_conflict = max(0.0, conflict - target_conflict)
+
+        # penalty strength
+        s = 50  # adjust as needed
+        penalty = 1 + s * activation * excess_conflict
+
+        overall_fitness = math.log10(coverage**alpha * (1 - conflict)**beta / penalty)
+        
         # Cache it
         fitness_cache.set(individual, overall_fitness)
-
         return overall_fitness
 
     except Exception as e:

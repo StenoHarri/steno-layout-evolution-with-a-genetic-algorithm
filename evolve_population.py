@@ -1,5 +1,6 @@
 import random
 import copy
+import os
 from cluster_selection import select_initial_cluster, select_final_cluster
 from layout_fitness_measurer import score_individual, score_individual_detailed, FitnessCache
 from multiprocessing import Pool,cpu_count
@@ -191,12 +192,13 @@ def init_worker(shared_dict):
 
 
 def evolve_population(population, number_of_iterations, population_size, shared_cache):
+    #num_cpus = int(os.environ.get("SLURM_CPUS_PER_TASK", 1)) #for running on the cluster
     #Importing only now because fitness_cache is None before main.py assigns the real cache
     from layout_fitness_measurer import fitness_cache
     
 
-
-    with Pool(processes=cpu_count(), initializer=init_worker, initargs=(shared_cache,)) as pool:
+    #with Pool(processes=num_cpus, maxtasksperchild = 200, initializer=init_worker, initargs=(shared_cache,)) as pool: #for running on the cluster
+    with Pool(processes=cpu_count(), maxtasksperchild = 200, initializer=init_worker, initargs=(shared_cache,)) as pool: #for running locally
         for generation in tqdm(range(number_of_iterations), desc="Evolving generations", unit="gen"):
             population_fitnesses = pool.map(score_individual, population)
 
@@ -240,6 +242,7 @@ def evolve_population(population, number_of_iterations, population_size, shared_
 
 
     with Pool(processes=cpu_count()) as pool:
+    #with Pool(processes=num_cpus) as pool: #for running on the cluster
         population_fitnesses = pool.map(score_individual, population)
 
 
