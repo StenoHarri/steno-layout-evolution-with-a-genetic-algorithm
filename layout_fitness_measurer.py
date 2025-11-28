@@ -6,6 +6,33 @@ from default_bank import LEFT_CHORDS, RIGHT_CHORDS, LEFT_BANK_LEN, RIGHT_BANK_LE
 from find_implied_chords import generate_masks, mask_to_chords
 from collections import defaultdict
 
+class FitnessCache:
+    def __init__(self, shared_dict=None):
+        # If shared_dict is provided, use it; otherwise, fallback to normal dict
+        self.cache = shared_dict if shared_dict is not None else {}
+
+    def key(self, individual):
+        left, right = individual
+
+        def freeze(part):
+            return tuple(sorted(
+                (cluster, mask)
+                for gene in part
+                for cluster, mask in gene.items()
+            ))
+
+        return (freeze(left), freeze(right))
+
+    def get(self, individual):
+        return self.cache.get(self.key(individual))
+
+    def set(self, individual, value):
+        self.cache[self.key(individual)] = value
+
+#cacheing lodgic
+fitness_cache = None #I will initialise this in the main process once with FitnessCache(shared_dict=_shared_cache)
+
+
 PRON_FREQ_FILE = "pronunciation_frequency.json"
 with open(PRON_FREQ_FILE, "r", encoding="utf-8") as f:
     PRONUNCIATIONS = json.load(f)
@@ -39,7 +66,7 @@ RIGHT_BANK_MASKS = {
     mask: mask_to_chords(mask, RIGHT_BANK_LEN, RIGHT_BANK)
     for mask in generate_masks(RIGHT_BANK_LEN)
     # however, some key combinations require contorting the hand, so I'll disallow those
-    if not re.search(DISALLOWED_ENDINGS, mask) is not None
+    if re.search(DISALLOWED_ENDINGS, mask) is None
     # skip if maps to []
     and (chords := mask_to_chords(mask, RIGHT_BANK_LEN, RIGHT_BANK)) 
 }
@@ -151,6 +178,14 @@ def bank_genes_into_bank_chords(chord_list):
     return chords
 
 def score_individual(individual):
+
+    # If this individual's already been scored, it should be in the cache
+
+    cached = fitness_cache.get(individual)
+    if cached is not None:
+        return cached
+
+
     try:
         left_bank_genes, right_bank_genes = individual
 
@@ -167,7 +202,7 @@ def score_individual(individual):
             mask: mask_to_chords(mask, RIGHT_BANK_LEN, right_bank)
             for mask in generate_masks(RIGHT_BANK_LEN)
             if (mask_to_chords(mask, RIGHT_BANK_LEN, right_bank))
-            and not re.search(DISALLOWED_ENDINGS, mask)
+            and re.search(DISALLOWED_ENDINGS, mask) is None
         }
 
         matches, ambiguous = find_vowel_split_matches(
@@ -195,6 +230,8 @@ def score_individual(individual):
 
         if coverage > (coverage_threshold+5) and conflict < target_conflict:
             overall_fitness = math.log10(coverage**alpha * (1 - conflict)**beta)
+            # Cache it
+            fitness_cache.set(individual, overall_fitness)
             return overall_fitness
 
         #I want this effect to come in gradually, so I'm using a sigmoid function starting at 450 (takes about 20 generations to reach this coverage) and then ends at 522(coverage of the WSI layout)
@@ -209,6 +246,9 @@ def score_individual(individual):
         penalty = 1 + s * activation * excess_conflict
 
         overall_fitness = math.log10(coverage**alpha * (1 - conflict)**beta / penalty)
+        
+        # Cache it
+        fitness_cache.set(individual, overall_fitness)
         return overall_fitness
 
     except Exception as e:

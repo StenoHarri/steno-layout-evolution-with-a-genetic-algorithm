@@ -1,29 +1,35 @@
 import random
+import copy
 import os
 from cluster_selection import select_initial_cluster, select_final_cluster
-from layout_fitness_measurer import score_individual, score_individual_detailed
+from layout_fitness_measurer import score_individual, score_individual_detailed, FitnessCache
 from multiprocessing import Pool,cpu_count
 from tqdm import tqdm
 
 
+from multiprocessing import Manager
+
 
 
 def select_survivors(population, fitnesses, survival_rate=0.5):
-    #ranking them first, then selecting
-
+    #Ranking first, then selecting. Roulette wheel style
     number_of_survivors = int(len(population) * survival_rate)
 
-    # Rank population: highest fitness = rank 1
-    sorted_population = [p for p, f in sorted(zip(population, fitnesses), key=lambda x: x[1], reverse=True)]
+    # Pair individuals with their fitnesses and sort
+    sorted_pop = sorted(zip(population, fitnesses), key=lambda x: x[1], reverse=True)
 
-    # Rank weights: top rank gets highest weight
-    weights = [len(sorted_population) - i for i in range(len(sorted_population))]
+    # Weighted sampling using the sorted order
+    individuals_sorted = [p for p, f in sorted_pop]
+    weights = [len(sorted_pop) - i for i in range(len(sorted_pop))]
 
-    # Weighted sampling without replacement
-    keyed = [(random.random() ** (1.0 / w), p) for w, p in zip(weights, sorted_population)]
+    keyed = [(random.random() ** (1.0 / w), p, f) 
+             for (p, f), w in zip(sorted_pop, weights)]
     keyed.sort(reverse=True, key=lambda x: x[0])
 
-    return [p for key, p in keyed[:number_of_survivors]]
+    # Return survivors WITH their fitnesses
+    survivors = [(p, f) for _, p, f in keyed[:number_of_survivors]]
+    return survivors
+
 
 def select_parents(survivors, survivor_fitnesses):
     #Select two parents from survivors using rank-based weighted sampling.
@@ -176,15 +182,24 @@ def calculate_similarity(population):
 
     return total / count
 
+from layout_fitness_measurer import fitness_cache
 
-def evolve_population(population, number_of_iterations, population_size):
+def init_worker(shared_dict):
+    import layout_fitness_measurer
+    layout_fitness_measurer.fitness_cache = FitnessCache(shared_dict)
+
+
+
+
+def evolve_population(population, number_of_iterations, population_size, shared_cache):
     #num_cpus = int(os.environ.get("SLURM_CPUS_PER_TASK", 1)) #for running on the cluster
+    #Importing only now because fitness_cache is None before main.py assigns the real cache
+    from layout_fitness_measurer import fitness_cache
+    
 
-    with Pool(processes=cpu_count(), maxtasksperchild = 200) as pool: #for running locally
-    #with Pool(processes=num_cpus, maxtasksperchild = 200) as pool: #for running on the cluster
-    #200 is picked kinda at random, the larger the better, but too large and it'll leave behind fragments and the memory will bloat
+    #with Pool(processes=num_cpus, maxtasksperchild = 200, initializer=init_worker, initargs=(shared_cache,)) as pool: #for running on the cluster
+    with Pool(processes=cpu_count(), maxtasksperchild = 200, initializer=init_worker, initargs=(shared_cache,)) as pool: #for running locally
         for generation in tqdm(range(number_of_iterations), desc="Evolving generations", unit="gen"):
-
             population_fitnesses = pool.map(score_individual, population)
 
             similarity = calculate_similarity(population)
@@ -200,26 +215,31 @@ def evolve_population(population, number_of_iterations, population_size):
             breed the survivors together, with a chance of gene mutation
             """
 
-            survivors = select_survivors(population, population_fitnesses, survival_rate=0.5)
+            survivor_position_and_fitnesses = select_survivors(population, population_fitnesses, survival_rate=0.5)
 
             #sorry, even if they survive, they might not breed unless they're healthy enough
-            survivor_fitnesses = [
-                population_fitnesses[population.index(individual)]
-                for individual in survivors
-            ]
+            survivors = [p for p, f in survivor_position_and_fitnesses]
+            survivor_fitnesses = [f for p, f in survivor_position_and_fitnesses]
             #print(survivors)
 
             new_population = survivors.copy()
             while len(new_population) < population_size:
 
                 parent1, parent2 = select_parents(survivors, survivor_fitnesses)
-                child = breed(parent1, parent2)
+                child = copy.deepcopy(breed(parent1, parent2)) #If the child shares dictionaries with a parent, don't mutate that dictionary
                 child = mutate(child, 3)
                 #print(f"child: {child}")
 
                 new_population.append(child)
 
             population = new_population
+
+            #Prune (in place) the cache so only survivors exist
+            valid_keys = {fitness_cache.key(ind) for ind in population}
+            for key in list(fitness_cache.cache.keys()):
+                if key not in valid_keys:
+                    del fitness_cache.cache[key]
+
 
     with Pool(processes=cpu_count()) as pool:
     #with Pool(processes=num_cpus) as pool: #for running on the cluster
