@@ -30,7 +30,8 @@ class FitnessCache:
         self.cache[self.key(individual)] = value
 
 #cacheing lodgic
-fitness_cache = None #I will initialise this in the main process once with FitnessCache(shared_dict=_shared_cache)
+#removed because instead of a global variable, I'm now passing it in
+#fitness_cache = None #I will initialise this in the main process once with FitnessCache(shared_dict=_shared_cache)
 
 
 PRON_FREQ_FILE = "pronunciation_frequency.json"
@@ -177,13 +178,15 @@ def bank_genes_into_bank_chords(chord_list):
             chords.setdefault(mask, []).append(cluster)
     return chords
 
-def score_individual(individual):
-
+def score_individual(individual, cache):
     # If this individual's already been scored, it should be in the cache
+    if cache is None:
+        from evolve_population import worker_cache
+        cache = worker_cache
 
-    cached = fitness_cache.get(individual)
-    if cached is not None:
-        return cached
+    cached_value = cache.get(individual)
+    if cached_value is not None:
+        return cached_value
 
 
     try:
@@ -231,7 +234,7 @@ def score_individual(individual):
         if coverage > (coverage_threshold+5) and conflict < target_conflict:
             overall_fitness = math.log10(coverage**alpha * (1 - conflict)**beta)
             # Cache it
-            fitness_cache.set(individual, overall_fitness)
+            cache.set(individual, overall_fitness)
             return overall_fitness
 
         #I want this effect to come in gradually, so I'm using a sigmoid function starting at 450 (takes about 20 generations to reach this coverage) and then ends at 522(coverage of the WSI layout)
@@ -248,7 +251,7 @@ def score_individual(individual):
         overall_fitness = math.log10(coverage**alpha * (1 - conflict)**beta / penalty)
         
         # Cache it
-        fitness_cache.set(individual, overall_fitness)
+        cache.set(individual, overall_fitness)
         return overall_fitness
 
     except Exception as e:

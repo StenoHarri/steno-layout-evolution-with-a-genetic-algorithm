@@ -182,27 +182,30 @@ def calculate_similarity(population):
 
     return total / count
 
-from layout_fitness_measurer import fitness_cache
+worker_cache = None
 
 def init_worker(shared_dict):
-    import layout_fitness_measurer
-    layout_fitness_measurer.fitness_cache = FitnessCache(shared_dict)
+    global worker_cache
+    worker_cache = FitnessCache(shared_dict)
 
 
 
-
-def evolve_population(population, number_of_iterations, population_size, shared_cache):
+def evolve_population(population, number_of_iterations, population_size, shared_cache: FitnessCache):
     #num_cpus = int(os.environ.get("SLURM_CPUS_PER_TASK", 1)) #for running on the cluster
     #Importing only now because fitness_cache is None before main.py assigns the real cache
-    from layout_fitness_measurer import fitness_cache
-    
+    #from layout_fitness_measurer import fitness_cache #commented out because it's now passed through as a variable
 
-    #with Pool(processes=num_cpus, maxtasksperchild = 200, initializer=init_worker, initargs=(shared_cache,)) as pool: #for running on the cluster
-    with Pool(processes=cpu_count(), maxtasksperchild = 200, initializer=init_worker, initargs=(shared_cache,)) as pool: #for running locally
+    #with Pool(processes=num_cpus, maxtasksperchild = 200, initializer=init_worker, initargs=(shared_cache.cache,)) as pool: #for running on the cluster
+    with Pool(processes=cpu_count(), maxtasksperchild=200, initializer=init_worker, initargs=(shared_cache.cache,)) as pool: #for running locally
         for generation in tqdm(range(number_of_iterations), desc="Evolving generations", unit="gen"):
-            population_fitnesses = pool.map(score_individual, population)
+            population_fitnesses = pool.starmap(
+                score_individual,
+                [(ind, None) for ind in population]) #had to switch to starmap now that I'm passing in cache as well as score
 
-            similarity = calculate_similarity(population)
+
+            #complexity is n^2 so I'm just doing a subset
+            sample = random.sample(population, min(len(population), 50))
+            similarity = calculate_similarity(sample)
 
             #Write it to the progress bar
             tqdm.write(f"Generation {generation}: best={max(population_fitnesses)}, avg={sum(population_fitnesses)/len(population_fitnesses)}, similarity={similarity}")
@@ -235,15 +238,15 @@ def evolve_population(population, number_of_iterations, population_size, shared_
             population = new_population
 
             #Prune (in place) the cache so only survivors exist
-            valid_keys = {fitness_cache.key(ind) for ind in population}
-            for key in list(fitness_cache.cache.keys()):
+            valid_keys = {shared_cache.key(ind) for ind in population}
+            for key in list(shared_cache.cache.keys()):
                 if key not in valid_keys:
-                    del fitness_cache.cache[key]
+                    del shared_cache.cache[key]
 
 
     with Pool(processes=cpu_count()) as pool:
     #with Pool(processes=num_cpus) as pool: #for running on the cluster
-        population_fitnesses = pool.map(score_individual, population)
+        population_fitnesses = pool.map(score_wrapper, population)
 
 
     best_fitness = max(population_fitnesses)
