@@ -180,18 +180,31 @@ def calculate_similarity(population):
 def evolve_population(population, number_of_iterations, population_size):
     #num_cpus = int(os.environ.get("SLURM_CPUS_PER_TASK", 1)) #for running on the cluster
 
+    precomputed_population_fitnesses = {}
+
     with Pool(processes=cpu_count(), maxtasksperchild = 200) as pool: #for running locally
     #with Pool(processes=num_cpus, maxtasksperchild = 200) as pool: #for running on the cluster
     #200 is picked kinda at random, the larger the better, but too large and it'll leave behind fragments and the memory will bloat
         for generation in tqdm(range(number_of_iterations), desc="Evolving generations", unit="gen"):
 
-            individuals_and_their_fitnesses = {I want this to be a thing where you put in the layout as a string and it'll map to the fitness, then I can use this for the next round to skip individuals that have already been calculated, and I'll delete this and recreate a new one}
+            prescored_population = []
+            prescored_fitnesses = []
 
-            for individual, if it's in individuals_and_their_fitnesses, that's its fitness, else, put it in population_that_needs_scoring
+            unscored_population = []
 
-            new_population_fitnesses = pool.map(score_individual, population_that_needs_scoring)
+            for individual in population:
+                stringed_individual = str(individual)
+                if stringed_individual in precomputed_population_fitnesses:
+                    prescored_population.append(individual)
+                    prescored_fitnesses.append(precomputed_population_fitnesses[stringed_individual])
 
-            now add them all together into population_fitnesses
+                else:
+                    unscored_population.append(individual)
+
+            unscored_fitnesses = pool.map(score_individual, unscored_population)
+
+            population = prescored_population + unscored_population
+            population_fitnesses = prescored_fitnesses + unscored_fitnesses
 
             similarity = calculate_similarity(population)
 
@@ -214,6 +227,12 @@ def evolve_population(population, number_of_iterations, population_size):
                 for individual in survivors
             ]
             #print(survivors)
+
+
+            precomputed_population_fitnesses = {
+                str(individual): fitness
+                for individual, fitness in zip(survivors, survivor_fitnesses)
+            }
 
             new_population = survivors.copy()
             while len(new_population) < population_size:
