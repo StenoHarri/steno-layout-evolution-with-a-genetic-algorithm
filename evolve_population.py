@@ -185,7 +185,13 @@ def evolve_population(population, number_of_iterations, population_size):
     #200 is picked kinda at random, the larger the better, but too large and it'll leave behind fragments and the memory will bloat
         for generation in tqdm(range(number_of_iterations), desc="Evolving generations", unit="gen"):
 
-            population_fitnesses = pool.map(score_individual, population)
+            individuals_and_their_fitnesses = {I want this to be a thing where you put in the layout as a string and it'll map to the fitness, then I can use this for the next round to skip individuals that have already been calculated, and I'll delete this and recreate a new one}
+
+            for individual, if it's in individuals_and_their_fitnesses, that's its fitness, else, put it in population_that_needs_scoring
+
+            new_population_fitnesses = pool.map(score_individual, population_that_needs_scoring)
+
+            now add them all together into population_fitnesses
 
             similarity = calculate_similarity(population)
 
