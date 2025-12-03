@@ -4,6 +4,7 @@ from cluster_selection import select_initial_cluster, select_final_cluster
 from layout_fitness_measurer import score_individual, score_individual_detailed
 from multiprocessing import Pool,cpu_count
 from tqdm import tqdm
+import time
 
 
 
@@ -177,15 +178,20 @@ def calculate_similarity(population):
     return total / count
 
 
-def evolve_population(population, number_of_iterations, population_size):
+def evolve_population(population, number_of_iterations, population_size, max_seconds=None):
     #num_cpus = int(os.environ.get("SLURM_CPUS_PER_TASK", 1)) #for running on the cluster
 
+    start_time = time.time()
     precomputed_population_fitnesses = {}
 
     with Pool(processes=cpu_count(), maxtasksperchild = 200) as pool: #for running locally
     #with Pool(processes=num_cpus, maxtasksperchild = 200) as pool: #for running on the cluster
     #200 is picked kinda at random, the larger the better, but too large and it'll leave behind fragments and the memory will bloat
         for generation in tqdm(range(number_of_iterations), desc="Evolving generations", unit="gen"):
+
+            if max_seconds is not None and (time.time() - start_time) >= (max_seconds-60):
+                print(f"\nStopping early at generation {generation} (time limit reached)")
+                break
 
             prescored_population = []
             prescored_fitnesses = []

@@ -17,7 +17,7 @@ if __name__ == '__main__':
         #left_chords=LEFT_CHORDS,
         #right_chords=RIGHT_CHORDS,
         max_chords=35, #max_chords has to be at least 3 for crossover points
-        population_size=1000
+        population_size=250
     )
 
     print(initial_population[0])
@@ -26,5 +26,9 @@ if __name__ == '__main__':
 
     print("made initial population, now onto the evolution loop")
 
-    evolved_population, best_individual = evolve_population(initial_population, 2000, len(initial_population))
+    evolved_population, best_individual = evolve_population(
+        initial_population,
+        2000,
+        len(initial_population),
+        max_seconds= 2 * 60 * 60 )
     print("Fittest Individual\nleft bank:\n", best_individual[0], "\nright bank:\n", best_individual[1], "\n")
