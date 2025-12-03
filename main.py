@@ -14,8 +14,8 @@ if __name__ == '__main__':
     initial_population = create_initial_population_parallel(
         left_bank_length=LEFT_BANK_LEN,
         right_bank_length=RIGHT_BANK_LEN,
-        #left_chords=LEFT_CHORDS,
-        #right_chords=RIGHT_CHORDS,
+        left_chords = initial_left_bank,
+        right_chords = initial_right_bank,
         max_chords=35, #max_chords has to be at least 3 for crossover points
         population_size=250
     )
