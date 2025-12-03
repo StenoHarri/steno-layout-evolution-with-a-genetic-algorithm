@@ -10,21 +10,14 @@ import time
 
 
 def select_survivors(population, fitnesses, survival_rate=0.5):
-    #ranking them first, then selecting
+    #ranking them first, then selecting, no randomness
 
     number_of_survivors = int(len(population) * survival_rate)
 
     # Rank population: highest fitness = rank 1
     sorted_population = [p for p, f in sorted(zip(population, fitnesses), key=lambda x: x[1], reverse=True)]
 
-    # Rank weights: top rank gets highest weight
-    weights = [len(sorted_population) - i for i in range(len(sorted_population))]
-
-    # Weighted sampling without replacement
-    keyed = [(random.random() ** (1.0 / w), p) for w, p in zip(weights, sorted_population)]
-    keyed.sort(reverse=True, key=lambda x: x[0])
-
-    return [p for key, p in keyed[:number_of_survivors]]
+    return sorted_population[:number_of_survivors]
 
 def select_parents(survivors, survivor_fitnesses):
     #Select two parents from survivors using rank-based weighted sampling.
