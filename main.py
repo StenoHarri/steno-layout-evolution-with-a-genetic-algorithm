@@ -1,5 +1,5 @@
 
-from default_bank import LEFT_CHORDS, LEFT_BANK_LEN, RIGHT_CHORDS, RIGHT_BANK_LEN
+from default_bank import initial_left_bank, LEFT_BANK_LEN, initial_right_bank, RIGHT_BANK_LEN
 from seed_population import create_initial_population, create_initial_population_parallel
 from evolve_population import evolve_population
 from layout_fitness_measurer import score_individual
