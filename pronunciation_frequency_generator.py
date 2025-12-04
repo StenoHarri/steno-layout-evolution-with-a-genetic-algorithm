@@ -254,6 +254,18 @@ def build_pronunciation_frequency(words):
 
 if __name__ == "__main__":
     words = load_word_list()
+
+if __name__ == "__main__":
+    words = load_word_list()
+
+    # removing the top 250 words
+    words_with_freq = [(w, zipf_frequency(w.lower(), "en")) for w in words]
+    words_with_freq.sort(key=lambda x: x[1], reverse=True)
+    cutoff = 250
+    # excluded_words = [w for w, f in words_with_freq[:cutoff]]
+    words = [w for w, f in words_with_freq[cutoff:]]
+    print(f"Excluded common words (top {cutoff})")
+
     pron_freq_map, initial_clusters, final_clusters = build_pronunciation_frequency(words)
 
     # Keep only the most common word for each pronunciation
