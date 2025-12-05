@@ -188,8 +188,8 @@ def score_individual(individual):
         beta = 1.0
 
         #target, once it gets to here, conflicts will be at 0.0015
-        coverage_threshold = 522 #  WSI is at 522.67
-        target_conflict = 0.0012 # WSI is at 001237
+        coverage_threshold = 136.5 #  WSI is at 522.67, remove top 250 is 136.5
+        target_conflict = 0.0036 # WSI is at 001237, remove top 250 is 0.3623%
 
         #I'm basically saying to move past 522 coverage, you gotta have lower conflict ratio than WSI
 
@@ -198,8 +198,8 @@ def score_individual(individual):
             return overall_fitness
 
         #I want this effect to come in gradually, so I'm using a sigmoid function starting at 450 (takes about 20 generations to reach this coverage) and then ends at 522(coverage of the WSI layout)
-        a = 0.15
-        midpoint = 486 #not 486 because I'm scared of it converging too quickly, okay maybe
+        midpoint =  (37.74 + 136.5) / 2
+        a = 0.8
         activation = 1 / (1 + math.exp(-a * (coverage - midpoint)))
 
         excess_conflict = max(0.0, conflict - target_conflict)
