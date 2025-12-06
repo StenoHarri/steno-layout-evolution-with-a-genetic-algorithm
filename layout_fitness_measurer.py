@@ -187,28 +187,32 @@ def score_individual(individual):
         alpha = 10.0
         beta = 1.0
 
-        #target, once it gets to here, conflicts will be at 0.0015
-        coverage_threshold = 136.5 #  WSI is at 522.67, remove top 250 is 136.5
+        #I want this effect to come in gradually, so I'm using a sigmoid function starting at 450 (takes about 20 generations to reach this coverage) and then ends at 522(coverage of the WSI layout)
+
+        #changed to just having a coverage where conflicts don't matter, linearly going up till they matter completely
+
+        coverage_where_conflicts_dont_matter = 37 #running the simulation, I get 37.5 coverage from pure random
+        coverage_where_conflicts_have_to_be_below_target = 136.5 #  WSI is at 522.67, remove top 250 is 136.5
         target_conflict = 0.0036 # WSI is at 001237, remove top 250 is 0.3623%
 
-        #I'm basically saying to move past 522 coverage, you gotta have lower conflict ratio than WSI
 
-        if coverage > (coverage_threshold+5) and conflict < target_conflict:
-            overall_fitness = math.log10(coverage**alpha * (1 - conflict)**beta)
-            return overall_fitness
+        if coverage < coverage_where_conflicts_dont_matter:
+            penalty_weight = 0
+        elif coverage < coverage_where_conflicts_have_to_be_below_target:
+            penalty_weight = 100
 
-        #I want this effect to come in gradually, so I'm using a sigmoid function starting at 450 (takes about 20 generations to reach this coverage) and then ends at 522(coverage of the WSI layout)
-        midpoint =  (37.74 + 136.5) / 2
-        a = 0.8
-        activation = 1 / (1 + math.exp(-a * (coverage - midpoint)))
+        else:
 
+            effect_of_penalty_weight = ((coverage - coverage_where_conflicts_dont_matter) /
+                                        (coverage_where_conflicts_have_to_be_below_target - coverage_where_conflicts_dont_matter))
+            penalty_weight = 100 * effect_of_penalty_weight
+
+        #only punish individuals that overstep target_conflict
         excess_conflict = max(0.0, conflict - target_conflict)
+        effective_conflict = excess_conflict ** penalty_weight
 
-        # penalty strength
-        s = 50  # adjust as needed
-        penalty = 1 + s * activation * excess_conflict
+        overall_fitness = math.log10(coverage**alpha * (1 - effective_conflict)**beta)
 
-        overall_fitness = math.log10(coverage**alpha * (1 - conflict)**beta / penalty)
         return overall_fitness
 
     except Exception as e:
@@ -255,9 +259,39 @@ def score_individual_detailed(individual):
 
     scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
 
-    alpha = 10.0   # weight coverage normally
-    beta = 1.0   # penalize conflict, but not so much as to flip ranking
-    overall_fitness = math.log10(scores["coverage_prob"]**alpha * (1 - scores["conflict_ratio"])**beta)
+    coverage = scores["coverage_prob"]
+    conflict = scores["conflict_ratio"]
+
+    #initial target, not penalising conflicts too much
+    alpha = 10.0
+    beta = 1.0
+
+    #I want this effect to come in gradually, so I'm using a sigmoid function starting at 450 (takes about 20 generations to reach this coverage) and then ends at 522(coverage of the WSI layout)
+
+    #changed to just having a coverage where conflicts don't matter, linearly going up till they matter completely
+
+    coverage_where_conflicts_dont_matter = 37 #running the simulation, I get 37.5 coverage from pure random
+    coverage_where_conflicts_have_to_be_below_target = 136.5 #  WSI is at 522.67, remove top 250 is 136.5
+    target_conflict = 0.0036 # WSI is at 001237, remove top 250 is 0.3623%
+
+
+    if coverage < coverage_where_conflicts_dont_matter:
+        penalty_weight = 0
+    elif coverage < coverage_where_conflicts_have_to_be_below_target:
+        penalty_weight = 100
+
+    else:
+
+        effect_of_penalty_weight = ((coverage - coverage_where_conflicts_dont_matter) /
+                                    (coverage_where_conflicts_have_to_be_below_target - coverage_where_conflicts_dont_matter))
+        penalty_weight = 100 * effect_of_penalty_weight
+
+    #only punish individuals that overstep target_conflict
+    excess_conflict = max(0.0, conflict - target_conflict)
+    effective_conflict = excess_conflict ** penalty_weight
+
+    overall_fitness = math.log10(coverage**alpha * (1 - effective_conflict)**beta)
+
     # or alternative:
     # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
 
@@ -294,11 +328,39 @@ if __name__ == "__main__":
     # Compute coverage and conflict
     scores = score_layout(matches, ambiguous, PRONUNCIATIONS)
 
-    alpha = 10.0   # weight coverage normally
-    beta = 1.0   # penalize conflict, but not so much as to flip ranking
-    overall_fitness = math.log10(scores["coverage_prob"]**alpha * (1 - scores["conflict_ratio"])**beta)
-    # or alternative:
-    # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
+    coverage = scores["coverage_prob"]
+    conflict = scores["conflict_ratio"]
+
+    #initial target, not penalising conflicts too much
+    alpha = 10.0
+    beta = 1.0
+
+    #I want this effect to come in gradually, so I'm using a sigmoid function starting at 450 (takes about 20 generations to reach this coverage) and then ends at 522(coverage of the WSI layout)
+
+    #changed to just having a coverage where conflicts don't matter, linearly going up till they matter completely
+
+    coverage_where_conflicts_dont_matter = 37 #running the simulation, I get 37.5 coverage from pure random
+    coverage_where_conflicts_have_to_be_below_target = 136.5 #  WSI is at 522.67, remove top 250 is 136.5
+    target_conflict = 0.0036 # WSI is at 001237, remove top 250 is 0.3623%
+
+
+    if coverage < coverage_where_conflicts_dont_matter:
+        penalty_weight = 0
+    elif coverage < coverage_where_conflicts_have_to_be_below_target:
+        penalty_weight = 100
+
+    else:
+
+        effect_of_penalty_weight = ((coverage - coverage_where_conflicts_dont_matter) /
+                                    (coverage_where_conflicts_have_to_be_below_target - coverage_where_conflicts_dont_matter))
+        penalty_weight = 100 * effect_of_penalty_weight
+
+    #only punish individuals that overstep target_conflict
+    excess_conflict = max(0.0, conflict - target_conflict)
+    effective_conflict = excess_conflict ** penalty_weight
+
+    overall_fitness = math.log10(coverage**alpha * (1 - effective_conflict)**beta)
+
 
     print("\n--- Layout Scoring ---")
     print(f"Coverage (prob): {scores['coverage_prob']:.2f}")
