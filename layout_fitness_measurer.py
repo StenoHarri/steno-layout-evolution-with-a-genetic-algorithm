@@ -318,8 +318,6 @@ def score_individual_detailed(individual):
 
     overall_fitness = math.log10(coverage**alpha * penalty_multiplier)
 
-    return overall_fitness
-
     # or alternative:
     # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
 
