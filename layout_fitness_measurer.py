@@ -150,6 +150,50 @@ def bank_genes_into_bank_chords(chord_list):
             chords.setdefault(mask, []).append(cluster)
     return chords
 
+def compute_fitness(coverage, conflict,
+                    coverage_where_conflicts_dont_matter=37.0,
+                    coverage_where_conflicts_must_be_below_target=136.5,
+                    target_conflict=0.0036,
+                    alpha=10.0):
+    """
+    Phase 1) Ignore conflict completely.
+
+    Phase 2) Penalty strength increases linearly with coverage.
+
+    Phase 3) Strict cutoff: any conflict above target_conflict → fitness = 0.
+    """
+    
+    #phase 1
+    if coverage < coverage_where_conflicts_dont_matter:
+        return math.log10(coverage ** alpha)
+
+    #phase 3
+    if coverage > coverage_where_conflicts_must_be_below_target:
+        if conflict > target_conflict:
+            return 0.0
+        else:
+            return math.log10(coverage ** alpha)
+
+    #phase 2
+    coverage_span = coverage_where_conflicts_must_be_below_target - coverage_where_conflicts_dont_matter
+    progress = (coverage - coverage_where_conflicts_dont_matter) / coverage_span  # 0 → 1
+    penalty_weight = 100.0 * progress
+
+    # Only penalise conflict exceeding target
+    excess = conflict - target_conflict
+
+    if excess <= 0:
+        penalty_multiplier = 1.0
+    else:
+        ratio = excess / target_conflict
+        # Clamp so ratio always >= 1
+        ratio = max(1.0, ratio)
+        penalty_multiplier = 1.0 / (ratio ** penalty_weight)
+
+    # Final fitness
+    return math.log10(coverage ** alpha * penalty_multiplier)
+
+
 def score_individual(individual):
     try:
         left_bank_genes, right_bank_genes = individual
@@ -185,7 +229,6 @@ def score_individual(individual):
 
         #initial target, not penalising conflicts too much
         alpha = 10.0
-        beta = 1.0
 
         #I want this effect to come in gradually, so I'm using a sigmoid function starting at 450 (takes about 20 generations to reach this coverage) and then ends at 522(coverage of the WSI layout)
 
@@ -195,36 +238,7 @@ def score_individual(individual):
         coverage_where_conflicts_have_to_be_below_target = 136.5 #  WSI is at 522.67, remove top 250 is 136.5
         target_conflict = 0.0036 # WSI is at 001237, remove top 250 is 0.3623%
 
-
-        if coverage < coverage_where_conflicts_dont_matter:
-            penalty_weight = 0.0
-        elif coverage < coverage_where_conflicts_have_to_be_below_target:
-            penalty_weight = 100.0
-
-        else:
-            span = (
-                coverage_where_conflicts_have_to_be_below_target
-                - coverage_where_conflicts_dont_matter
-            )
-            effect_of_penalty_weight = (coverage - coverage_where_conflicts_dont_matter) / span
-            penalty_weight = 100.0 * effect_of_penalty_weight
-
-        #only punish individuals that overstep target_conflict
-        excess_conflict = conflict - target_conflict
-        
-        effective_conflict = excess_conflict ** penalty_weight
-
-        #work out how punishing the conflict ratio needs to be for this specific coverage
-        if excess_conflict <= 0 or penalty_weight == 0:
-            # no penalty
-            penalty_multiplier = 1.0
-        else:
-            ratio = excess_conflict / target_conflict
-            # clamp ratio so that it never drops below 1.0
-            ratio = max(ratio, 1.0)
-            penalty_multiplier = 1.0 / (ratio ** penalty_weight)
-
-        overall_fitness = math.log10(coverage**alpha * penalty_multiplier)
+        overall_fitness = compute_fitness(coverage, conflict, coverage_where_conflicts_dont_matter, coverage_where_conflicts_have_to_be_below_target, target_conflict, alpha)
 
         return overall_fitness
 
@@ -287,36 +301,7 @@ def score_individual_detailed(individual):
     coverage_where_conflicts_have_to_be_below_target = 136.5 #  WSI is at 522.67, remove top 250 is 136.5
     target_conflict = 0.0036 # WSI is at 001237, remove top 250 is 0.3623%
 
-
-    if coverage < coverage_where_conflicts_dont_matter:
-        penalty_weight = 0.0
-    elif coverage < coverage_where_conflicts_have_to_be_below_target:
-        penalty_weight = 100.0
-
-    else:
-        span = (
-            coverage_where_conflicts_have_to_be_below_target
-            - coverage_where_conflicts_dont_matter
-        )
-        effect_of_penalty_weight = (coverage - coverage_where_conflicts_dont_matter) / span
-        penalty_weight = 100.0 * effect_of_penalty_weight
-
-    #only punish individuals that overstep target_conflict
-    excess_conflict = conflict - target_conflict
-    
-    effective_conflict = excess_conflict ** penalty_weight
-
-    #work out how punishing the conflict ratio needs to be for this specific coverage
-    if excess_conflict <= 0 or penalty_weight == 0:
-        # no penalty
-        penalty_multiplier = 1.0
-    else:
-        ratio = excess_conflict / target_conflict
-        # clamp ratio so that it never drops below 1.0
-        ratio = max(ratio, 1.0)
-        penalty_multiplier = 1.0 / (ratio ** penalty_weight)
-
-    overall_fitness = math.log10(coverage**alpha * penalty_multiplier)
+    overall_fitness = compute_fitness(coverage, conflict, coverage_where_conflicts_dont_matter, coverage_where_conflicts_have_to_be_below_target, target_conflict, alpha)
 
     # or alternative:
     # overall_fitness = scores["coverage_zipf"] - scores["conflict_zipf"]
@@ -369,36 +354,7 @@ if __name__ == "__main__":
     coverage_where_conflicts_have_to_be_below_target = 136.5 #  WSI is at 522.67, remove top 250 is 136.5
     target_conflict = 0.0036 # WSI is at 001237, remove top 250 is 0.3623%
 
-
-    if coverage < coverage_where_conflicts_dont_matter:
-        penalty_weight = 0.0
-    elif coverage < coverage_where_conflicts_have_to_be_below_target:
-        penalty_weight = 100.0
-
-    else:
-        span = (
-            coverage_where_conflicts_have_to_be_below_target
-            - coverage_where_conflicts_dont_matter
-        )
-        effect_of_penalty_weight = (coverage - coverage_where_conflicts_dont_matter) / span
-        penalty_weight = 100.0 * effect_of_penalty_weight
-
-    #only punish individuals that overstep target_conflict
-    excess_conflict = conflict - target_conflict
-    
-    effective_conflict = excess_conflict ** penalty_weight
-
-    #work out how punishing the conflict ratio needs to be for this specific coverage
-    if excess_conflict <= 0 or penalty_weight == 0:
-        # no penalty
-        penalty_multiplier = 1.0
-    else:
-        ratio = excess_conflict / target_conflict
-        # clamp ratio so that it never drops below 1.0
-        ratio = max(ratio, 1.0)
-        penalty_multiplier = 1.0 / (ratio ** penalty_weight)
-
-    overall_fitness = math.log10(coverage**alpha * penalty_multiplier)
+    overall_fitness = compute_fitness(coverage, conflict, coverage_where_conflicts_dont_matter, coverage_where_conflicts_have_to_be_below_target, target_conflict, alpha)
 
 
     print("\n--- Layout Scoring ---")
