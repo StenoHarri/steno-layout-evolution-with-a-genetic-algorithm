@@ -5,7 +5,7 @@ from layout_fitness_measurer import score_individual, score_individual_detailed
 from multiprocessing import Pool,cpu_count
 from tqdm import tqdm
 import time
-
+import copy
 
 
 
@@ -74,6 +74,8 @@ def breed(parent1, parent2, num_crossover_points=4):
 
 
 def swap_two_masks(child):
+    child = copy.deepcopy(child)
+
     #first pick left or right bank
     half = random.choice([0, 1])
 
