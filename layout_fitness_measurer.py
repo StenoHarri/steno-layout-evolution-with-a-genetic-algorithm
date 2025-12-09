@@ -25,24 +25,22 @@ def generate_bank(chord_map):
 LEFT_BANK = generate_bank(LEFT_CHORDS)
 RIGHT_BANK = generate_bank(RIGHT_CHORDS)
 
-# Build left bank masks
-LEFT_BANK_MASKS = {
-    mask: mask_to_chords(mask, LEFT_BANK_LEN, LEFT_BANK)
-    for mask in generate_masks(LEFT_BANK_LEN)
-    # skip if maps to []
-    if (chords := mask_to_chords(mask, LEFT_BANK_LEN, LEFT_BANK))
-}
-
-# Build right bank masks with some disallowed endings
 DISALLOWED_ENDINGS = r'(1..1|11.)$'
-RIGHT_BANK_MASKS = {
-    mask: mask_to_chords(mask, RIGHT_BANK_LEN, RIGHT_BANK)
-    for mask in generate_masks(RIGHT_BANK_LEN)
-    # however, some key combinations require contorting the hand, so I'll disallow those
-    if not re.search(DISALLOWED_ENDINGS, mask) is not None
-    # skip if maps to []
-    and (chords := mask_to_chords(mask, RIGHT_BANK_LEN, RIGHT_BANK)) 
-}
+
+def precompute_masks(bank_chords, bank_len, disallow_pattern=None):
+    """Return dict of mask -> chords for a given bank."""
+    masks = {}
+    for mask in generate_masks(bank_len):
+        chords = mask_to_chords(mask, bank_len, bank_chords)
+        if not chords:
+            continue
+        if disallow_pattern and re.search(disallow_pattern, mask):
+            continue
+        masks[mask] = chords
+    return masks
+
+LEFT_BANK_MASKS = precompute_masks(LEFT_BANK, LEFT_BANK_LEN)
+RIGHT_BANK_MASKS = precompute_masks(RIGHT_BANK, RIGHT_BANK_LEN, DISALLOWED_ENDINGS)
 
 
 def find_vowel_split_matches(pronunciations, vowels, left_masks, right_masks):
@@ -201,18 +199,11 @@ def score_individual(individual):
         left_bank=bank_genes_into_bank_chords(left_bank_genes)
         right_bank=bank_genes_into_bank_chords(right_bank_genes)
 
-        left_masks = {
-            mask: mask_to_chords(mask, LEFT_BANK_LEN, left_bank)
-            for mask in generate_masks(LEFT_BANK_LEN)
-            if (mask_to_chords(mask, LEFT_BANK_LEN, left_bank))
-        }
-
-        right_masks = {
-            mask: mask_to_chords(mask, RIGHT_BANK_LEN, right_bank)
-            for mask in generate_masks(RIGHT_BANK_LEN)
-            if (mask_to_chords(mask, RIGHT_BANK_LEN, right_bank))
-            and not re.search(DISALLOWED_ENDINGS, mask)
-        }
+        # Only recompute masks if clusters are new
+        left_masks = {m: mask_to_chords(m, LEFT_BANK_LEN, left_bank)
+                      for m in LEFT_BANK_MASKS.keys()}
+        right_masks = {m: mask_to_chords(m, RIGHT_BANK_LEN, right_bank)
+                       for m in RIGHT_BANK_MASKS.keys()}
 
         matches, ambiguous = find_vowel_split_matches(
             PRONUNCIATIONS,
@@ -263,18 +254,11 @@ def score_individual_detailed(individual):
     left_bank=bank_genes_into_bank_chords(left_bank_genes)
     right_bank=bank_genes_into_bank_chords(right_bank_genes)
 
-    left_masks = {
-        mask: mask_to_chords(mask, LEFT_BANK_LEN, left_bank)
-        for mask in generate_masks(LEFT_BANK_LEN)
-        if (mask_to_chords(mask, LEFT_BANK_LEN, left_bank))
-    }
-
-    right_masks = {
-        mask: mask_to_chords(mask, RIGHT_BANK_LEN, right_bank)
-        for mask in generate_masks(RIGHT_BANK_LEN)
-        if (mask_to_chords(mask, RIGHT_BANK_LEN, right_bank))
-        and not re.search(DISALLOWED_ENDINGS, mask)
-    }
+    # Only recompute masks if clusters are new
+    left_masks = {m: mask_to_chords(m, LEFT_BANK_LEN, left_bank)
+                  for m in LEFT_BANK_MASKS.keys()}
+    right_masks = {m: mask_to_chords(m, RIGHT_BANK_LEN, right_bank)
+                   for m in RIGHT_BANK_MASKS.keys()}
 
     matches, ambiguous = find_vowel_split_matches(
         PRONUNCIATIONS,
