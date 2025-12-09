@@ -207,7 +207,7 @@ def evolve_population(population, number_of_iterations, population_size, max_sec
                 else:
                     unscored_population.append(individual)
 
-            unscored_fitnesses = pool.map(score_individual, unscored_population)
+            unscored_fitnesses = pool.map(score_individual, unscored_population, chunksize=25)
 
             population = prescored_population + unscored_population
             population_fitnesses = prescored_fitnesses + unscored_fitnesses
