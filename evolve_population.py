@@ -73,17 +73,22 @@ def breed(parent1, parent2, num_crossover_points=4):
     return (child_section1, child_section2)
 
 
-def swap_gene(child):
-    #I'm not sure I want to do this one
-    return child
+def swap_two_masks(child):
     #first pick left or right bank
     half = random.choice([0, 1])
 
     #Get two random locations
     i, j = random.sample(range(len(child[half])), 2)
 
-    #Location 1 is location 2, location 2 is location 1
-    child[half][i], child[half][j] = child[half][j], child[half][i]
+    # Extract keys
+    key_i = list(child[half][i].keys())[0]
+    key_j = list(child[half][j].keys())[0]
+
+    # Swap masks
+    child[half][i][key_i], child[half][j][key_j] = (
+        child[half][j][key_j],
+        child[half][i][key_i],
+    )
     return child
 
 
@@ -130,7 +135,7 @@ def new_cluster(child):
 
 def mutate(child, genes_to_mutate):
     for i in range(genes_to_mutate):
-        mutation_methods = [new_mask, new_cluster]
+        mutation_methods = [new_mask, new_cluster, swap_two_masks]
         child = random.choice(mutation_methods)(child)
 
     return child
