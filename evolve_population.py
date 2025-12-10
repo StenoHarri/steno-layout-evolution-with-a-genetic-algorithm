@@ -4,6 +4,7 @@ from cluster_selection import select_initial_cluster, select_final_cluster
 from layout_fitness_measurer import score_individual, score_individual_detailed
 from multiprocessing import Pool,cpu_count
 from tqdm import tqdm
+import json
 import time
 import copy
 
@@ -160,6 +161,7 @@ def jaccard_similarity(set_a, set_b):
 
 
 def calculate_similarity(population):
+    return "_"
     #Returns average pairwise Jaccard similarity.
     sets = [individual_to_set(ind) for ind in population]
     n = len(sets)
@@ -180,7 +182,7 @@ def calculate_similarity(population):
 
 def evolve_population(population, number_of_iterations, population_size, max_seconds=None):
     #num_cpus = int(os.environ.get("SLURM_CPUS_PER_TASK", 1)) #for running on the cluster
-
+    log_file = open("generation_log.jsonl", "a")
     start_time = time.time()
     precomputed_population_fitnesses = {}
 
@@ -212,19 +214,12 @@ def evolve_population(population, number_of_iterations, population_size, max_sec
             population = prescored_population + unscored_population
             population_fitnesses = prescored_fitnesses + unscored_fitnesses
 
-            similarity = calculate_similarity(population)
-
-            #Write it to the progress bar
-            tqdm.write(f"Generation {generation}: best={max(population_fitnesses)}, avg={sum(population_fitnesses)/len(population_fitnesses)}, similarity={similarity}")
-
             """
             kill 50% the population, biased towards keeping the healthiest alive (but some element of randomness)
-            population fitnesses look like this
-            [26.53807752786875, 25.298952333110275, 26.76735620542725, 27.873805099744757, etc
+            kill 95% of the population, keeping only the healthist 5%
 
-            breed the survivors together, with a chance of gene mutation
+            breed the survivors together to reach previous population level, mutating a gene
             """
-
             survivors = select_survivors(population, population_fitnesses, survival_rate=0.5)
 
             #sorry, even if they survive, they might not breed unless they're healthy enough
@@ -232,7 +227,43 @@ def evolve_population(population, number_of_iterations, population_size, max_sec
                 population_fitnesses[population.index(individual)]
                 for individual in survivors
             ]
-            #print(survivors)
+
+            #stats
+            sorted_fit = sorted(survivor_fitnesses)
+            n = len(sorted_fit)
+            best = sorted_fit[-1]
+            worst = sorted_fit[0]
+            top_quartile = sorted_fit[int(0.75 * (n - 1))]
+            bottom_quartile = sorted_fit[int(0.25 * (n - 1))]
+            mean = sum(sorted_fit) / n
+            best_survivor = survivors[survivor_fitnesses.index(best)]
+            #similarity = calculate_similarity(population)
+
+            # Instead of Jacquard similarity, I'm going to use unique genome ratio, this is O(n)
+            # Convert each survivor to a canonical string representation
+            #survivor_strings = [str(ind) for ind in survivors]
+            #unique_count = len(set(survivor_strings))
+            #unique_genome_ratio = unique_count / len(survivors)
+
+            #Write it to the progress bar
+            tqdm.write(
+                f"Generation {generation}: "
+                f"best={best:.4f}, "
+                f"avg={mean:.4f} "
+                #f"uniqueness={unique_genome_ratio:.4f}"
+            )
+
+
+            log_file.write(json.dumps({
+                "generation": generation,
+                "best": best,
+                "top_quartile": top_quartile,
+                "mean": mean,
+                "bottom_quartile": bottom_quartile,
+                "worst": worst,
+                #"unique_genome_ratio": unique_genome_ratio,
+                "best_survivor_genes": best_survivor
+            }) + "\n")
 
 
             precomputed_population_fitnesses = {
@@ -252,6 +283,7 @@ def evolve_population(population, number_of_iterations, population_size, max_sec
 
             population = new_population
 
+    log_file.close()
     with Pool(processes=cpu_count()) as pool:
     #with Pool(processes=num_cpus) as pool: #for running on the cluster
         population_fitnesses = pool.map(score_individual, population)
