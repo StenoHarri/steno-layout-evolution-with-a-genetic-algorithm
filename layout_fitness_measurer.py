@@ -186,11 +186,9 @@ def compute_fitness(coverage, conflict,
         penalty_multiplier = 1.0
     else:
         ratio = excess / target_conflict
-        # Clamp so ratio always >= 1
         ratio = max(1.0, ratio)
         penalty_multiplier = 1.0 / (ratio ** penalty_weight)
 
-    # Final fitness
     return math.log10(coverage ** alpha * penalty_multiplier)
 
 
@@ -234,9 +232,9 @@ def score_individual(individual):
 
         #changed to just having a coverage where conflicts don't matter, linearly going up till they matter completely
 
-        coverage_where_conflicts_dont_matter = 37 #running the simulation, I get 37.5 coverage from pure random
-        coverage_where_conflicts_have_to_be_below_target = 136.5 #  WSI is at 522.67, remove top 250 is 136.5
-        target_conflict = 0.0036 # WSI is at 001237, remove top 250 is 0.3623%
+        coverage_where_conflicts_dont_matter = 16 #running the simulation, I get 37.5 coverage from pure random
+        coverage_where_conflicts_have_to_be_below_target = 16.7 #  WSI is at 522.67, remove top 250 is 136.5, clamp at 3.5 is 16.5
+        target_conflict = 0.006683 # WSI is at 001237, remove top 250 is 0.3623%, clamp 3.5 is 0.6683%
 
         overall_fitness = compute_fitness(coverage, conflict, coverage_where_conflicts_dont_matter, coverage_where_conflicts_have_to_be_below_target, target_conflict, alpha)
 
@@ -297,9 +295,9 @@ def score_individual_detailed(individual):
 
     #changed to just having a coverage where conflicts don't matter, linearly going up till they matter completely
 
-    coverage_where_conflicts_dont_matter = 37 #running the simulation, I get 37.5 coverage from pure random
-    coverage_where_conflicts_have_to_be_below_target = 136.5 #  WSI is at 522.67, remove top 250 is 136.5
-    target_conflict = 0.0036 # WSI is at 001237, remove top 250 is 0.3623%
+    coverage_where_conflicts_dont_matter = 16 #running the simulation, I get 37.5 coverage from pure random
+    coverage_where_conflicts_have_to_be_below_target = 16.7 #  WSI is at 522.67, remove top 250 is 136.5, clamp at 3.5 is 16.5
+    target_conflict = 0.006683 # WSI is at 001237, remove top 250 is 0.3623%, clamp 3.5 is 0.6683%
 
     overall_fitness = compute_fitness(coverage, conflict, coverage_where_conflicts_dont_matter, coverage_where_conflicts_have_to_be_below_target, target_conflict, alpha)
 
@@ -350,9 +348,9 @@ if __name__ == "__main__":
 
     #changed to just having a coverage where conflicts don't matter, linearly going up till they matter completely
 
-    coverage_where_conflicts_dont_matter = 37 #running the simulation, I get 37.5 coverage from pure random
-    coverage_where_conflicts_have_to_be_below_target = 136.5 #  WSI is at 522.67, remove top 250 is 136.5
-    target_conflict = 0.0036 # WSI is at 001237, remove top 250 is 0.3623%
+    coverage_where_conflicts_dont_matter = 16 #running the simulation, I get 37.5 coverage from pure random
+    coverage_where_conflicts_have_to_be_below_target = 16.7 #  WSI is at 522.67, remove top 250 is 136.5, clamp at 3.5 is 16.5
+    target_conflict = 0.006683 # WSI is at 001237, remove top 250 is 0.3623%, clamp 3.5 is 0.6683%
 
     overall_fitness = compute_fitness(coverage, conflict, coverage_where_conflicts_dont_matter, coverage_where_conflicts_have_to_be_below_target, target_conflict, alpha)
 

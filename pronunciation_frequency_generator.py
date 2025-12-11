@@ -98,6 +98,9 @@ def remove_vowels_but_keep_main(pron):
     (before vowel removal), transferring primary stress if needed.
     """
 
+    #Merge NG G into just NG
+    pron = pron.replace("NG G", "NG")
+
     #Merge th and th, this is usually reflected in spelling too
     pron = pron.replace("DH", "TH")
 
@@ -258,13 +261,14 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     words = load_word_list()
 
+    # No longer necessary as I'm capping frequencies at 3.5
     # removing the top 250 words
-    words_with_freq = [(w, zipf_frequency(w.lower(), "en")) for w in words]
-    words_with_freq.sort(key=lambda x: x[1], reverse=True)
-    cutoff = 250
+    # = [(w, zipf_frequency(w.lower(), "en")) for w in words]
+    #words_with_freq.sort(key=lambda x: x[1], reverse=True)
+    #cutoff = 250
     # excluded_words = [w for w, f in words_with_freq[:cutoff]]
-    words = [w for w, f in words_with_freq[cutoff:]]
-    print(f"Excluded common words (top {cutoff})")
+    #words = [w for w, f in words_with_freq[cutoff:]]
+    #print(f"Excluded common words (top {cutoff})")
 
     pron_freq_map, initial_clusters, final_clusters = build_pronunciation_frequency(words)
 
@@ -277,9 +281,25 @@ if __name__ == "__main__":
     pron_freq_map = filtered_pron_freq_map
 
 
-    MIN_CLUSTER_FREQ = 0.2
+    MIN_CLUSTER_FREQ = 0.17
     initial_clusters = {c: f for c, f in initial_clusters.items() if f >= MIN_CLUSTER_FREQ}
     final_clusters   = {c: f for c, f in final_clusters.items()   if f >= MIN_CLUSTER_FREQ}
+
+    #Squish everything above 3.5 down to 3.5
+    for pron, words_dict in pron_freq_map.items():
+        for w in words_dict:
+            if words_dict[w] > 3.5:
+                words_dict[w] = 3.5
+
+    #Same here, but at 2
+    for c in initial_clusters:
+        if initial_clusters[c] > 2:
+            initial_clusters[c] = 2.0
+
+    for c in final_clusters:
+        if final_clusters[c] > 2:
+            final_clusters[c] = 2.0
+
     with open(PRON_FREQ_FILE, "w", encoding="utf-8") as f:
         json.dump(pron_freq_map, f, indent=2)
     with open(INITIAL_CLUSTERS_FILE, "w", encoding="utf-8") as f:
